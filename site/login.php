@@ -2,9 +2,7 @@
 
 require_once 'bootstrap.php';
 
-if(isset($_SESSION["userId"])) {
-    header("Location: index.php");
-}
+require_once 'pre-checks.php';
 
 if(isset($_POST['email']) && isset($_POST['password'])) {
     $loginResult = $dbh->logUser($_POST['email'], $_POST['password']);
