@@ -7,7 +7,7 @@ if(isset($_SESSION["userId"])) {
 }
 
 if(isset($_POST['email']) && isset($_POST['password'])) {
-    $loginResult = $dbh->checkLogin($_POST['username'], $_POST['password']);
+    $loginResult = $dbh->logUser($_POST['email'], $_POST['password']);
     if(is_null($loginResult)) {
         $templateParams["loginError"] = "Errore! Credentials errate.";
     } else {
