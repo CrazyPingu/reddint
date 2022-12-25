@@ -1,4 +1,4 @@
-function loadInteractions(fileName, callback = ()=>{}, contentType = 'application/x-www-form-urlencoded') {
+function asyncCall(fileName, args = null, callback = () => { }, contentType = 'application/x-www-form-urlencoded') {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -7,7 +7,7 @@ function loadInteractions(fileName, callback = ()=>{}, contentType = 'applicatio
     };
     xhttp.open('POST', 'requests/' + fileName, true);
     xhttp.setRequestHeader('Content-type', contentType);
-    xhttp.send();
+    xhttp.send(args);
 }
 
-export default loadInteractions;
+export default asyncCall;

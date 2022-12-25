@@ -1,11 +1,11 @@
 <div class='upperProfile'>
-    <h2><?php echo $templateParams['userUsername']; ?></h2>
+    <h2 id='username'><?php echo $templateParams['userUsername']; ?></h2>
     <div class='rightProfile'>
         <div class='follow'>
             <p><?php echo $templateParams['followersCount']; ?></p>
             <p><?php echo $templateParams['followingCount']; ?></p>
         </div>
-        <h5><?php echo $templateParams['userCreationDate'];?></h5>
+        <h5><?php echo $templateParams['userCreationDate']; ?></h5>
     </div>
     <h4><?php echo $templateParams['userBio']; ?></h4>
 </div>
