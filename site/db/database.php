@@ -22,21 +22,21 @@ class DatabaseHelper{
         $sql = "INSERT INTO post (author, community, title, content, creation_date) VALUES (?, ?, ?, ?, NOW())";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("iiss", $authorId, $communityId, $title, $content);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function updatePost($id, $title, $content) {
         $sql = "UPDATE post SET title = ?, content = ?, edited = 1 WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("ssi", $title, $content, $id);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function deletePost($id) {
         $sql = "DELETE FROM post WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("i", $id);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function getPost($id) {
@@ -79,7 +79,7 @@ class DatabaseHelper{
         $sql = "INSERT INTO vote_post (user, post, vote) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE vote = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("iiii", $userId, $postId, $vote, $vote);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function getPostLikes($postId) {
@@ -88,7 +88,7 @@ class DatabaseHelper{
         $stmt->bind_param("i", $postId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc()["COUNT(*)"];
+        return $result->fetch_assoc()["count"];
     }
 
     public function getPostDislikes($postId) {
@@ -97,7 +97,7 @@ class DatabaseHelper{
         $stmt->bind_param("i", $postId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc()["COUNT(*)"];
+        return $result->fetch_assoc()["count"];
     }
 
     public function getPostNumberOfComments($postId) {
@@ -106,7 +106,7 @@ class DatabaseHelper{
         $stmt->bind_param("i", $postId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc()["COUNT(*)"];
+        return $result->fetch_assoc()["count"];
     }
 
     ///////////////////////////
@@ -117,21 +117,21 @@ class DatabaseHelper{
         $sql = "INSERT INTO user (email, password, username, creation_date) VALUES (?, ?, ?, NOW())";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("sss", $email, $password, $username);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function updateUser($userId, $email, $password, $username, $bio) {
         $sql = "UPDATE user SET email = ?, password = ?, username = ?, bio = ? WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("ssssi", $email, $password, $username, $bio, $userId);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function deleteUser($userId) {
         $sql = "DELETE FROM user WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("i", $userId);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function logUser($email, $password) {
@@ -140,7 +140,7 @@ class DatabaseHelper{
         $stmt->bind_param("ss", $email, $password);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        return $result->fetch_assoc()["count"];
     }
 
     public function getUser($id_or_email_or_username) {
@@ -166,14 +166,14 @@ class DatabaseHelper{
         $sql = "INSERT INTO following (follower, followed) VALUES (?, ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("ii", $followerId, $followedId);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function unfollowUser($followerId, $followedId) {
         $sql = "DELETE FROM following WHERE follower = ? AND followed = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("ii", $followerId, $followedId);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function getFollowers($userId) {
@@ -200,7 +200,7 @@ class DatabaseHelper{
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc()['COUNT(*)'];
+        return $result->fetch_assoc()['count'];
     }
 
     public function getFollowedCount($userId) {
@@ -209,7 +209,7 @@ class DatabaseHelper{
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc()['COUNT(*)'];
+        return $result->fetch_assoc()['count'];
     }
 
     public function isFollowing($followerId, $followedId) {
@@ -229,14 +229,14 @@ class DatabaseHelper{
         $sql = "INSERT INTO notification (user, date, content) VALUES (?, NOW(), ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("is", $userId, $content);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function deleteNotification($notificationId) {
         $sql = "DELETE FROM notification WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("i", $notificationId);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function getNotifications($userId, $limit = 10) {
@@ -252,7 +252,7 @@ class DatabaseHelper{
         $sql = "UPDATE notification SET seen = 1 WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("i", $notificationId);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function getUnreadNotificationsCount($userId) {
@@ -261,7 +261,7 @@ class DatabaseHelper{
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc()['COUNT(*)'];
+        return $result->fetch_assoc()['count'];
     }
 
     ////////////////////////////////
@@ -272,32 +272,32 @@ class DatabaseHelper{
         $sql = "INSERT INTO community (author, name, description, creation_date) VALUES (?, ?, ?, NOW())";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("iss", $authorId, $name, $description);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
-    public function updateCommunity($id, $description) {
+    public function updateCommunity($communityId, $description) {
         $sql = "UPDATE community SET description = ? WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param("si", $description, $id);
-        $stmt->execute();
+        $stmt->bind_param("si", $description, $communityId);
+        return $stmt->execute();
     }
 
-    public function deleteCommunity($id) {
+    public function deleteCommunity($communityId) {
         $sql = "DELETE FROM community WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
+        $stmt->bind_param("i", $communityId);
+        return $stmt->execute();
     }
 
-    public function getCommunity($id_or_name) {
-        if (is_numeric($id_or_name)) {
+    public function getCommunity($communityId_or_communityName) {
+        if (is_numeric($communityId_or_communityName)) {
             $sql = "SELECT * FROM community WHERE id = ?";
             $stmt = $this->db->prepare($sql);
-            $stmt->bind_param("i", $id_or_name);
+            $stmt->bind_param("i", $communityId_or_communityName);
         } else {
             $sql = "SELECT * FROM community WHERE name = ?";
             $stmt = $this->db->prepare($sql);
-            $stmt->bind_param("s", $id_or_name);
+            $stmt->bind_param("s", $communityId_or_communityName);
         }
         $stmt->execute();
         $result = $stmt->get_result();
@@ -308,7 +308,7 @@ class DatabaseHelper{
         $sql = "INSERT INTO participation (user, community, date_joined) VALUES (?, ?, NOW())";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("ii", $userId, $communityId);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function leaveCommunity($userId, $communityId, $reason = "no reason given") {
@@ -322,25 +322,25 @@ class DatabaseHelper{
     // Comment related queries  //
     //////////////////////////////
 
-    public function addComment($authorId, $postId, $content) {
+    public function addComment($postId, $authorId, $content) {
         $sql = "INSERT INTO comment (author, post, content, creation_date) VALUES (?, ?, ?, NOW())";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("iis", $authorId, $postId, $content);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
-    public function deleteComment($id) {
+    public function deleteComment($commentId) {
         $sql = "DELETE FROM comment WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
+        $stmt->bind_param("i", $commentId);
+        return $stmt->execute();
     }
 
-    public function updateComment($id, $content) {
-        $sql = "UPDATE comment SET content = ? WHERE id = ?";
+    public function updateComment($commentId, $content) {
+        $sql = "UPDATE comment SET edited = 1, content = ? WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param("si", $content, $id);
-        $stmt->execute();
+        $stmt->bind_param("si", $content, $commentId);
+        return $stmt->execute();
     }
 
     public function getCommentsByPost($postId) {
@@ -365,7 +365,7 @@ class DatabaseHelper{
         $sql = "INSERT INTO vote_comment (user, comment, vote) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE vote = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("iiii", $userId, $commentId, $vote, $vote);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     public function getCommentLikes($commentId) {
@@ -374,7 +374,7 @@ class DatabaseHelper{
         $stmt->bind_param("i", $commentId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc()['COUNT(*)'];
+        return $result->fetch_assoc()['count'];
     }
 
     public function getCommentDislikes($commentId) {
@@ -383,6 +383,6 @@ class DatabaseHelper{
         $stmt->bind_param("i", $commentId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc()['COUNT(*)'];
+        return $result->fetch_assoc()['count'];
     }
 }
