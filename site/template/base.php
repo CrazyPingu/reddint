@@ -11,19 +11,19 @@
 
 <body>
     <header>
-        <h1>Reddint</h1>
+        <div class="navbar">
+            <h1>Reddint</h1>
+            <ul>
+                <li><a href="profile.php">Profile</a></li>
+                <li><a href="notification.php">Notifications</a></li>
+                <li><a href="settings.php">Settings</a></li>
+            </ul>
+            <form action="#" method="POST">
+                <input type="text" name="search" placeholder="Search">
+                <button type="submit">Search</button>
+            </form>
+        </div>
     </header>
-    <div class="navbar">
-        <ul>
-            <li><a href="profile.php">Profile</a></li>
-            <li><a href="notification.php">Notification</a></li>
-            <li><a href="settings.php">Settings</a></li>
-        </ul>
-        <form method="POST">
-            <input type="text" name="search" placeholder="Search">
-            <button type="submit">Search</button>
-        </form>
-    </div>
     <main>
         <?php
         if (isset($templateParams['name'])) {
@@ -31,7 +31,7 @@
         }
         ?>
     </main>
-    <script src="<?php $templateParams['script'] ?? '';?>"></script>
+    <script src="<?php $templateParams['script'] ?? ''; ?>"></script>
 </body>
 
 </html>
