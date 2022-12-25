@@ -2,8 +2,8 @@
     <h2 id='username'><?php echo $templateParams['userUsername']; ?></h2>
     <div class='rightProfile'>
         <div class='follow'>
-            <p><?php echo $templateParams['followersCount']; ?></p>
-            <p><?php echo $templateParams['followingCount']; ?></p>
+            <p>Followers: <?php echo $templateParams['followersCount']; ?></p>
+            <p>Following: <?php echo $templateParams['followingCount']; ?></p>
         </div>
         <h5><?php echo $templateParams['userCreationDate']; ?></h5>
     </div>
