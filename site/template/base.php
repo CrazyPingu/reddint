@@ -29,6 +29,6 @@
         }
         ?>
     </main>
-    <script src='<?php echo "js/".$templateParams['scriptFileName'] ?? ''; ?>'></script>
+    <script src='<?php echo "js/".$templateParams['scriptFileName'] ?? ''; ?>' type="module"></script>
 </body>
 </html>
