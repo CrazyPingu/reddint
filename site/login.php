@@ -18,3 +18,5 @@ $templateParams["title"] = "Reddint - Login";
 $templateParams["name"] = "login-form.php";
 
 require 'template/base.php';
+
+?>
