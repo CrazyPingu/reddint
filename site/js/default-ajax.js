@@ -1,8 +1,8 @@
-function loadInteractions(fileName, contentType = 'application/x-www-form-urlencoded') {
+function loadInteractions(fileName, callback = ()=>{}, contentType = 'application/x-www-form-urlencoded') {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            return this.responseText;
+            callback(this.responseText);
         }
     };
     xhttp.open('POST', 'requests/' + fileName, true);
