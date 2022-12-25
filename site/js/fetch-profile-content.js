@@ -2,7 +2,8 @@ const buttonPost = document.getElementById('buttonPost');
 const buttonComment = document.getElementById('buttonComment');
 const space = document.getElementsByClassName('spacePostComment')[0];
 
-buttonPost.addEventListener('click', () => loadInteractions('profile-comment.php'));
+buttonPost.addEventListener('click', () => loadInteractions('profile-post.php'));
+buttonComment.addEventListener('click', () => loadInteractions('profile-comment.php'));
 
 function loadInteractions(fileName) {
     let xhttp = new XMLHttpRequest();
