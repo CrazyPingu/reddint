@@ -66,6 +66,16 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getPostsByCommunities(Array $communities, int $limit = 10) {
+        $in  = str_repeat('?,', count($communities)-1) . '?';
+        $sql = "SELECT * FROM post WHERE community IN ($in) ORDER BY creation_date DESC LIMIT $limit";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param(str_repeat('s', count($communities)), ...$communities);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getPostsByUser($userId, $limit = 10) {
         $sql = "SELECT * FROM post WHERE author = ? ORDER BY creation_date DESC LIMIT ?";
         $stmt = $this->db->prepare($sql);
@@ -75,7 +85,27 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getPostsByUsers(Array $users, int $limit = 10) {
+        $in  = str_repeat('?,', count($users)-1) . '?';
+        $sql = "SELECT * FROM post WHERE author IN ($in) ORDER BY creation_date DESC LIMIT $limit";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param(str_repeat('s', count($users)), ...$users);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function votePost($userId, $postId, $vote = 0) {
+        // check if same vote is already in database, if so, set vote to 0
+        $sql = "SELECT vote FROM vote_post WHERE user = ? AND post = ? AND vote = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("iii", $userId, $postId, $vote);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $vote = 0;
+        }
+        // insert or update vote
         $sql = "INSERT INTO vote_post (user, post, vote) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE vote = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("iiii", $userId, $postId, $vote, $vote);
@@ -120,7 +150,7 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
-    public function updateUser($userId, $email, $password, $username, $bio) {
+    public function updateUser($userId, $email, $password, $username, $bio = null) {
         $sql = "UPDATE user SET email = ?, password = ?, username = ?, bio = ? WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("ssssi", $email, $password, $username, $bio, $userId);
@@ -135,7 +165,7 @@ class DatabaseHelper{
     }
 
     public function logUser($email, $password) {
-        $sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+        $sql = "SELECT COUNT(*) FROM user WHERE email = ? AND password = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("ss", $email, $password);
         $stmt->execute();
@@ -145,21 +175,31 @@ class DatabaseHelper{
 
     public function getUser($id_or_email_or_username) {
         if (is_numeric($id_or_email_or_username)) {
-            $sql = "SELECT * FROM user WHERE id = ?";
+            $sql = "SELECT id, email, username, bio, creation_date FROM user WHERE id = ?";
             $stmt = $this->db->prepare($sql);
             $stmt->bind_param("i", $id_or_email_or_username);
         } else if (filter_var($id_or_email_or_username, FILTER_VALIDATE_EMAIL)) {
-            $sql = "SELECT * FROM user WHERE email = ?";
+            $sql = "SELECT id, email, username, bio, creation_date FROM user WHERE email = ?";
             $stmt = $this->db->prepare($sql);
             $stmt->bind_param("s", $id_or_email_or_username);
         } else {
-            $sql = "SELECT * FROM user WHERE username = ?";
+            $sql = "SELECT id, email, username, bio, creation_date FROM user WHERE username = ?";
             $stmt = $this->db->prepare($sql);
             $stmt->bind_param("s", $id_or_email_or_username);
         }
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc();
+    }
+
+    public function getUsers(Array $userIds, int $limit) {
+        $in = str_repeat('?,', count($userIds) - 1) . '?';
+        $sql = "SELECT id, email, username, bio, creation_date FROM user WHERE id IN ($in) LIMIT $limit";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param(str_repeat('i', count($userIds)), ...$userIds);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function followUser($followerId, $followedId) {
@@ -177,7 +217,9 @@ class DatabaseHelper{
     }
 
     public function getFollowers($userId) {
-        $sql = "SELECT * FROM following WHERE followed = ?";
+        $sql = "SELECT id, email, username, bio, creation_date
+                FROM user
+                WHERE user.id IN (SELECT follower FROM following WHERE followed = ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("i", $userId);
         $stmt->execute();
@@ -186,7 +228,9 @@ class DatabaseHelper{
     }
 
     public function getFollowed($userId) {
-        $sql = "SELECT * FROM following WHERE follower = ?";
+        $sql = "SELECT id, email, username, bio, creation_date
+                FROM user
+                WHERE user.id IN (SELECT followed FROM following WHERE follower = ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("i", $userId);
         $stmt->execute();
@@ -304,7 +348,23 @@ class DatabaseHelper{
         return $result->fetch_assoc();
     }
 
+    public function getCommunities(Array $communityIds) {
+        $in = str_repeat('?,', count($communityIds) - 1) . '?';
+        $sql = "SELECT * FROM community WHERE id IN ($in)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param(str_repeat("i", count($communityIds)), ...$communityIds);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function joinCommunity($userId, $communityId) {
+        // check if user is already participating in the community
+        $isAlreadyParticipating = $this->isParticipating($userId, $communityId);
+        if ($isAlreadyParticipating) {
+            return false;
+        }
+        // if not, add him to the community
         $sql = "INSERT INTO participation (user, community, date_joined) VALUES (?, ?, NOW())";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("ii", $userId, $communityId);
@@ -312,10 +372,34 @@ class DatabaseHelper{
     }
 
     public function leaveCommunity($userId, $communityId, $reason = "no reason given") {
+        // check if user is participating in the community, if not return 0
+        $isAlreadyParticipating = $this->isParticipating($userId, $communityId);
+        if (!$isAlreadyParticipating) {
+            return false;
+        }
+        // if he is, update his participation by setting the date_left and reason_left
         $sql = "UPDATE participation SET date_left = NOW(), reason_left = ? WHERE user = ? AND community = ? AND date_left IS NULL ORDER BY date_joined DESC LIMIT 1";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("sii", $reason, $userId, $communityId);
+        return $stmt->execute();
+    }
+
+    public function isParticipating($userId, $communityId) {
+        $sql = "SELECT * FROM participation WHERE user = ? AND community = ? AND date_left IS NULL";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("ii", $userId, $communityId);
         $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function getParticipatingUserCount($communityId) {
+        $sql = "SELECT COUNT(*) as count FROM participation WHERE community = ? AND date_left IS NULL";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $communityId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['count'];
     }
 
     //////////////////////////////
@@ -361,7 +445,17 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function voteComment($userId, $commentId, $vote = 0) {
+    public function voteComment($commentId, $userId, $vote = 0) {
+        // check if same vote is already in database, if so, set vote to 0
+        $sql = "SELECT * FROM vote_comment WHERE user = ? AND comment = ? AND vote = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("iii", $userId, $commentId, $vote);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->fetch_assoc()) {
+            $vote = 0;
+        }
+        // insert or update vote
         $sql = "INSERT INTO vote_comment (user, comment, vote) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE vote = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("iiii", $userId, $commentId, $vote, $vote);
