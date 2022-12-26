@@ -244,7 +244,7 @@ class DatabaseHelper{
         $stmt->bind_param('i', $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)['COUNT(*)'];
+        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
     }
 
     public function getFollowedCount($userId) {
@@ -253,7 +253,7 @@ class DatabaseHelper{
         $stmt->bind_param('i', $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)['COUNT(*)'];
+        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
     }
 
     public function isFollowing($followerId, $followedId) {
@@ -305,7 +305,7 @@ class DatabaseHelper{
         $stmt->bind_param('i', $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)['COUNT(*)'];
+        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
     }
 
     ////////////////////////////////
@@ -399,7 +399,7 @@ class DatabaseHelper{
         $stmt->bind_param('i', $communityId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)['COUNT(*)'];
+        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
     }
 
     //////////////////////////////
@@ -468,7 +468,7 @@ class DatabaseHelper{
         $stmt->bind_param('i', $commentId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)['COUNT(*)'];
+        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
     }
 
     public function getCommentDislikes($commentId) {
@@ -477,6 +477,6 @@ class DatabaseHelper{
         $stmt->bind_param('i', $commentId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)['COUNT(*)'];
+        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
     }
 }
