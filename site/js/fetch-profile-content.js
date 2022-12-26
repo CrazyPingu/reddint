@@ -1,4 +1,4 @@
-import asyncCall from "./default-ajax.js";
+import asyncCall from './default-ajax.js';
 
 const buttonPost = document.getElementById('buttonPost');
 const buttonComment = document.getElementById('buttonComment');
@@ -20,3 +20,13 @@ buttonComment.addEventListener('click', () => {
     })
     selected = 'comment';
 });
+
+space.addEventListener('scroll', () => {
+    if (space.scrollTop === (space.scrollHeight - space.offsetHeight)) {
+        console.log('bottom');
+    }
+});
+
+window.onload = () => {
+    buttonPost.click();
+}
