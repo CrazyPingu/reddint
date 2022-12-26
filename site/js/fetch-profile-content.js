@@ -31,7 +31,8 @@ buttonComment.addEventListener('click', () => {
 
 space.addEventListener('scroll', () => {
     if (space.scrollTop === (space.scrollHeight - space.offsetHeight)) {
-        asyncCall('profile-post.php', (response) => {
+        selected === 'post' ? page='profile-post.php' : page='profile-comment.php';
+        asyncCall(page, (response) => {
             space.innerHTML += response;
         }, 'offset=' + offset)
     }
