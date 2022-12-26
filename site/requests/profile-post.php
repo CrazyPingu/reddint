@@ -1,8 +1,6 @@
 <?php
 require_once '../bootstrap.php';
-//echo $_SESSION['userId'];
-$posts = $dbh->getPostsByUser($_SESSION['userId']);
-//var_dump($dbh);
+$posts = $dbh->getPostsByUser($_SESSION['userId'], 10, $_POST['offset']);
 $html = '';
 foreach ($posts as $post) {
     $html .= '
