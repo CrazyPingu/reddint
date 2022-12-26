@@ -10,3 +10,4 @@
         <li><input type='submit' name='submit' value='Sign up' /></li>
     </ul>
 </form>
+<a href='./login.php'>Do you already have an account? Login now!</a>

@@ -9,3 +9,4 @@
         <li><input type='submit' name='submit' value='Login' /></li>
     </ul>
 </form>
+<a href='./signup.php'>Do you need an account? Sign up now!</a>
