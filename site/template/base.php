@@ -3,8 +3,8 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link rel='stylesheet' type='text/css' href='../css/style.css'>
-    <link rel='icon' href='../res/favicon.png' type='image/png' sizes='16x16'>
+    <link rel='stylesheet' type='text/css' href='css/style.css'>
+    <link rel='icon' href='res/favicon.png' type='image/png' sizes='16x16'>
     <title><?php echo $templateParams['title']; ?></title>
 </head>
 <body>
@@ -29,6 +29,6 @@
         }
         ?>
     </main>
-    <script src='<?php echo "js/".$templateParams['scriptFileName'] ?? ''; ?>' type="module"></script>
+    <script src='<?php echo 'js/'.$templateParams['scriptFileName'] ?? ''; ?>' type='module'></script>
 </body>
 </html>
