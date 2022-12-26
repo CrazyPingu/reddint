@@ -1,15 +1,14 @@
 <?php
-require_once '../bootstrap.php';
 
-function generatePosts($posts){
+function generatePosts($posts, $dbh){
     $html = '';
     foreach ($posts as $post) {
         $html .= '
             <div class="post" id="' . $post['id'] . '>
                 <div class="topPartPost">
                     <div class="communityAuthorLine">
-                        <p name="community" id="community">' . $dbh->getCommunity($post['community'])[0]['name'] . '</p>
-                        <p name="author" id="author">' . $_SESSION['username'] . '</p>
+                        <p name="community" id="community">' . $dbh->getCommunity($post['community'])['name'] . '</p>
+                        <p name="author" id="author">' . $dbh->getUser($post['author'])['username'] . '</p>
                     </div>
                     <p name="date" id="date">' . $post['creation_date'] . '</p>
                 </div>
@@ -27,3 +26,4 @@ function generatePosts($posts){
     }
     return $html;
 }
+?>

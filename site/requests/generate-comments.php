@@ -1,7 +1,6 @@
 <?php
-require_once '../bootstrap.php';
 
-function generateComments($comments){
+function generateComments($comments, $dbh){
     $html = '';
     foreach ($comments as $comment) {
         $html .= '
@@ -19,3 +18,4 @@ function generateComments($comments){
     }
     return $html;
 }
+?>
