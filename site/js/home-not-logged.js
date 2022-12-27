@@ -9,7 +9,7 @@ const spacePosts = document.querySelector('.space');
 
 //show initial posts
 window.onload = function() {
-    asyncCall('random-posts.php', (response) => {
+    asyncCall('home-random-posts.php', (response) => {
         spacePosts.innerHTML = response;
     });
 }
@@ -17,7 +17,7 @@ window.onload = function() {
 //added listener to show new posts when reached the bottom
 spacePosts.addEventListener('scroll', () => {
     if(spacePosts.scrollTop >= (spacePosts.scrollHeight - spacePosts.offsetHeight)) {
-        asyncCall('random-posts.php', (response) => {
+        asyncCall('home-random-posts.php', (response) => {
             spacePosts.innerHTML += response;
         });
     }
