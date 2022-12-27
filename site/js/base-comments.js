@@ -1,6 +1,6 @@
 function generateCommentHTML(data) {
     let html = '';
-    data.array.forEach(element => {
+    data.forEach(element => {
         html += `
             <div class="commentAuthorDate" id="${element['commentId']}">
                 <a name="author" id="author" href="../profile.php?username=${element['username']}">${element['username']}</a>
