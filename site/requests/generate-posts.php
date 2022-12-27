@@ -6,6 +6,7 @@ function generatePosts($posts, $dbh){
         $username = $dbh->getUser($post['author'])['username'];
         $community = $dbh->getCommunity($post['community'])['name'];
         $postId = $post['id'];
+        $postVote = isset($_SESSION['userId']) ? $dbh->getUserPostVote($_SESSION['userId'],$postId) : 0;
         $html .= '
             <div class="post">
                 <div class="topPartPost">
@@ -18,9 +19,9 @@ function generatePosts($posts, $dbh){
                 <a name="title" id="title" class="postTitle" href="../post.php?postId='. $postId .'">' . $post['title'] . '</a>
                 <p name="text" id="text" class="postText">' . $post['content'] . '</p>
                 <div class="vote">
-                    <button name="upvote" id="upvote" class="upvote" value="upvote" />
+                    <button name="upvote" id="upvote" class="upvote '. ($postVote == 1 ? 'voted' : '') .'" value="upvote" />
                     <p name="score" id="score" class="score">' . $dbh->getPostVote($postId) . '</p>
-                    <button name="downvote" id="downvote" class="downvote" value="downvote" />
+                    <button name="downvote" id="downvote" class="downvote '. ($postVote == -1 ? 'voted' : '') .'" value="downvote" />
                     <a name="comment" id="comment" class="comment" value="comment" href="../post.php?postId='. $postId .'"></a>
                     <p name="numComments" id="numComments" class="numComments">' . $dbh->getPostNumberOfComments($postId) . '</p>
                 </div>
