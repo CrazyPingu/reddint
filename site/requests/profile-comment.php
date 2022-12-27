@@ -5,4 +5,7 @@ include_once 'generate-comments.php';
 
 $comments = $dbh->getCommentsByUser($_SESSION['userId'], 10, $_POST['offset']);
 
-echo generateComments($comments, $dbh);
+echo generateJson($comments, $dbh);
+
+?>
+

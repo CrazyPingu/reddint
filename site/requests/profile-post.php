@@ -5,4 +5,4 @@ include_once 'generate-posts.php';
 
 $posts = $dbh->getPostsByUser($_SESSION['userId'], 10, $_POST['offset']);
 
-echo generatePosts($posts, $dbh);
+echo generateJson($posts, $dbh);
