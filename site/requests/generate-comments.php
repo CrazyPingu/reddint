@@ -5,7 +5,7 @@ function generateComments($comments, $dbh){
     foreach ($comments as $comment) {
         $html .= '
             <div class="commentAuthorDate">
-                <p name="author" id="author">' . $_SESSION['username'] . '</p>
+                <p name="author" id="author">' . $dbh->getUser($comment['author'])['username'] . '</p>
                 <p name="date" id="date">' . $comment['creation_date'] . '</p>
             </div>
             <p name="text" id="text" class="commentText">' . $comment['content'] . '</p>
