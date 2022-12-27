@@ -16,7 +16,10 @@ function generateJson($posts, $dbh){
 
         array_push($json, $jsonPosts);
     }
-    return $json;
+    
+    return json_encode($json);
 }
+
+
 
 ?>
