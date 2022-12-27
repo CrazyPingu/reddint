@@ -1,4 +1,4 @@
-function asyncCall(fileName, callback = () => { }, args = null, contentType = 'application/x-www-form-urlencoded') {
+function asyncCall(fileName, callback = () => { }, args = null, contentType = 'application/json') {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {

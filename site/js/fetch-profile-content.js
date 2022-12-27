@@ -1,4 +1,6 @@
 import asyncCall from './default-ajax.js';
+import generateCommentHTML from './base-comments.js';
+import generatePostHTML from './base-post.js';
 
 const buttonPost = document.getElementById('buttonPost');
 const buttonComment = document.getElementById('buttonComment');
@@ -14,7 +16,7 @@ function incrementOffset() {
 buttonPost.addEventListener('click', () => {
     if (selected === 'post') return;
     asyncCall('profile-post.php', (response) => {
-        space.innerHTML = response;
+        space.innerHTML = generatePostHTML(JSON.parse(response));
     }, 'offset=0')
     offset = baseOffset;
     selected = 'post';
@@ -23,7 +25,7 @@ buttonPost.addEventListener('click', () => {
 buttonComment.addEventListener('click', () => {
     if (selected === 'comment') return;
     asyncCall('profile-comment.php', (response) => {
-        space.innerHTML = response;
+        space.innerHTML = generateCommentHTML(JSON.parse(response));
     }, 'offset=0')
     offset = baseOffset;
     selected = 'comment';
