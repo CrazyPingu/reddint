@@ -16,7 +16,7 @@ function generatePosts($posts, $dbh){
                 <p name="text" id="text" class="postText">' . $post['content'] . '</p>
                 <div class="vote">
                     <button name="upvote" id="upvote" class="upvote" value="upvote" />
-                    <p name="score" id="score" class="score">' . $dbh->getPostVote($post['id']); . '</p>
+                    <p name="score" id="score" class="score">' . $dbh->getPostVote($post['id']) . '</p>
                     <button name="downvote" id="downvote" class="downvote" value="downvote" />
                     <button name="comment" id="comment" class="comment" value="comment" />
                     <p name="numComments" id="numComments" class="numComments">' . $dbh->getPostNumberOfComments($post['id']) . '</p>
