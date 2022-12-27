@@ -6,6 +6,9 @@ function generateJson($posts, $dbh){
         $jsonPosts = array();
         $jsonPosts['username'] = $dbh->getUser($post['author'])['username'];
         $jsonPosts['community'] = $dbh->getCommunity($post['community'])['name'];
+        $jsonPosts['creationDate'] = $post['creation_date'];
+        $jsonPosts['title'] = $post['title'];
+        $jsonPosts['content'] = $post['content'];
         $jsonPosts['postId'] = $post['id'];
         $jsonPosts['postVote'] = isset($_SESSION['userId']) ? $dbh->getUserPostVote($_SESSION['userId'], $post['id']) : 0;
         $jsonPosts['numComments'] = $dbh->getPostNumberOfComments($post['id']);
