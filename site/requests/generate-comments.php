@@ -3,11 +3,10 @@
 function generateComments($comments, $dbh){
     $html = '';
     foreach ($comments as $comment) {
+        $username = $dbh->getUser($comment['author'])['username'];
         $html .= '
             <div class="commentAuthorDate" id="' . $comment['id'] . '>
-                <div id="'.$comment['author'].'">
-                    <p name="author" id="author">' . $dbh->getUser($comment['author'])['username'] . '</p>
-                </div>
+                <a name="author" id="author" href="../profile.php?username='. $username.'">' . $username . '</a>
                 <p name="date" id="date">' . $comment['creation_date'] . '</p>
             </div>
             <p name="text" id="text" class="commentText">' . $comment['content'] . '</p>
