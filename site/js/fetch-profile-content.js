@@ -17,7 +17,7 @@ buttonPost.addEventListener('click', () => {
     if (selected === 'post') return;
     asyncCall('profile-post.php', (response) => {
         space.innerHTML = generatePostHTML(JSON.parse(response));
-    }, 'offset=0')
+    }, 'offset=0');
     offset = baseOffset;
     selected = 'post';
 });
@@ -26,7 +26,7 @@ buttonComment.addEventListener('click', () => {
     if (selected === 'comment') return;
     asyncCall('profile-comment.php', (response) => {
         space.innerHTML = generateCommentHTML(JSON.parse(response));
-    }, 'offset=0')
+    }, 'offset=0');
     offset = baseOffset;
     selected = 'comment';
 });
@@ -36,7 +36,7 @@ space.addEventListener('scroll', () => {
         selected === 'post' ? page='profile-post.php' : page='profile-comment.php';
         asyncCall(page, (response) => {
             space.innerHTML += response;
-        }, 'offset=' + offset)
+        }, 'offset=' + offset);
     }
     incrementOffset();
 });
