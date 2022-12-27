@@ -4,8 +4,10 @@ function generateComments($comments, $dbh){
     $html = '';
     foreach ($comments as $comment) {
         $html .= '
-            <div class="commentAuthorDate">
-                <p name="author" id="author">' . $dbh->getUser($comment['author'])['username'] . '</p>
+            <div class="commentAuthorDate" id="' . $comment['id'] . '>
+                <div id="'.$comment['author'].'">
+                    <p name="author" id="author">' . $dbh->getUser($comment['author'])['username'] . '</p>
+                </div>
                 <p name="date" id="date">' . $comment['creation_date'] . '</p>
             </div>
             <p name="text" id="text" class="commentText">' . $comment['content'] . '</p>
@@ -18,4 +20,5 @@ function generateComments($comments, $dbh){
     }
     return $html;
 }
+
 ?>

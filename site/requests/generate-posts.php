@@ -8,7 +8,9 @@ function generatePosts($posts, $dbh){
                 <div class="topPartPost">
                     <div class="communityAuthorLine">
                         <p name="community" id="community">' . $dbh->getCommunity($post['community'])['name'] . '</p>
-                        <p name="author" id="author">' . $dbh->getUser($post['author'])['username'] . '</p>
+                        <div id="'.$post['author'].'">
+                            <p name="author" id="author">' . $dbh->getUser($post['author'])['username'] . '</p>
+                        </div>
                     </div>
                     <p name="date" id="date">' . $post['creation_date'] . '</p>
                 </div>
@@ -26,4 +28,5 @@ function generatePosts($posts, $dbh){
     }
     return $html;
 }
+
 ?>
