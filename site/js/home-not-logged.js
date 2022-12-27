@@ -1,4 +1,5 @@
 import asyncCall from "./default-ajax.js";
+import generatePostHTML from './base-post.js';
 
 //the buttons need to redirect to the login page
 const buttons = document.querySelectorAll('.buttons');
@@ -10,7 +11,7 @@ const spacePosts = document.querySelector('.space');
 //show initial posts
 window.onload = function() {
     asyncCall('home-random-posts.php', (response) => {
-        spacePosts.innerHTML = response;
+        spacePosts.innerHTML = generatePostHTML(JSON.parse(response));
     });
 }
 
@@ -18,7 +19,7 @@ window.onload = function() {
 spacePosts.addEventListener('scroll', () => {
     if(spacePosts.scrollTop >= (spacePosts.scrollHeight - spacePosts.offsetHeight)) {
         asyncCall('home-random-posts.php', (response) => {
-            spacePosts.innerHTML += response;
+            spacePosts.innerHTML += generatePostHTML(JSON.parse(response));
         });
     }
 });
