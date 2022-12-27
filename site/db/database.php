@@ -15,468 +15,1124 @@ class DatabaseHelper{
     }
 
     ///////////////////////////
-    // Post related queries  //
-    ///////////////////////////
-
-    public function addPost($authorId, $communityId, $title, $content) {
-        $sql = 'INSERT INTO post (author, community, title, content, creation_date) VALUES (?, ?, ?, ?, NOW())';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('iiss', $authorId, $communityId, $title, $content);
-        return $stmt->execute();
-    }
-
-    public function updatePost($id, $title, $content) {
-        $sql = 'UPDATE post SET title = ?, content = ?, edited = 1 WHERE id = ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ssi', $title, $content, $id);
-        return $stmt->execute();
-    }
-
-    public function deletePost($id) {
-        $sql = 'DELETE FROM post WHERE id = ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $id);
-        return $stmt->execute();
-    }
-
-    public function getPost($id) {
-        $sql = 'SELECT * FROM post WHERE id = ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getRandomPosts($limit = 10) {
-        $sql = 'SELECT * FROM post ORDER BY RAND() LIMIT ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $limit);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getPostsByCommunity($communityId, $limit = 10) {
-        $sql = 'SELECT * FROM post WHERE community = ? ORDER BY creation_date DESC LIMIT ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ii', $communityId, $limit);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getPostsByCommunities(Array $communities, int $limit = 10) {
-        $in  = str_repeat('?,', count($communities)-1) . '?';
-        $sql = 'SELECT * FROM post WHERE community IN ($in) ORDER BY creation_date DESC LIMIT $limit';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param(str_repeat('s', count($communities)), ...$communities);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getPostsByUser($userId, $limit = 10) {
-        $sql = 'SELECT * FROM post WHERE author = ? ORDER BY creation_date DESC LIMIT ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ii', $userId, $limit);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getPostsByUsers(Array $users, int $limit = 10) {
-        $in  = str_repeat('?,', count($users)-1) . '?';
-        $sql = 'SELECT * FROM post WHERE author IN ($in) ORDER BY creation_date DESC LIMIT $limit';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param(str_repeat('s', count($users)), ...$users);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function votePost($userId, $postId, $vote = 0) {
-        // check if same vote is already in database, if so, set vote to 0
-        $sql = 'SELECT vote FROM vote_post WHERE user = ? AND post = ? AND vote = ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('iii', $userId, $postId, $vote);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $vote = 0;
-        }
-        // insert or update vote
-        $sql = 'INSERT INTO vote_post (user, post, vote) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE vote = ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('iiii', $userId, $postId, $vote, $vote);
-        return $stmt->execute();
-    }
-
-    public function getPostLikes($postId) {
-        $sql = 'SELECT COUNT(*) FROM vote_post WHERE post = ? AND vote = 1';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $postId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
-    }
-
-    public function getPostDislikes($postId) {
-        $sql = 'SELECT COUNT(*) FROM vote_post WHERE post = ? AND vote = -1';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $postId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
-    }
-
-    public function getPostNumberOfComments($postId) {
-        $sql = 'SELECT COUNT(*) FROM comment WHERE post = ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $postId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
-    }
-
-    ///////////////////////////
     // User related queries  //
     ///////////////////////////
 
-    public function addUser($email, $password, $username) {
-        $sql = 'INSERT INTO user (email, password, username, creation_date) VALUES (?, ?, ?, NOW())';
+    /**
+     * Add a new user to the database
+     * @param string $email email of the user
+     * @param string $password password of the user
+     * @param string $username username of the user
+     * @return bool true if the user was added, false otherwise
+     */
+    public function addUser(string $email, string $password, string $username): bool {
+        $sql = 'INSERT IGNORE INTO user (email, password, username, creation_date) VALUES (?, ?, ?, NOW())';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('sss', $email, $password, $username);
-        return $stmt->execute();
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function updateUser($userId, $email, $password, $username, $bio = null) {
+    /**
+     * Get a list of users given their ids or emails/usernames
+     * @param int[]|string[] $users ids or emails or usernames of the users, if null all users will be returned
+     * @param int $limit maximum number of users to return (return size could be less)
+     * @param int $offset number of users to skip
+     * @return array array of users
+     */
+    public function getUsers(Array $users = null, int $limit = 0, int $offset = 0): array {
+        if (empty($users)) {
+            $array = [1];
+            $is_int = true;
+            $count = 1;
+            $search_for = '?';
+        } else {
+            $array = $users;
+            $is_int = is_numeric($array[0]);
+            $count = count($array);
+            $in = str_repeat('?,', $count - 1).'?';
+            $search_for = $is_int ? "id IN ($in)" : "email IN ($in) OR username IN ($in)";
+        }
+
+        $sql = "SELECT *
+                FROM user
+                WHERE $search_for
+                ORDER BY username"
+                .($limit > 0? " LIMIT ? OFFSET ?" : "");
+        $stmt = $this->db->prepare($sql);
+
+        $is_int ?: $count *= 2;
+        $types = str_repeat($is_int ? 'i' : 's', $count).($limit > 0 ? 'ii' : '');
+        $params = [...($is_int ? $array : array_merge($array,$array))];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Get a user given its id, email or username
+     * @param int|string $user can be an id, email or username of the user
+     * @return array|null array with the user data, null if the user doesn't exist
+     */
+    public function getUser(int|string $user): array|null {
+        return $this->getUsers([$user], limit: 1)[0] ?? null;
+    }
+
+    /**
+     * Update an existing user's data
+     * The values left null will not be updated
+     * @param int|string $user id, email or username of the user
+     * @param string|null $email new email of the user
+     * @param string|null $password new password of the user
+     * @param string|null $username new username of the user
+     * @param string|null $bio new bio of the user
+     */
+    public function updateUser(int|string $user, string $email = null, string $password = null, string $username = null, string $bio = null): bool {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return false;
+        }
+
         $sql = 'UPDATE user SET email = ?, password = ?, username = ?, bio = ? WHERE id = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ssssi', $email, $password, $username, $bio, $userId);
-        return $stmt->execute();
+        $params = [$email ?? $user['email'], $password ?? $user['password'], $username ?? $user['username'], $bio ?? $user['bio'], $user['id']];
+        $stmt->bind_param('ssssi', ...$params);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function deleteUser($userId) {
+    /**
+     * Delete an existing user
+     * @param int|string $user id, email or username of the user to delete
+     * @return bool false if the user doesn't exist, true otherwise
+     */
+    public function deleteUser(int|string $user): bool {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return false;
+        }
+
         $sql = 'DELETE FROM user WHERE id = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $userId);
-        return $stmt->execute();
+        $stmt->bind_param('i', $user['id']);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function logUser($email, $password) {
-        $sql = 'SELECT COUNT(*) FROM user WHERE email = ? AND password = ?';
+    /**
+     * Get a user given its email and password, used for logging in
+     * @param string $email email of the user
+     * @param string $password password of the user
+     * @return array|null array with the user data, null if the credentials are wrong
+     */
+    public function logUser(string $email, string $password): array|null {
+        $sql = 'SELECT * FROM user WHERE email = ? AND password = ?';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('ss', $email, $password);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
+        return $result->fetch_assoc();
     }
 
-    public function getUser($id_or_email_or_username) {
-        if (is_numeric($id_or_email_or_username)) {
-            $sql = 'SELECT id, email, username, bio, creation_date FROM user WHERE id = ?';
-            $stmt = $this->db->prepare($sql);
-            $stmt->bind_param('i', $id_or_email_or_username);
-        } else if (filter_var($id_or_email_or_username, FILTER_VALIDATE_EMAIL)) {
-            $sql = 'SELECT id, email, username, bio, creation_date FROM user WHERE email = ?';
-            $stmt = $this->db->prepare($sql);
-            $stmt->bind_param('s', $id_or_email_or_username);
-        } else {
-            $sql = 'SELECT id, email, username, bio, creation_date FROM user WHERE username = ?';
-            $stmt = $this->db->prepare($sql);
-            $stmt->bind_param('s', $id_or_email_or_username);
+    /**
+     * Follow a user, if the user is already followed by the follower, nothing happens
+     * @param int|string $follower id or email or username of the follower
+     * @param int|string $followed id or email or username of the followed
+     * @return bool true if the user was followed, false otherwise
+     */
+    public function followUser(int|string $follower, int|string  $followed): bool {
+        $follower = $this->getUser($follower);
+        $followed = $this->getUser($followed);
+        if ($follower == null || $followed == null) {
+            return false;
         }
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
 
-    public function getUsers(Array $userIds, int $limit) {
-        $in = str_repeat('?,', count($userIds) - 1) . '?';
-        $sql = 'SELECT id, email, username, bio, creation_date FROM user WHERE id IN ($in) LIMIT $limit';
+        $sql = 'INSERT IGNORE INTO following (follower, followed) VALUES (?, ?)';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param(str_repeat('i', count($userIds)), ...$userIds);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->bind_param('ii', $follower['id'], $followed['id']);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function followUser($followerId, $followedId) {
-        $sql = 'INSERT INTO following (follower, followed) VALUES (?, ?)';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ii', $followerId, $followedId);
-        return $stmt->execute();
-    }
+    /**
+     * Unfollow a user, if the user is not followed by the follower, nothing happens
+     * @param int|string $follower id or email or username of the follower
+     * @param int|string $followed id or email or username of the followed
+     * @return bool true if the user was unfollowed, false otherwise
+     */
+    public function unfollowUser(int|string $follower, int|string $followed): bool {
+        $follower = $this->getUser($follower);
+        $followed = $this->getUser($followed);
+        if ($follower == null || $followed == null) {
+            return false;
+        }
 
-    public function unfollowUser($followerId, $followedId) {
         $sql = 'DELETE FROM following WHERE follower = ? AND followed = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ii', $followerId, $followedId);
-        return $stmt->execute();
+        $stmt->bind_param('ii', $follower['id'], $followed['id']);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function getFollowers($userId) {
-        $sql = 'SELECT id, email, username, bio, creation_date
+    /**
+     * Get the followers of a user
+     * @param int|string $user id or email or username of the user
+     * @param int $limit maximum number of users to return (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array array of users that follow the given user
+     */
+    public function getFollowers(int|string $user, int $limit = 0, int $offset = 0): array {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return [];
+        }
+
+        $sql = 'SELECT *
                 FROM user
-                WHERE user.id IN (SELECT follower FROM following WHERE followed = ?)';
+                WHERE user.id IN (SELECT follower FROM following WHERE followed = ?)'
+                .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $userId);
+        $types = 'i'.($limit > 0 ? 'ii' : '');
+        $params = [$user['id']];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getFollowed($userId) {
-        $sql = 'SELECT id, email, username, bio, creation_date
+
+    /**
+     * Get the users followed by a user
+     * @param int|string $user id or email or username of the user
+     * @param int $limit maximum number of users to return (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array array of users followed by the given user
+     */
+    public function getFollowed(int|string $user, int $limit = 0, int $offset = 0): array {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return [];
+        }
+
+        $sql = 'SELECT *
                 FROM user
-                WHERE user.id IN (SELECT followed FROM following WHERE follower = ?)';
+                WHERE user.id IN (SELECT followed FROM following WHERE follower = ?)'
+                .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $userId);
+        $types = 'i'.($limit > 0 ? 'ii' : '');
+        $params = [$user['id']];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getFollowersCount($userId) {
+    /**
+     * Get the number of followers of a user
+     * @param int|string $user id or email or username of the user
+     * @return int number of followers of the given user
+     */
+    public function getFollowersCount(int|string $user): int {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return [];
+        }
+
         $sql = 'SELECT COUNT(*) FROM following WHERE followed = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $userId);
+        $stmt->bind_param('i', $user['id']);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
+        return $result->fetch_assoc()['COUNT(*)'] ?? 0;
     }
 
-    public function getFollowedCount($userId) {
+    /**
+     * Get the number of users followed by a user
+     * @param int|string $user id or email or username of the user
+     * @return int number of users followed by the given user
+     */
+    public function getFollowedCount(int|string $user): int {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return [];
+        }
+
         $sql = 'SELECT COUNT(*) FROM following WHERE follower = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $userId);
+        $stmt->bind_param('i', $user['id']);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
+        return $result->fetch_assoc()['COUNT(*)'] ?? 0;
     }
 
-    public function isFollowing($followerId, $followedId) {
-        $sql = 'SELECT * FROM following WHERE follower = ? AND followed = ?';
+    /**
+     * Check if a user is followed by another user
+     * @param int|string $follower id or email or username of the follower
+     */
+    public function isFollowing(int|string $follower, int|string $followed): bool {
+        $follower = $this->getUser($follower);
+        $followed = $this->getUser($followed);
+        if ($follower == null || $followed == null) {
+            return false;
+        }
+
+        $sql = 'SELECT COUNT(*) FROM following WHERE follower = ? AND followed = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ii', $followerId, $followedId);
+        $stmt->bind_param('ii', $follower['id'], $followed['id']);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result->fetch_assoc()['COUNT(*)'] > 0;
     }
+
+
 
     ////////////////////////////////////
     // Notifications related queries  //
     ////////////////////////////////////
 
-    public function addNotification($userId, $content) {
+    /**
+     * Add a notification for a specific user to the database
+     * @param int|string $user id or email or username of the user
+     * @param string $content content of the notification
+     * @return bool true if the notification was added, false if there was an error
+     */
+    public function addNotification(int|string $user, string $content): bool {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return false;
+        }
+
         $sql = 'INSERT INTO notification (user, date, content) VALUES (?, NOW(), ?)';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('is', $userId, $content);
-        return $stmt->execute();
+        $stmt->bind_param('is', $user['id'], $content);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function deleteNotification($notificationId) {
-        $sql = 'DELETE FROM notification WHERE id = ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $notificationId);
-        return $stmt->execute();
-    }
+    /**
+     * Get the notifications of a user
+     * @param int|string $user id or email or username of the user
+     * @param int $limit amount of notifications (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array empty if there are no notifications for that user
+     */
+    public function getUserNotifications(int|string $user, int $limit = 0, int $offset = 0): array {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return [];
+        }
 
-    public function getNotifications($userId, $limit = 10) {
-        $sql = 'SELECT * FROM notification WHERE user = ? ORDER BY date DESC LIMIT ?';
+        $sql = 'SELECT * FROM notification WHERE user = ? ORDER BY date DESC'.($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ii', $userId, $limit);
+        $types = 'i'.($limit > 0 ? 'ii' : '');
+        $params = [$user['id']];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function readNotification($notificationId) {
-        $sql = 'UPDATE notification SET seen = 1 WHERE id = ?';
+    /**
+     * Mark all notifications of a user as read
+     * @param int|string $user id or email or username of the user
+     * @return bool true if the notifications were marked as read, false if there was an error
+     */
+    public function readAllNotifications(int|string $user): bool {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return false;
+        }
+
+        $sql = 'UPDATE notification SET seen = 1 WHERE user = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $notificationId);
-        return $stmt->execute();
+        $stmt->bind_param('i', $user['id']);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
     }
 
-    public function getUnreadNotificationsCount($userId) {
+    /**
+     * Get the number of unread notifications of a user
+     * @param int|string $user id or email or username of the user
+     * @return int number of unread notifications
+     */
+    public function getUnreadNotificationsCount(int|string $user): int {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return 0;
+        }
+
         $sql = 'SELECT COUNT(*) FROM notification WHERE user = ? AND seen = 0';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $userId);
+        $stmt->bind_param('i', $user['id']);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
+        return $result->fetch_assoc()['COUNT(*)'] ?? 0;
     }
+
+
 
     ////////////////////////////////
     // Community related queries  //
     ////////////////////////////////
 
-    public function addCommunity($authorId, $name, $description) {
-        $sql = 'INSERT INTO community (author, name, description, creation_date) VALUES (?, ?, ?, NOW())';
+    /**
+     * Create a new community on the database
+     * @param int|string $author the id, email or username of user creating the community
+     * @param string $communityName the name of the community
+     * @param string $description the description of the community
+     * @return bool true if the community was created, false otherwise
+     */
+    public function addCommunity(int|string $author, string $communityName, string $description): bool {
+        $user = $this->getUser($author);
+        if ($user == null || empty($communityName) || empty($description)) {
+            return false;
+        }
+
+        $sql = 'INSERT IGNORE INTO community (author, name, description, creation_date) VALUES (?, ?, ?, NOW())';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('iss', $authorId, $name, $description);
-        return $stmt->execute();
+        $stmt->bind_param('iss', $user['id'], $communityName, $description);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function updateCommunity($communityId, $description) {
+    /***
+     * Get communities from a list of ids or names
+     * @param int[]|string[] $communities the ids or names of the communities to get, if null get all communities
+     * @param int $limit amount of communities (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array empty if there are no communities with the given ids or names
+     */
+    public function getCommunities(array $communities = null, $limit = 0, $offset = 0): array {
+        if (empty($communities)) {
+            $array = [1];
+            $is_int = true;
+            $count = 1;
+            $search_for = '?';
+        } else {
+            $array = $communities;
+            $is_int = is_numeric($array[0]);
+            $count = count($array);
+            $in = str_repeat('?,', $count - 1).'?';
+            $search_for = ($is_int ? 'id' : 'name')." IN ($in)";
+        }
+
+        $sql = "SELECT * FROM community WHERE $search_for".($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
+        $stmt = $this->db->prepare($sql);
+
+        $types = str_repeat($is_int ? 'i' : 's', $count).($limit > 0 ? 'ii' : '');
+        $params = [...$array];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Get a community from its id or name
+     * @param int|string $community the id or name of the community to get
+     * @return array|null null if there is no community with the given id or name
+     */
+    public function getCommunity(int|string $community): array|null {
+        return $this->getCommunities([$community], limit: 1)[0] ?? null;
+    }
+
+    /**
+     * Update an existing community
+     * @param int|string $community the id or name of the community to update
+     * @param string|null $description the new description of the community
+     * @return bool true if the community was updated, false otherwise
+     */
+    public function updateCommunity(int|string $community, string $description = null): bool {
+        $community = $this->getCommunity($community);
+        if ($community == null) {
+            return false;
+        }
+
         $sql = 'UPDATE community SET description = ? WHERE id = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('si', $description, $communityId);
-        return $stmt->execute();
+        $stmt->bind_param('si', $description ?? $community['description'], $community['id']);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function deleteCommunity($communityId) {
+    /**
+     * Delete an existing community
+     * @param int|string $community the id or name of the community to delete
+     * @return bool true if the community was deleted, false otherwise
+     */
+    public function deleteCommunity(int|string $community): bool {
+        $community = $this->getCommunity($community);
+        if ($community == null) {
+            return false;
+        }
+
         $sql = 'DELETE FROM community WHERE id = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $communityId);
-        return $stmt->execute();
+        $stmt->bind_param('i', $community['id']);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function getCommunity($communityId_or_communityName) {
-        if (is_numeric($communityId_or_communityName)) {
-            $sql = 'SELECT * FROM community WHERE id = ?';
-            $stmt = $this->db->prepare($sql);
-            $stmt->bind_param('i', $communityId_or_communityName);
-        } else {
-            $sql = 'SELECT * FROM community WHERE name = ?';
-            $stmt = $this->db->prepare($sql);
-            $stmt->bind_param('s', $communityId_or_communityName);
-        }
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getCommunities(Array $communityIds) {
-        $in = str_repeat('?,', count($communityIds) - 1) . '?';
-        $sql = 'SELECT * FROM community WHERE id IN ($in)';
+    /**
+     * Get random communities
+     * @param int $limit amount of communities (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array empty if there are no communities
+     */
+    public function getRandomCommunities($limit = 10, $offset = 0): array {
+        $sql = 'SELECT * FROM community ORDER BY RAND() LIMIT ? OFFSET ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param(str_repeat('i', count($communityIds)), ...$communityIds);
+        $stmt->bind_param('ii', $limit, $offset);
         $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function joinCommunity($userId, $communityId) {
-        // check if user is already participating in the community
-        $isAlreadyParticipating = $this->isParticipating($userId, $communityId);
-        if ($isAlreadyParticipating) {
+    /**
+     * Check if a user is participating in a community
+     * @param int|string $user the id, username or email of the user
+     * @param int|string $community the id or name of the community
+     * @return bool true if the user is participating in the community, false otherwise
+     */
+    public function isParticipating(int|string $user, int|string $community): bool {
+        $user = $this->getUser($user);
+        $community = $this->getCommunity($community);
+        if ($user == null || $community == null) {
             return false;
         }
-        // if not, add him to the community
+
+        $sql = 'SELECT COUNT(*) FROM participation WHERE user = ? AND community = ? AND date_left IS NULL';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('ii', $user['id'], $community['id']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['COUNT(*)'] > 0;
+    }
+
+    /**
+     * Make a user participate in a community
+     * @param int|string $user the id, username or email of the user
+     * @param int|string $community the id or name of the community
+     * @return bool true if the user is participating in the community, false otherwise
+     */
+    public function joinCommunity(int|string $user, int|string $community): bool {
+        $isAlreadyParticipating = $this->isParticipating($user, $community);
+        $user = $this->getUser($user);
+        $community = $this->getCommunity($community);
+        if ($user == null || $community == null || $isAlreadyParticipating) {
+            return false;
+        }
+
         $sql = 'INSERT INTO participation (user, community, date_joined) VALUES (?, ?, NOW())';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ii', $userId, $communityId);
-        return $stmt->execute();
+        $stmt->bind_param('ii', $user['id'], $community['id']);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function leaveCommunity($userId, $communityId, $reason = 'no reason given') {
-        // check if user is participating in the community, if not return 0
-        $isAlreadyParticipating = $this->isParticipating($userId, $communityId);
-        if (!$isAlreadyParticipating) {
+    /**
+     * Make a user leave a community
+     * @param int|string $user the id, username or email of the user
+     * @param int|string $community the id or name of the community
+     * @param string $reason the reason why the user left the community
+     * @return bool true if the user is participating in the community, false otherwise
+     */
+    public function leaveCommunity(int|string $user, int|string $community, string $reason = 'no reason given'): bool {
+        $isAlreadyParticipating = $this->isParticipating($user, $community);
+        $user = $this->getUser($user);
+        $community = $this->getCommunity($community);
+        if ($user == null || $community == null || !$isAlreadyParticipating) {
             return false;
         }
-        // if he is, update his participation by setting the date_left and reason_left
-        $sql = 'UPDATE participation SET date_left = NOW(), reason_left = ? WHERE user = ? AND community = ? AND date_left IS NULL ORDER BY date_joined DESC LIMIT 1';
+
+        $sql = 'UPDATE participation SET date_left = NOW(), reason_left = ?
+                WHERE user = ? AND community = ? AND date_left IS NULL
+                ORDER BY date_joined DESC LIMIT 1';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('sii', $reason, $userId, $communityId);
-        return $stmt->execute();
+        $stmt->bind_param('sii', $reason, $user['id'], $community['id']);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function isParticipating($userId, $communityId) {
-        $sql = 'SELECT * FROM participation WHERE user = ? AND community = ? AND date_left IS NULL';
+    /**
+     * Get the amount of users participating in a community
+     * @param int|string $community the id or name of the community
+     * @return int the amount of users participating in the community
+     */
+    public function getCommunityUserCount(int|string $community): int {
+        $community = $this->getCommunity($community);
+        if ($community == null) {
+            return 0;
+        }
+
+        $sql = 'SELECT COUNT(DISTINCT user) FROM participation WHERE community = ? AND date_left IS NULL';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ii', $userId, $communityId);
+        $stmt->bind_param('i', $community['id']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['COUNT(*)'] ?? 0;
+    }
+
+    /**
+     * Get the communities a user is participating in
+     * @param int|string $user the id, email or username of the user
+     * @param int $limit amount of communities (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array empty if the user is not participating in any community
+     */
+    public function getParticipatingCommunities(int|string $user, $limit = 0, $offset = 0): array {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return [];
+        }
+
+        $sql = 'SELECT community.*
+                FROM community INNER JOIN participation ON community.id = participation.community
+                WHERE participation.user = ? AND participation.date_left IS NULL'
+                .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
+        $stmt = $this->db->prepare($sql);
+        $types = 'i'.($limit > 0 ? 'ii' : '');
+        $params = [$user['id']];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+
+    ///////////////////////////
+    // Post related queries  //
+    ///////////////////////////
+
+    /**
+     * Create a new post on the database
+     * @param int $author id, email or username of the user who created the post
+     * @param int $community id or name of the community where the post will be posted
+     * @param string $title title of the post
+     * @param string $content content of the post
+     * @return bool false if keys checks fail, true otherwise
+     */
+    public function addPost(int|string $author, int|string $community, string $title, string $content): bool {
+        $author = $this->getUser($author);
+        $community = $this->getCommunity($community);
+        if ($author == null || $community == null || empty($title) || empty($content)) {
+            return false;
+        }
+
+        $sql = 'INSERT IGNORE INTO post (author, community, title, content, creation_date) VALUES (?, ?, ?, ?, NOW())';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('iiss', $author['id'], $community['id'], $title, $content);
+        return $stmt->execute() && $stmt->affected_rows > 0;
+    }
+
+    /**
+     * Get posts from a list of postIDs
+     * @param int[] $postIds list of post ids
+     * @param int $limit amount of posts (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array empty if there are no posts with those ids
+     */
+    public function getPosts(array $postIds, int $limit = 0, int $offset = 0): array {
+        $array = $postIds;
+        if (empty($array)) {
+            return [];
+        }
+
+        $count = count($array);
+        $in = str_repeat('?,', $count - 1).'?';
+        $search_for = "id IN ($in)";
+        $sql = "SELECT * FROM post WHERE $search_for".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
+        $stmt = $this->db->prepare($sql);
+
+        $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
+        $params = [...$array];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Get a post given its id
+     * @param int $postId id of the post to get
+     * @return array|null null if the post doesn't exist
+     */
+    public function getPost(int $postId): array|null {
+        return $this->getPosts([$postId], limit: 1)[0] ?? null;
+    }
+
+    /**
+     * Update an existing post's title and/or content
+     * The values left null will not be updated
+     * @param int $postId id of the post to update
+     * @param string|null $title new title
+     * @param string|null $content new content
+     * @return bool false if the post doesn't exist, true otherwise
+     */
+    public function updatePost(int $postId, string $title = null, string $content = null): bool {
+        $post = $this->getPost($postId);
+        if ($post == null) {
+            return false;
+        }
+
+        $sql = 'UPDATE post SET title = ?, content = ?, edited = 1 WHERE id = ?';
+        $stmt = $this->db->prepare($sql);
+        echo $title ?? $post['title'], $content ?? $post['content'], $post['id'];
+        $params = [$title ?? $post['title'], $content ?? $post['content'], $post['id']];
+        $stmt->bind_param('ssi', ...$params);
+        return $stmt->execute() && $stmt->affected_rows > 0;
+    }
+
+    /**
+     * Delete an existing post
+     * @param int $postId id of the post to delete
+     * @return bool false if the post doesn't exist, true otherwise
+     */
+    public function deletePost(int $postId): bool {
+        $post = $this->getPost($postId);
+        if ($post == null) {
+            return false;
+        }
+
+        $sql = 'DELETE FROM post WHERE id = ?';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('i', $post['id']);
+        return $stmt->execute() && $stmt->affected_rows > 0;
+    }
+
+    /**
+     * Get random posts from every community
+     * @param int $limit amount of posts (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array empty if there are no posts
+     */
+    public function getRandomPosts(int $limit = 10, int $offset = 0): array {
+        $sql = 'SELECT * FROM post ORDER BY RAND() LIMIT ? OFFSET ?';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('ii', $limit, $offset);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Get the latest posts from a list of communityIds
+     * If both arrays are passed, the ids will be used
+     * if both are null, the result will be an empty array
+     * @param int[]|string[] $communities list of community ids or names
+     * @param int $limit amount of posts (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array empty if there are no posts from those communities
+     */
+    public function getPostsByCommunities(array $communities, int $limit = 0, int $offset = 0): array {
+        $array = array_column($this->getCommunities($communities), 'id');
+        if (empty($array)) {
+            return [];
+        }
+
+        $count = count($array);
+        $in  = str_repeat('?,', $count-1).'?';
+        $sql = "SELECT * FROM post
+                WHERE community IN ($in)
+                ORDER BY creation_date DESC"
+                .($limit > 0 ? " LIMIT ? OFFSET ?" : '');
+        $stmt = $this->db->prepare($sql);
+
+        $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
+        $params = [...$array];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getParticipatingUserCount($communityId) {
-        $sql = 'SELECT COUNT(*) FROM participation WHERE community = ? AND date_left IS NULL';
+    /**
+     * Get the latest posts from a community
+     * @param int|string $community id or name of the community
+     * @param int $limit amount of posts (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array empty if there are no posts from that community
+     */
+    public function getPostsByCommunity(int|string $community, int $limit = 0, int $offset = 0): array {
+        return $this->getPostsByCommunities([$community], $limit, $offset);
+    }
+
+    /**
+     * Get the latest posts from a list of users
+     * @param int[]|string[] $users list of user ids or names
+     * @param int $limit amount of posts (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array empty if there are no posts from those users
+     */
+    public function getPostsByUsers(array $users, int $limit = 0, int $offset = 0): array {
+        $array = array_column($this->getUsers($users), 'id');
+        if (empty($array)) {
+            return [];
+        }
+
+        $count = count($array);
+        $in  = str_repeat('?,', $count-1).'?';
+        $sql = "SELECT * FROM post WHERE author IN ($in) ORDER BY creation_date DESC".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $communityId);
+
+        $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
+        $params = [...$array];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Get the latest posts from a user
+     * @param int|string $user id, email or username of the user
+     * @param int $limit amount of posts (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array empty if there are no posts from that user
+     */
+    public function getPostsByUser(int|string $user, int $limit = 0, int $offset = 0): array {
+        return $this->getPostsByUsers([$user], $limit, $offset);
+    }
+
+    /**
+     * Get the vote of a user for a post
+     * @param int|string $user id, name or email of the user
+     * @param int $postId id of the post
+     * @return int vote value (0 = no vote, 1 = upvote, -1 = downvote)
+     */
+    public function getUserPostVote(int|string $user, int $postId): int {
+        $user = $this->getUser($user);
+        $post = $this->getPost($postId);
+        if ($user == null || $post == null) {
+            return 0;
+        }
+
+        $sql = 'SELECT vote FROM vote_post WHERE user = ? AND post = ?';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('ii', $user['id'], $post['id']);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
+        return $result->fetch_assoc()['vote'] ?? 0;
     }
+
+    /**
+     * Set a vote for a post
+     * If the same vote is already in the database, the vote is set back to 0
+     * @param int|string $user id, name or email of the user
+     * @param int $postId id of the post to vote
+     * @param int $vote vote value (0 = no vote, 1 = upvote, -1 = downvote)
+     * @return bool false if the post or user don't exist, true otherwise
+     */
+    public function votePost(int|string $user, int $postId, int $vote = 0): bool {
+        $user = $this->getUser($user);
+        $post = $this->getPost($postId);
+        if ($user == null || $post == null) {
+            return false;
+        }
+
+        // check if the user already voted on this post
+        $currentVote = $this->getUserPostVote($user['id'], $post['id']);
+        // if the vote passed is the same as the current vote, set the vote to 0
+        $vote = $currentVote == $vote ? 0 : $vote;
+
+        if ($vote == 0) {
+            //delete the vote on the database
+            $sql = 'DELETE FROM vote_post WHERE user = ? AND post = ?';
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param('ii', $user['id'], $post['id']);
+        } else {
+            //insert or update the vote on the database
+            $sql = 'INSERT INTO vote_post (user, post, vote) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE vote = ?';
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param('iiii', $user['id'], $post['id'], $vote, $vote);
+        }
+        return $stmt->execute() && $stmt->affected_rows > 0;
+    }
+
+    /**
+     * Get the rating (sum of votes) of a post
+     * @param int $postId id of the post
+     * @return int sum of upvotes and downvotes, 0 if the post doesn't exist
+     */
+    public function getPostVote(int $postId): int {
+        $sql = 'SELECT SUM(vote) FROM vote_post WHERE post = ?';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('i', $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['SUM(vote)'] ?? 0;
+    }
+
+
 
     //////////////////////////////
     // Comment related queries  //
     //////////////////////////////
 
-    public function addComment($postId, $authorId, $content) {
+    /**
+     * Add a comment to a post by a user
+     * @param int $post the id of the post
+     * @param int|string $author the id, username or email of the user who wrote the comment
+     * @param string $content the content of the comment
+     * @return bool true if the comment was added, false otherwise
+     */
+    public function addComment(int $post, int|string $author, string $content): bool {
+        $author = $this->getUser($author);
+        if ($post == null || $author == null || empty($content)) {
+            return false;
+        }
+
         $sql = 'INSERT INTO comment (author, post, content, creation_date) VALUES (?, ?, ?, NOW())';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('iis', $authorId, $postId, $content);
-        return $stmt->execute();
+        $stmt->bind_param('iis', $author['id'], $post, $content);
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function deleteComment($commentId) {
-        $sql = 'DELETE FROM comment WHERE id = ?';
+    /**
+     * Get comments from a list of ids
+     * @param int[] $commentIds the ids of the comments
+     * @param int $limit amount of comments (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array the comments with the given ids
+     */
+    public function getComments(array $commentIds, int $limit = 0, int $offset = 0): array {
+        $array = $commentIds;
+        if (empty($array)) {
+            return [];
+        }
+
+        $count = count($array);
+        $in = str_repeat('?,', $count - 1).'?';
+        $search_for = "id IN ($in)";
+        $sql = "SELECT * FROM comment WHERE $search_for".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $commentId);
-        return $stmt->execute();
+
+        $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
+        $params = [...$array];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function updateComment($commentId, $content) {
+    /**
+     * Get a comment by its id
+     * @param int $commentId the id of the comment
+     * @return array|null the comment with the given id, null if it doesn't exist
+     */
+    public function getComment(int $commentId): array|null {
+        return $this->getComments([$commentId], 1)[0] ?? null;
+    }
+
+    /**
+     * Update an existing comment's content
+     * @param int $commentId the id of the comment
+     * @param string $content the new content of the comment
+     * @return bool true if the comment was updated, false otherwise
+     */
+    public function updateComment(int $commentId, string $content): bool {
+        $comment = $this->getComment($commentId);
+        if ($comment == null || empty($content)) {
+            return false;
+        }
+
         $sql = 'UPDATE comment SET edited = 1, content = ? WHERE id = ?';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('si', $content, $commentId);
-        return $stmt->execute();
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    public function getCommentsByPost($postId) {
-        $sql = 'SELECT * FROM comment WHERE post = ?';
+    /**
+     * Delete an existing comment
+     * @param int $commentId the id of the comment
+     * @return bool true if the comment was deleted, false otherwise
+     */
+    public function deleteComment(int $commentId): bool {
+        $comment = $this->getComment($commentId);
+        if ($comment == null) {
+            return false;
+        }
+
+        $sql = 'DELETE FROM comment WHERE id = ?';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('i', $comment['id']);
+        return $stmt->execute() && $stmt->affected_rows > 0;
+    }
+
+    /**
+     * Get comments of multiple posts
+     * @param int[] $postIds the ids of the posts
+     * @param int $limit amount of comments (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array the comments
+     */
+    public function getCommentsByPosts(array $postIds, int $limit = 0, int $offset = 0): array {
+        $array = $postIds;
+        if (empty($array)) {
+            return [];
+        }
+
+        $count = count($array);
+        $in = str_repeat('?,', $count - 1).'?';
+        $search_for = "post IN ($in)";
+        $sql = "SELECT * FROM comment WHERE $search_for ORDER BY creation_date DESC".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
+        $stmt = $this->db->prepare($sql);
+
+        $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
+        $params = [...$array];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Get comments of a post
+     * @param int $postId the id of the post
+     * @param int $limit amount of comments (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array the comments
+     */
+    public function getCommentsByPost(int $postId, int $limit = 0, int $offset = 0): array {
+        return $this->getCommentsByPosts([$postId], $limit, $offset);
+    }
+
+    /**
+     * Get the number of comments for a post
+     * @param int $postId id of the post
+     * @return int number of comments, 0 if the post doesn't exist
+     */
+    public function getCommentCountByPost(int $postId): int {
+        $sql = 'SELECT COUNT(*) FROM comment WHERE post = ?';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('i', $postId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result->fetch_assoc()['COUNT(*)'] ?? 0;
     }
 
-    public function getCommentsByUser($userId) {
-        $sql = 'SELECT * FROM comment WHERE author = ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function voteComment($commentId, $userId, $vote = 0) {
-        // check if same vote is already in database, if so, set vote to 0
-        $sql = 'SELECT * FROM vote_comment WHERE user = ? AND comment = ? AND vote = ?';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('iii', $userId, $commentId, $vote);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->fetch_all(MYSQLI_ASSOC)) {
-            $vote = 0;
+    /**
+     * Get comments made from a list of users
+     * @param int[]|string[] $users the ids, usernames or emails of the users
+     * @param int $limit amount of comments (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array the comments
+     */
+    public function getCommentsByUsers(array $users, int $limit = 0, int $offset = 0): array {
+        $array = array_column($this->getUsers($users), 'id');
+        if (empty($array)) {
+            return [];
         }
-        // insert or update vote
-        $sql = 'INSERT INTO vote_comment (user, comment, vote) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE vote = ?';
+
+        $count = count($array);
+        $in = str_repeat('?,', $count - 1).'?';
+        $search_for = "author IN ($in)";
+        $sql = "SELECT * FROM comment WHERE $search_for ORDER BY creation_date DESC".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('iiii', $userId, $commentId, $vote, $vote);
-        return $stmt->execute();
+
+        $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
+        $params = [...$array];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getCommentLikes($commentId) {
-        $sql = 'SELECT COUNT(*) FROM vote_comment WHERE comment = ? AND vote = 1';
+    /**
+     * Get comments made from a user
+     * @param int|string $user the id, username or email of the user
+     * @param int $limit amount of comments (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array the comments
+     */
+    public function getCommentsByUser(int|string $user, int $limit = 0, int $offset = 0): array {
+        return $this->getCommentsByUsers([$user], $limit, $offset);
+    }
+
+    /**
+     * Get the number of comments made from a user
+     * @param int|string $user the id, username or email of the user
+     * @return int number of comments, 0 if the user doesn't exist
+     */
+    public function getCommentCountByUser(int|string $user): int {
+        $user = $this->getUser($user);
+        if ($user == null) {
+            return 0;
+        }
+
+        $sql = 'SELECT COUNT(*) FROM comment WHERE author = ?';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('i', $user['id']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['COUNT(*)'] ?? 0;
+    }
+
+    /**
+     * Get the vote of a user for a comment
+     * @param int|string $user the id, username or email of the user
+     * @param int $commentId the id of the comment
+     * @return int vote value (0 = no vote, 1 = upvote, -1 = downvote)
+     */
+    public function getUserCommentVote(int|string $user, int $commentId): int {
+        $user = $this->getUser($user);
+        $comment = $this->getComment($commentId);
+        if ($user == null || $comment == null) {
+            return 0;
+        }
+
+        $sql = 'SELECT vote FROM vote_comment WHERE user = ? AND comment = ?';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('ii', $user['id'], $comment['id']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['vote'] ?? 0;
+    }
+
+
+    /**
+     * Set a vote for a comment
+     * If the same vote is already in the database, the vote is set back to 0
+     * @param int|string $user id, name or email of the user
+     * @param int $commentId id of the comment to vote
+     * @param int $vote vote value (0 = no vote, 1 = upvote, -1 = downvote)
+     * @return bool false if the comment or user don't exist, true otherwise
+     */
+    public function voteComment(int|string $user, int $commentId, int $vote): bool {
+        $user = $this->getUser($user);
+        $comment = $this->getComment($commentId);
+        if ($user == null || $comment == null) {
+            return false;
+        }
+
+        $currentVote = $this->getUserCommentVote($user['id'], $commentId);
+        $vote = $currentVote == $vote ? 0 : $vote;
+
+        if ($vote == 0) {
+            $sql = 'DELETE FROM vote_comment WHERE user = ? AND comment = ?';
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param('ii', $user['id'], $comment['id']);
+        } else {
+            $sql = 'INSERT INTO vote_comment (user, comment, vote) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE vote = ?';
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param('iiii', $user['id'], $comment['id'], $vote, $vote);
+        }
+        return $stmt->execute() && $stmt->affected_rows > 0;
+    }
+
+    /**
+     * Get the rating (sum of votes) of a comment
+     * @param int $commentId the id of the comment
+     * @return int sum of upvotes and downvotes, 0 if the comment doesn't exist
+     */
+    public function getCommentVote(int $commentId): int {
+        $sql = 'SELECT SUM(vote) FROM vote_comment WHERE comment = ?';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('i', $commentId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
-    }
-
-    public function getCommentDislikes($commentId) {
-        $sql = 'SELECT COUNT(*) FROM vote_comment WHERE comment = ? AND vote = -1';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $commentId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['COUNT(*)'];
+        return $result->fetch_assoc()['SUM(vote)'] ?? 0;
     }
 }
