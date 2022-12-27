@@ -1,10 +1,6 @@
 import asyncCall from "./default-ajax.js";
 import generatePostHTML from './base-posts.js';
 
-//the buttons need to redirect to the login page
-const buttons = document.querySelectorAll('.buttons');
-buttons.forEach((button) => button.addEventListener('click', () => window.location.href = './login.php'));
-
 //the div where the posts will be shown
 const spacePosts = document.querySelector('.space');
 
