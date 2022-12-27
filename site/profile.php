@@ -6,7 +6,8 @@ require_once 'pre-checks.php';
 
 $templateParams['title'] = 'Reddint - Profile';
 $templateParams['fileName'] = 'profile-page.php';
-$user = $dbh->getUser($_SESSION['userId']);
+
+$user = $dbh->getUser($_GET['username']);
 
 $templateParams['userUsername'] = $user['username'];
 $templateParams['userBio'] = $user['bio'];

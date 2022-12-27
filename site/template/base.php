@@ -12,7 +12,7 @@
         <div class='navbar'>
             <h1>Reddint</h1>
             <ul>
-                <li><a href='profile.php'>Profile</a></li>
+                <li><a href=<?php echo 'profile.php' . (isset($_SESSION['username']) ? '?username=' . $_SESSION['username'] : ''); ?>>Profile</a></li>
                 <li><a href='notification.php'>Notifications</a></li>
                 <li><a href='settings.php'>Settings</a></li>
             </ul>
@@ -29,6 +29,7 @@
         }
         ?>
     </main>
-    <script src='<?php echo 'js/'.$templateParams['scriptFileName'] ?? ''; ?>' type='module'></script>
+    <script src='<?php echo 'js/' . $templateParams['scriptFileName'] ?? ''; ?>' type='module'></script>
 </body>
+
 </html>
