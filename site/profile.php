@@ -13,8 +13,8 @@ $templateParams['userUsername'] = $user['username'];
 $templateParams['userBio'] = $user['bio'];
 $templateParams['userCreationDate'] = $user['creation_date'];
 
-$templateParams['followersCount'] = $dbh->getFollowersCount($_SESSION['userId']);
-$templateParams['followingCount'] = $dbh->getFollowedCount($_SESSION['userId']);
+$templateParams['followersCount'] = $dbh->getFollowersCount($user['id']);
+$templateParams['followingCount'] = $dbh->getFollowedCount($user['id']);
 
 $templateParams['scriptFileName'] = 'fetch-profile-content.js';
 
