@@ -1,6 +1,6 @@
 <?php
 
-function generateJson($comments, $dbh){
+function generateJson(array $comments, DatabaseHelper $dbh): string {
     $json = array();
     foreach ($comments as $comment) {
         $jsonComment = array();

@@ -1,6 +1,6 @@
 <?php
 
-function generateJson($posts, $dbh){
+function generateJson(array $posts, DatabaseHelper $dbh): string {
     $json = array();
     foreach ($posts as $post) {
         $jsonPosts = array();
