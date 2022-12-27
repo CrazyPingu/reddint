@@ -11,7 +11,7 @@ function generateJson($posts, $dbh){
         $jsonPosts['content'] = $post['content'];
         $jsonPosts['postId'] = $post['id'];
         $jsonPosts['postVote'] = isset($_SESSION['userId']) ? $dbh->getUserPostVote($_SESSION['userId'], $post['id']) : 0;
-        $jsonPosts['numComments'] = $dbh->getPostNumberOfComments($post['id']);
+        $jsonPosts['numComments'] = $dbh->getCommentCountByPost($post['id']);
         $jsonPosts['numVotes'] = $dbh->getPostVote($post['id']);
 
         array_push($json, $jsonPosts);
