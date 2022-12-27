@@ -1,5 +1,5 @@
 import asyncCall from "./default-ajax.js";
-import generatePostHTML from './base-post.js';
+import generatePostHTML from './base-posts.js';
 
 //the buttons need to redirect to the login page
 const buttons = document.querySelectorAll('.buttons');
