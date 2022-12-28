@@ -17,7 +17,7 @@ let page = '';
 buttonUsers.addEventListener('click', () => {
     if (lastSelected === 'users') return;
     asyncRequest('home-users-posts.php', (response) => {
-        space.innerHTML = generatePostHTML(JSON.parse(response));
+        space.innerHTML = generatePostHTML(response);
     }, {offset: 0});
     offset = baseOffset;
     lastSelected = 'users';
@@ -26,7 +26,7 @@ buttonUsers.addEventListener('click', () => {
 buttonCommunities.addEventListener('click', () => {
     if (lastSelected === 'communities') return;
     asyncRequest('home-communities-posts.php', (response) => {
-        space.innerHTML = generatePostHTML(JSON.parse(response));
+        space.innerHTML = generatePostHTML(response);
     }, {offset: 0});
     offset = baseOffset;
     lastSelected = 'communities';
@@ -36,7 +36,7 @@ space.addEventListener('scroll', () => {
     if (space.scrollTop >= (space.scrollHeight - space.offsetHeight)) {
         lastSelected === 'users' ? page='home-users-posts.php' : page='home-communities-posts.php';
         asyncRequest(page, (response) => {
-            space.innerHTML += generatePostHTML(JSON.parse(response));
+            space.innerHTML += generatePostHTML(response);
         }, {offset: offset});
     }
     offset += baseOffset;
