@@ -1,4 +1,4 @@
-import asyncCall from "./default-ajax.js";
+import asyncRequest from "./default-ajax.js";
 import generatePostHTML from './base-posts.js';
 
 //the buttons
@@ -16,7 +16,7 @@ let page = '';
 
 buttonUsers.addEventListener('click', () => {
     if (lastSelected === 'users') return;
-    asyncCall('home-users-posts.php', (response) => {
+    asyncRequest('home-users-posts.php', (response) => {
         spacePosts.innerHTML = generatePostHTML(JSON.parse(response));
     }, {offset: 0});
     offset = baseOffset;
@@ -25,7 +25,7 @@ buttonUsers.addEventListener('click', () => {
 
 buttonCommunities.addEventListener('click', () => {
     if (lastSelected === 'communities') return;
-    asyncCall('home-communities-posts.php', (response) => {
+    asyncRequest('home-communities-posts.php', (response) => {
         spacePosts.innerHTML = generatePostHTML(JSON.parse(response));
     }, {offset: 0});
     offset = baseOffset;
@@ -35,7 +35,7 @@ buttonCommunities.addEventListener('click', () => {
 spacePosts.addEventListener('scroll', () => {
     if (spacePosts.scrollTop >= (spacePosts.scrollHeight - spacePosts.offsetHeight)) {
         lastSelected === 'users' ? page='home-users-posts.php' : page='home-communities-posts.php';
-        asyncCall(page, (response) => {
+        asyncRequest(page, (response) => {
             spacePosts.innerHTML += generatePostHTML(JSON.parse(response));
         }, {offset: offset});
     }

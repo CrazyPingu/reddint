@@ -1,4 +1,4 @@
-function asyncCall(fileName, callback = () => { }, args = null, contentType = 'application/x-www-form-urlencoded') {
+function asyncRequest(fileName, callback = () => { }, args = null, contentType = 'application/x-www-form-urlencoded') {
     let jsonArgs = args ? JSON.stringify(args) : null;
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -11,4 +11,4 @@ function asyncCall(fileName, callback = () => { }, args = null, contentType = 'a
     xhttp.send(jsonArgs ? 'args=' + jsonArgs : '');
 }
 
-export default asyncCall;
+export default asyncRequest;
