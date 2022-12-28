@@ -1,6 +1,6 @@
 <?php
 
-function generatePosts(array $posts, DatabaseHelper $dbh): string {
+function generatePosts(array $posts, DatabaseHelper $dbh): string|false {
     $json = array();
     foreach ($posts as $post) {
         $jsonPosts = array();
@@ -20,7 +20,7 @@ function generatePosts(array $posts, DatabaseHelper $dbh): string {
     return json_encode($json);
 }
 
-function generateComments(array $comments, DatabaseHelper $dbh): string {
+function generateComments(array $comments, DatabaseHelper $dbh): string|false {
     $json = array();
     foreach ($comments as $comment) {
         $jsonComment = array();
