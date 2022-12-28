@@ -3,22 +3,22 @@ function generateCommentHTML(data) {
     data.forEach(element => {
         html += `
             <div class="commentAuthorDate" id="${element['commentId']}">
-                <a name="author" id="author" href="../profile.php?username=${element['username']}">${element['username']}</a>
-                <p name="date" id="date">${element['creationDate']}</p>
+                <a href="./profile.php?username=${element['username']}">${element['username']}</a>
+                <p>${element['creationDate']}</p>
             </div>
-            <p name="text" id="text" class="commentText">${element['content']}</p>
+            <p class="commentText">${element['content']}</p>
             <div class="vote">`;
             if (element['commentUserVote'] == 1) {
-                html += `<button name="upvote" id="upvote" class="upvote voted" value="upvote"></button>`;
+                html += `<button class="upvote voted" value="upvote"></button>`;
             }else{
-                html += `<button name="upvote" id="upvote" class="upvote" value="upvote"></button>`;
+                html += `<buttonclass="upvote" value="upvote"></buttonclass=>`;
             }
             html+= `
-            <p name="score" id="score" class="score">'${element['commentVote']}'</p>`;
+            <p class="score">'${element['commentVote']}'</p>`;
             if (element['commentUserVote'] == -1) {
-                html += `<button name="downvote" id="downvote" class="downvote voted" value="downvote"></button>`;
+                html += `<button class="downvote voted" value="downvote"></button>`;
             }else{
-                html += `<button name="downvote" id="downvote" class="downvote" value="downvote"></button>`;
+                html += `<button class="downvote" value="downvote"></button>`;
             }
             html += `</div>`;
     });

@@ -5,25 +5,25 @@ function generatePostHTML(data) {
             <div class="post" id="${element['postId']}">
                 <div class="topPartPost">
                     <div class="communityAuthorLine">
-                        <a name="community" id="community" href="../community.php?community=${element['community']}">${element['community']}</a>
-                        <a name="author" id="author" href="../profile.php?username=${element['username']}">${element['username']}</a>
+                        <a href="./community.php?community=${element['community']}">${element['community']}</a>
+                        <a href="./profile.php?username=${element['username']}">${element['username']}</a>
                     </div>
-                    <p name="date" id="date">${element['creationDate']}</p>
+                    <p>${element['creationDate']}</p>
                 </div>
-                <a name="title" id="title" class="postTitle" href="../post.php?postId=${element['postId']}">${element['title']}</a>
-                <p name="text" id="text" class="postText">${element['content']}</p>
+                <a class="postTitle" href="./post.php?postId=${element['postId']}">${element['title']}</a>
+                <p class="postText">${element['content']}</p>
                 <div class="vote">
         `;
 
-        html += element['postVote'] === 1 ? `<button name="upvote" id="upvote" class="upvote voted" value="upvote"></button>` : `<button name="upvote" id="upvote" class="upvote" value="upvote"></button>`;
+        html += element['postVote'] === 1 ? `<button class="upvote voted" value="upvote"></button>` : `<button class="upvote" value="upvote"></button>`;
 
-        html += `<p name="score" id="score" class="score">${element['numVotes']}</p>`;
+        html += `<p class="score">${element['numVotes']}</p>`;
 
-        html += element['postVote'] === -1 ? `<button name="downvote" id="downvote" class="downvote voted" value="downvote"></button>` : `<button name="downvote" id="downvote" class="downvote" value="downvote"></button>`;
+        html += element['postVote'] === -1 ? `<button class="downvote voted" value="downvote"></button>` : `<button class="downvote" value="downvote"></button>`;
 
         html += `
-                    <a name="comment" id="comment" class="comment" value="comment" href="../post.php?postId=${element['postId']}">comments</a>
-                    <p name="numComments" id="numComments" class="numComments">${element['numComments']}</p>
+                    <a class="comment" href="./post.php?postId=${element['postId']}">comments</a>
+                    <p class="numComments">${element['numComments']}</p>
                 </div>
             </div>
         `;
