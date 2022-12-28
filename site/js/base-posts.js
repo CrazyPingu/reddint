@@ -5,12 +5,12 @@ function generatePostHTML(data) {
             <div class="post" id="${element['postId']}">
                 <div class="topPartPost">
                     <div class="communityAuthorLine">
-                        <a href="./community.php?community=${element['community']}">${element['community']}</a>
-                        <a href="./profile.php?username=${element['username']}">${element['username']}</a>
+                        <a href="./community.php?community=` + encodeURIComponent(element['community']) + `">${element['community']}</a>
+                        <a href="./profile.php?username=` + encodeURIComponent(element['username'])`">${element['username']}</a>
                     </div>
                     <p>${element['creationDate']}</p>
                 </div>
-                <a class="postTitle" href="./post.php?postId=${element['postId']}">${element['title']}</a>
+                <a class="postTitle" href="./post.php?postId=`+ encodeURIComponent(element['postId']) + `">${element['title']}</a>
                 <p class="postText">${element['content']}</p>
                 <div class="vote">
         `;
@@ -22,7 +22,7 @@ function generatePostHTML(data) {
         html += element['postVote'] === -1 ? `<button class="downvote voted" value="downvote"></button>` : `<button class="downvote" value="downvote"></button>`;
 
         html += `
-                    <a class="comment" href="./post.php?postId=${element['postId']}">comments</a>
+                    <a class="comment" href="./post.php?postId=`+ encodeURIComponent(element['postId']) + `">comments</a>
                     <p class="numComments">${element['numComments']}</p>
                 </div>
             </div>
