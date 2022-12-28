@@ -1,7 +1,7 @@
 <?php
 require_once '../bootstrap.php';
-include_once 'generate-posts.php';
+include_once 'generate-json.php';
 
 $posts = $dbh->getRandomPosts();
-echo generateJson($posts, $dbh);
+echo generatePosts($posts, $dbh);
 ?>

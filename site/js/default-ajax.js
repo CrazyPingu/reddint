@@ -1,9 +1,7 @@
 function asyncCall(fileName, callback = () => { }, args = null, contentType = 'application/x-www-form-urlencoded') {
     let jsonArgs = null;
     if(args != null){
-        let name = args.split('=')[0];
-        let value = args.split('=')[1];
-        jsonArgs = JSON.stringify({ [name] : value });
+        jsonArgs = JSON.stringify(args);
     }
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
