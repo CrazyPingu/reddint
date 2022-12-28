@@ -9,16 +9,16 @@ function generateCommentHTML(data) {
             <p name="text" id="text" class="commentText">${element['content']}</p>
             <div class="vote">`;
             if (element['commentUserVote'] == 1) {
-                html += `<button name="upvote" id="upvote" class="upvote voted" value="upvote" />`;
+                html += `<button name="upvote" id="upvote" class="upvote voted" value="upvote"></button>`;
             }else{
-                html += `<button name="upvote" id="upvote" class="upvote" value="upvote" />`;
+                html += `<button name="upvote" id="upvote" class="upvote" value="upvote"></button>`;
             }
             html+= `
             <p name="score" id="score" class="score">'${element['commentVote']}'</p>`;
             if (element['commentUserVote'] == -1) {
-                html += `<button name="downvote" id="downvote" class="downvote voted" value="downvote" />`;
+                html += `<button name="downvote" id="downvote" class="downvote voted" value="downvote"></button>`;
             }else{
-                html += `<button name="downvote" id="downvote" class="downvote" value="downvote" />`;
+                html += `<button name="downvote" id="downvote" class="downvote" value="downvote"></button>`;
             }
             html += `</div>`;
     });
