@@ -18,7 +18,7 @@ buttonUsers.addEventListener('click', () => {
     if (lastSelected === 'users') return;
     asyncCall('home-users-posts.php', (response) => {
         spacePosts.innerHTML = generatePostHTML(JSON.parse(response));
-    }, 'offset=0')
+    }, 'offset=0');
     offset = baseOffset;
     lastSelected = 'users';
 });
@@ -27,7 +27,7 @@ buttonCommunities.addEventListener('click', () => {
     if (lastSelected === 'communities') return;
     asyncCall('home-communities-posts.php', (response) => {
         spacePosts.innerHTML = generatePostHTML(JSON.parse(response));
-    }, 'offset=0')
+    }, 'offset=0');
     offset = baseOffset;
     lastSelected = 'communities';
 });
@@ -37,7 +37,7 @@ spacePosts.addEventListener('scroll', () => {
         lastSelected === 'users' ? page='home-users-posts.php' : page='home-communities-posts.php';
         asyncCall(page, (response) => {
             spacePosts.innerHTML += generatePostHTML(JSON.parse(response));
-        }, 'offset=' + offset)
+        }, 'offset=' + offset);
     }
     offset += baseOffset;
 });
