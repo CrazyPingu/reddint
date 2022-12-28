@@ -10,7 +10,7 @@
 <body>
     <header>
         <div class='navbar'>
-            <h1>Reddint</h1>
+            <h1><a href='./index.php'>Reddint</a></h1>
             <ul>
                 <li><a href=<?php echo 'profile.php' . (isset($_SESSION['username']) ? '?username=' . $_SESSION['username'] : ''); ?>>Profile</a></li>
                 <li><a href='notification.php'>Notifications</a></li>
