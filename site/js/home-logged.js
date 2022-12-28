@@ -6,7 +6,7 @@ const buttonUsers = document.querySelector('#buttonPostUsers');
 const buttonCommunities = document.querySelector('#buttonPostCommunities');
 
 //the div where the posts will be shown
-const spacePosts = document.querySelector('.space');
+const space = document.querySelector('.space');
 
 //event listeners on click and scroll
 let lastSelected = '';
@@ -17,7 +17,7 @@ let page = '';
 buttonUsers.addEventListener('click', () => {
     if (lastSelected === 'users') return;
     asyncRequest('home-users-posts.php', (response) => {
-        spacePosts.innerHTML = generatePostHTML(JSON.parse(response));
+        space.innerHTML = generatePostHTML(JSON.parse(response));
     }, {offset: 0});
     offset = baseOffset;
     lastSelected = 'users';
@@ -26,17 +26,17 @@ buttonUsers.addEventListener('click', () => {
 buttonCommunities.addEventListener('click', () => {
     if (lastSelected === 'communities') return;
     asyncRequest('home-communities-posts.php', (response) => {
-        spacePosts.innerHTML = generatePostHTML(JSON.parse(response));
+        space.innerHTML = generatePostHTML(JSON.parse(response));
     }, {offset: 0});
     offset = baseOffset;
     lastSelected = 'communities';
 });
 
-spacePosts.addEventListener('scroll', () => {
-    if (spacePosts.scrollTop >= (spacePosts.scrollHeight - spacePosts.offsetHeight)) {
+space.addEventListener('scroll', () => {
+    if (space.scrollTop >= (space.scrollHeight - space.offsetHeight)) {
         lastSelected === 'users' ? page='home-users-posts.php' : page='home-communities-posts.php';
         asyncRequest(page, (response) => {
-            spacePosts.innerHTML += generatePostHTML(JSON.parse(response));
+            space.innerHTML += generatePostHTML(JSON.parse(response));
         }, {offset: offset});
     }
     offset += baseOffset;
