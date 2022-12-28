@@ -14,7 +14,7 @@ function generateCommentHTML(data) {
             html += `<buttonclass="upvote" value="upvote"></buttonclass=>`;
         }
         html += `
-            <p class="score">'${element['commentVote']}'</p>`;
+            <p class="score">${element['commentVote']}</p>`;
         if (element['commentUserVote'] == -1) {
             html += `<button class="downvote voted" value="downvote"></button>`;
         } else {

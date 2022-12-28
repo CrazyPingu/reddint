@@ -5,8 +5,8 @@ function generatePostHTML(data) {
             <div class="post" id="${element['postId']}">
                 <div class="topPartPost">
                     <div class="communityAuthorLine">
-                        <a href="./community.php?community=` + encodeURIComponent(element['community']) + `">${element['community']}</a>
-                        <a href="./profile.php?username=` + encodeURIComponent(element['username'])`">${element['username']}</a>
+                        <a href="./community.php?community=`+ encodeURIComponent(element['community']) + `">${element['community']}</a>
+                        <a href="./profile.php?username=`+ encodeURIComponent(element['username']) + `">${element['username']}</a>
                     </div>
                     <p>${element['creationDate']}</p>
                 </div>
