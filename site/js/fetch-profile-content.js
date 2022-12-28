@@ -1,6 +1,6 @@
 import asyncCall from './default-ajax.js';
 import generateCommentHTML from './base-comments.js';
-import generatePostHTML from './base-post.js';
+import generatePostHTML from './base-posts.js';
 
 const buttonPost = document.getElementById('buttonPost');
 const buttonComment = document.getElementById('buttonComment');
