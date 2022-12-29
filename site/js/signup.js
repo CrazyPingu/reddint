@@ -25,6 +25,7 @@ formTag.addEventListener('submit', (e) => {
             redirect.href = "index.php";
             redirect.innerHTML = "Click here if you are not redirected";
             responseTag.appendChild(redirect);
+            responseTag.appendChild(document.createElement('br'));
 
             // Set a timer to redirect to index.php
             let timer = 5;
