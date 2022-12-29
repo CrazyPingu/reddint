@@ -4,11 +4,6 @@ import asyncRequest from './default-ajax.js';
 const formTag = document.getElementById('signup-form');
 const responseTag = document.getElementById('response');
 
-document.getElementById('email').value = "borgodio@yeshoney";
-document.getElementById('username').value = "borgodio";
-document.getElementById('password').value = "password";
-
-
 formTag.addEventListener('submit', (e) => {
     e.preventDefault(); // Prevent the form from submitting
 
