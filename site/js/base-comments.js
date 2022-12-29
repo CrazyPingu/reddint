@@ -2,13 +2,13 @@ function generateCommentHTML(data) {
     let html = '';
     data.forEach(element => {
         html += `
-            <div class="comment">
-            <div class="commentAuthorDate" id="${element['commentId']}">
-                <a href="./profile.php?username=`+ encodeURIComponent(element['username']) + `">${element['username']}</a>
-                <p>${element['creationDate']}</p>
-            </div>
-            <p class="commentText">${element['content']}</p>
-            <div class="vote">`;
+            <div class="comment" id="${element['commentId']}">
+                <div class="commentAuthorDate">
+                    <a href="./profile.php?username=`+ encodeURIComponent(element['username']) + `">${element['username']}</a>
+                    <p>${element['creationDate']}</p>
+                </div>
+                <p class="commentText">${element['content']}</p>
+                <div class="vote">`;
         if (element['commentUserVote'] == 1) {
             html += `<button class="upvote voted" value="upvote"><img src="./res/upvote.svg" alt="upvote"/></button>`;
         } else {
