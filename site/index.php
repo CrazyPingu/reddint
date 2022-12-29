@@ -1,9 +1,10 @@
 <?php
 require_once 'bootstrap.php';
+require_once 'pre-checks.php';
 
 $templateParams['title'] = 'Reddint - Home';
 $templateParams['fileName'] = 'home.php';
-$templateParams['scriptFileName'] = isset($_SESSION['userId']) && isset($_SESSION['username']) ? 'home-logged.js' : 'home-not-logged.js';
+$templateParams['scriptFileName'] = 'home.js';
 
 require_once 'template/base.php';
 ?>

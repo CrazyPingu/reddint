@@ -1,5 +1,5 @@
 <div class='buttons'>
-    <button type='button' id='buttonPostUsers'>Users</button>
-    <button type='button' id='buttonPostCommunities'>Communities</button>
+    <button id='communitiesPosts'>Communities</button>
+    <button id='usersPosts' <?php if (!$isUserLogged) echo 'disabled'; ?>>Users</button>
 </div>
-<div class='space'></div>
+<div id='postsSpace'></div>
