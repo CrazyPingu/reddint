@@ -1,12 +1,10 @@
-<form action='#' method='POST'>
+<form method='POST' id='login-form'>
     <h2>Login</h2>
-    <?php if (isset($templateParams['loginError'])): ?>
-        <p><?php echo $templateParams['loginError']; ?></p>
-    <?php endif; ?>
     <ul>
-        <li><label for='email'>Email: </label><input type='email' id='email' name='email' /></li>
-        <li><label for='password'>Password: </label><input type='password' id='password' name='password' /></li>
+        <li><label for='email'>Email: </label><input type='email' id='email' name='email' required /></li>
+        <li><label for='password'>Password: </label><input type='password' id='password' name='password' required /></li>
         <li><input type='submit' name='submit' value='Login' /></li>
     </ul>
+    <p id='response'></p>
 </form>
-<a href='./signup.php'>Do you need an account? Sign up now!</a>
+<p>Do you need an account?<a href='./signup.php'>Sign up now!</a></p>
