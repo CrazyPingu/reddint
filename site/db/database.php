@@ -765,10 +765,10 @@ class DatabaseHelper{
      * @return array empty if there are no posts from those users
      */
     public function getPostsByUsers(array $users, int $limit = 0, int $offset = 0): array {
-        $array = array_column($this->getUsers($users), 'id');
-        if (empty($array)) {
+        if (empty($users)) {
             return [];
         }
+        $array = array_column($this->getUsers($users), 'id');
 
         $count = count($array);
         $in  = str_repeat('?,', $count-1).'?';
