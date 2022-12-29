@@ -10,6 +10,10 @@ p {
 .post, .comment {
     margin: 10vmin;
 }
+
+.upvote > img, .downvote > img {
+    width: 2vmin;
+}
 /*
     Navbar
 */
@@ -58,5 +62,9 @@ p {
 
     input[type="text"]{
         width: 65%;
+    }
+
+    .upvote > img, .downvote > img {
+        width: 2vmax;
     }
 }
