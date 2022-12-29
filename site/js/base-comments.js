@@ -12,14 +12,14 @@ function generateCommentHTML(data) {
         if (element['commentUserVote'] == 1) {
             html += `<button class="upvote voted" value="upvote"><img src="./res/upvote.svg" alt="upvote"/></button>`;
         } else {
-            html += `<button class="upvote" value="upvote"><img src="./res/upvote.svg" alt="upvote"/></button>`;
+            html += `<button class="upvote" value="upvote"><img src="./res/up-no-vote.svg" alt="up-no-vote"/></button>`;
         }
         html += `
             <p class="score">${element['commentVote']}</p>`;
         if (element['commentUserVote'] == -1) {
             html += `<button class="downvote voted" value="downvote"><img src="./res/downvote.svg" alt="downvote"/></button>`;
         } else {
-            html += `<button class="downvote" value="downvote"><img src="./res/downvote.svg" alt="downvote"/></button>`;
+            html += `<button class="downvote" value="downvote"><img src="./res/down-no-vote.svg" alt="down-no-vote"/></button>`;
         }
         html += `</div></div>`;
     });
