@@ -2,6 +2,11 @@
 
 require_once 'bootstrap.php';
 
+if(!(isset($_SESSION['username']) && $_SESSION['username'] == $_GET['username'] || isset($_GET['username']))) {
+    header('Location: login.php');
+    exit();
+}
+
 require_once 'pre-checks.php';
 
 $templateParams['title'] = 'Reddint - Profile';

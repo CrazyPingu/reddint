@@ -1,4 +1,4 @@
-<div class='upperProfile'>
+<div class='upperProfile' id='<?php  echo $templateParams['userUsername']; ?>'>
     <h2 id='username'><?php echo $templateParams['userUsername']; ?></h2>
     <div class='rightProfile'>
         <div class='follow'>
