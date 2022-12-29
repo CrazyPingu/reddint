@@ -28,7 +28,8 @@ class DatabaseHelper{
     public function addUser(string $email, string $password, string $username): bool {
         $sql = 'INSERT IGNORE INTO user (email, password, username, creation_date) VALUES (?, ?, ?, NOW())';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('sss', $email, $password, $username);
+        $params = [$email, password_hash($password,PASSWORD_DEFAULT), $username];
+        $stmt->bind_param('sss', ...$params);
         return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
@@ -97,7 +98,7 @@ class DatabaseHelper{
 
         $sql = 'UPDATE user SET email = ?, password = ?, username = ?, bio = ? WHERE id = ?';
         $stmt = $this->db->prepare($sql);
-        $params = [$email ?? $user['email'], $password ?? $user['password'], $username ?? $user['username'], $bio ?? $user['bio'], $user['id']];
+        $params = [$email ?? $user['email'], $password ?? password_hash($user['password'],PASSWORD_DEFAULT), $username ?? $user['username'], $bio ?? $user['bio'], $user['id']];
         $stmt->bind_param('ssssi', ...$params);
         return $stmt->execute() && $stmt->affected_rows > 0;
     }
@@ -126,12 +127,13 @@ class DatabaseHelper{
      * @return array|null array with the user data, null if the credentials are wrong
      */
     public function logUser(string $email, string $password): array|null {
-        $sql = 'SELECT * FROM user WHERE email = ? AND password = ?';
+        $sql = 'SELECT * FROM user WHERE email = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('ss', $email, $password);
+        $stmt->bind_param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $user = $result->fetch_assoc();
+        return $user && password_verify($password, $user['password']) ? $user : null;
     }
 
     /**
