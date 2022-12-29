@@ -723,10 +723,10 @@ class DatabaseHelper{
      * @return array empty if there are no posts from those communities
      */
     public function getPostsByCommunities(array $communities, int $limit = 0, int $offset = 0): array {
-        $array = array_column($this->getCommunities($communities), 'id');
-        if (empty($array)) {
+        if (empty($communities)) {
             return [];
         }
+        $array = array_column($this->getCommunities($communities), 'id');
 
         $count = count($array);
         $in  = str_repeat('?,', $count-1).'?';
