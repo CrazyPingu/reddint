@@ -61,6 +61,12 @@ function generatePost(postData) {
     return post;
 }
 
+function generateElement(response, container, type) {
+    for (let element of response) {
+        container.appendChild(type == 'post' ? generatePost(element): generateComment(element));
+    }
+}
+
 function generateComment(commentData) {
     // Outer comment div
     const comment = Object.assign(document.createElement("div"), {className: 'comment', id: commentData.id});
@@ -103,4 +109,4 @@ function generateComment(commentData) {
     return comment;
 }
 
-export { generatePost, generateComment };
+export { generatePost, generateElement, generateComment };
