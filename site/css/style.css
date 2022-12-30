@@ -11,7 +11,7 @@ p {
     margin: 10vmin;
 }
 
-.upvote > img, .downvote > img {
+img.svg {
     width: 2vmin;
 }
 /*
