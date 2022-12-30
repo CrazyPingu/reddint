@@ -9,8 +9,10 @@ function requestCall(id, type, imgArray, scoreRef, vote) {
         } else if (response.vote == 'no-login') {
             window.location.href = './login.php';
         } else {
-            imgArray[0].src = response.vote <= 0 ? './res/up-no-vote.svg' : './res/upvote.svg';
-            imgArray[1].src = response.vote >= 0 ? './res/down-no-vote.svg' : './res/downvote.svg';
+            imgArray[0].setAttribute('src', response.vote <= 0 ? './res/up-no-vote.svg' : './res/upvote.svg');
+            imgArray[0].setAttribute('alt', response.vote <= 0 ? 'up-no-vote' : 'upvote');
+            imgArray[1].setAttribute('src', response.vote >= 0 ? './res/down-no-vote.svg' : './res/downvote.svg');
+            imgArray[1].setAttribute('alt', response.vote >= 0 ? 'down-no-vote' : 'downvote');
             scoreRef.innerText = response.score;
         }
     }, { vote: vote, id: id, type: type });
