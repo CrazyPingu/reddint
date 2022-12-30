@@ -9,44 +9,44 @@ $limit = $args->limit ?? 1;
 
 $posts = false;
 
-// Return posts from users followed by the user logged in
-if ($type == 'users' && $isUserLogged){
-    $usersFollowed = $dbh->getFollowed($_SESSION['userId']);
-    $posts = $dbh->getPostsByUsers(array_column($usersFollowed, 'id'), $limit, $offset);
-}
-
-// Return posts from a user
-if ($type == 'user'){
-    $userId = $args->userId ?? false;
-    if ($userId){
-        $posts = $dbh->getPostsByUsers([$userId], $limit, $offset);
-    }
-}
-
-// Return posts from communities followed by the user, or random posts if the user is not logged in
-if ($type == 'communities'){
-    if ($isUserLogged){
-        $communitiesFollowed = $dbh->getParticipatingCommunities($_SESSION['userId']);
-        $posts = $dbh->getPostsByCommunities(array_column($communitiesFollowed, 'id'), $limit, $offset);
-    } else {
-        $posts = $dbh->getRandomPosts($limit, $offset);
-    }
-}
-
-// Return posts from a community
-if ($type == 'community'){
-    $communityId = $args->communityId ?? false;
-    if ($communityId){
-        $posts = $dbh->getPostsByCommunities([$communityId], $limit, $offset);
-    }
-}
-
-// Return a single post by id
-if ($type == 'single'){
-    $postId = $args->postId ?? false;
-    if ($postId){
-        $posts = $dbh->getPost($postId);
-    }
+switch ($type) {
+    // Return posts from users followed by the user logged in
+    case 'users':
+        if ($isUserLogged) {
+            $usersFollowed = $dbh->getFollowed($_SESSION['userId']);
+            $posts = $dbh->getPostsByUsers(array_column($usersFollowed, 'id'), $limit, $offset);
+        }
+        break;
+    // Return posts from a user
+    case 'user':
+        $userId = $args->userId ?? false;
+        if ($userId) {
+            $posts = $dbh->getPostsByUsers([$userId], $limit, $offset);
+        }
+        break;
+    // Return posts from communities followed by the user, or random posts if the user is not logged in
+    case 'communities':
+        if ($isUserLogged) {
+            $communitiesFollowed = $dbh->getParticipatingCommunities($_SESSION['userId']);
+            $posts = $dbh->getPostsByCommunities(array_column($communitiesFollowed, 'id'), $limit, $offset);
+        } else {
+            $posts = $dbh->getRandomPosts($limit, $offset);
+        }
+        break;
+    // Return posts from a community
+    case 'community':
+        $communityId = $args->communityId ?? false;
+        if ($communityId) {
+            $posts = $dbh->getPostsByCommunities([$communityId], $limit, $offset);
+        }
+        break;
+    // Return a single post by id
+    case 'single':
+        $postId = $args->postId ?? false;
+        if ($postId) {
+            $posts = $dbh->getPost($postId);
+        }
+        break;
 }
 
 echo json_encode($posts);
