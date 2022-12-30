@@ -1,5 +1,5 @@
 import asyncRequest from "./default-ajax.js";
-import {generateElement} from "./elementGenerators.js";
+import {generateElements} from "./elementGenerators.js";
 
 const postsDiv = document.getElementById('postsSpace');
 let selectedButton = null;
@@ -7,7 +7,7 @@ let offset = 0;
 
 function renderPosts() {
     asyncRequest(`request-posts.php`, (response) => {
-            generateElement(response, postsDiv, 'post');
+            generateElements(response, postsDiv, 'post');
     }, {type: selectedButton.id == 'communitiesPosts' ? 'communities' : 'users',
         offset,
         limit: 10});

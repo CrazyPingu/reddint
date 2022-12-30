@@ -61,7 +61,7 @@ function generatePost(postData) {
     return post;
 }
 
-function generateElement(response, container, type) {
+function generateElements(response, container, type) {
     for (let element of response) {
         container.appendChild(type == 'post' ? generatePost(element): generateComment(element));
     }
@@ -109,4 +109,4 @@ function generateComment(commentData) {
     return comment;
 }
 
-export { generatePost, generateElement, generateComment };
+export { generatePost, generateElements, generateComment };
