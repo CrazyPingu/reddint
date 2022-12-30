@@ -1018,7 +1018,7 @@ class DatabaseHelper{
 
         $count = count($array);
         $in = str_repeat('?,', $count - 1).'?';
-        $search_for = "post ($in)";
+        $search_for = "comment.post IN ($in)";
         $sql = "SELECT comment.id, user.username as author, comment.content, comment.creation_date, comment.edited,
                 (SELECT SUM(vote) FROM vote_comment WHERE comment = comment.id) as vote
                 FROM comment JOIN user ON comment.author = user.id
