@@ -18,7 +18,6 @@ function requestCall(id, type, imgArray, scoreRef, vote) {
 
 function vote(button, idPostComment, type, imgArray, scoreRef) {
     button.addEventListener('click', function () {
-        button.classList.toggle('voted');
         let vote = button.classList.contains('upvote') ? 1 : -1;
         requestCall(idPostComment, type, imgArray, scoreRef, vote);
     });

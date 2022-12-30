@@ -18,13 +18,13 @@ function generatePostHTML(data) {
         `;
 
         html += element['postVote'] === 1 ?
-            `<button class="upvote voted" value="upvote"><img src="./res/upvote.svg" alt="upvote"/></button>` :
+            `<button class="upvote" value="upvote"><img src="./res/upvote.svg" alt="upvote"/></button>` :
             `<button class="upvote" value="upvote"><img src="./res/up-no-vote.svg" alt="up-no-vote"/></button>`;
 
         html += `<p class="score">${element['numVotes']}</p>`;
 
         html += element['postVote'] === -1 ?
-        `<button class="downvote voted" value="downvote"><img src="./res/downvote.svg" alt="downvote"/></button>` :
+        `<button class="downvote" value="downvote"><img src="./res/downvote.svg" alt="downvote"/></button>` :
         `<button class="downvote" value="downvote"><img src="./res/down-no-vote.svg" alt="down-no-vote"/></button>`;
 
         html += `
