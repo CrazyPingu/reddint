@@ -54,8 +54,8 @@ class DatabaseHelper{
         }
 
         $sql = "SELECT user.*,
-                (SELECT COUNT(DISTINCT(*)) FROM following WHERE following.follower = user.id) as following,
-                (SELECT COUNT(DISTINCT(*)) FROM following WHERE following.followed = user.id) as followers
+                (SELECT COUNT(DISTINCT(following.followed)) FROM following WHERE following.follower = user.id) as following,
+                (SELECT COUNT(DISTINCT(following.follower)) FROM following WHERE following.followed = user.id) as followers
                 FROM user
                 WHERE $search_for
                 ORDER BY username"
@@ -129,8 +129,8 @@ class DatabaseHelper{
      */
     public function logUser(string $email, string $password): array|null {
         $sql = 'SELECT user.*,
-                (SELECT COUNT(DISTINCT(*)) FROM following WHERE following.follower = user.id) as following,
-                (SELECT COUNT(DISTINCT(*)) FROM following WHERE following.followed = user.id) as followers
+                (SELECT COUNT(DISTINCT(following.followed)) FROM following WHERE following.follower = user.id) as following,
+                (SELECT COUNT(DISTINCT(following.follower)) FROM following WHERE following.followed = user.id) as followers
                 FROM user
                 WHERE email = ?';
         $stmt = $this->db->prepare($sql);
