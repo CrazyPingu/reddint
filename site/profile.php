@@ -21,6 +21,10 @@ $templateParams['userCreationDate'] = $user['creation_date'];
 $templateParams['followersCount'] = $dbh->getFollowersCount($user['id']);
 $templateParams['followingCount'] = $dbh->getFollowedCount($user['id']);
 
+if ($isUserLogged) {
+    $templateParams['isFollowing'] = $dbh->isFollowing($_SESSION['userId'], $user['id']);
+}
+
 $templateParams['scriptFileName'] = 'fetch-profile.js';
 
 require_once 'template/base.php';
