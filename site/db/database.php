@@ -1,5 +1,4 @@
 <?php
-// TODO: Add views to semplify html building and make requests more lightweight
 class DatabaseHelper{
     private $db;
 
@@ -54,7 +53,9 @@ class DatabaseHelper{
             $search_for = $is_int ? "id IN ($in)" : "email IN ($in) OR username IN ($in)";
         }
 
-        $sql = "SELECT *
+        $sql = "SELECT user.*,
+                (SELECT COUNT(DISTINCT(*)) FROM following WHERE following.follower = user.id) as following,
+                (SELECT COUNT(DISTINCT(*)) FROM following WHERE following.followed = user.id) as followers
                 FROM user
                 WHERE $search_for
                 ORDER BY username"
@@ -127,7 +128,11 @@ class DatabaseHelper{
      * @return array|null array with the user data, null if the credentials are wrong
      */
     public function logUser(string $email, string $password): array|null {
-        $sql = 'SELECT * FROM user WHERE email = ?';
+        $sql = 'SELECT user.*,
+                (SELECT COUNT(DISTINCT(*)) FROM following WHERE following.follower = user.id) as following,
+                (SELECT COUNT(DISTINCT(*)) FROM following WHERE following.followed = user.id) as followers
+                FROM user
+                WHERE email = ?';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('s', $email);
         $stmt->execute();
@@ -323,7 +328,10 @@ class DatabaseHelper{
             return [];
         }
 
-        $sql = 'SELECT * FROM notification WHERE user = ? ORDER BY date DESC'.($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
+        $sql = 'SELECT * FROM notification
+                WHERE user = ?
+                ORDER BY date DESC'
+                .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
         $stmt = $this->db->prepare($sql);
         $types = 'i'.($limit > 0 ? 'ii' : '');
         $params = [$user['id']];
@@ -414,10 +422,14 @@ class DatabaseHelper{
             $is_int = is_numeric($array[0]);
             $count = count($array);
             $in = str_repeat('?,', $count - 1).'?';
-            $search_for = ($is_int ? 'id' : 'name')." IN ($in)";
+            $search_for = ($is_int ? 'community.id' : 'community.name')." IN ($in)";
         }
 
-        $sql = "SELECT * FROM community WHERE $search_for".($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
+        $sql = "SELECT community.id, user.username as author, community.name, description, community.creation_date,
+                (SELECT COUNT(DISTINCT(participation.user)) FROM participation WHERE participation.community = community.id) as participating
+                FROM community JOIN user ON community.author = user.id
+                WHERE $search_for"
+                .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
         $stmt = $this->db->prepare($sql);
 
         $types = str_repeat($is_int ? 'i' : 's', $count).($limit > 0 ? 'ii' : '');
@@ -481,7 +493,11 @@ class DatabaseHelper{
      * @return array empty if there are no communities
      */
     public function getRandomCommunities($limit = 10, $offset = 0): array {
-        $sql = 'SELECT * FROM community ORDER BY RAND() LIMIT ? OFFSET ?';
+        $sql = 'SELECT community.id, user.username as author, community.name, description, community.creation_date,
+                (SELECT COUNT(DISTINCT(participation.user)) FROM participation WHERE participation.community = community.id) as participating
+                FROM community JOIN user ON community.author = user.id
+                ORDER BY RAND()
+                LIMIT ? OFFSET ?';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('ii', $limit, $offset);
         $stmt->execute();
@@ -584,9 +600,10 @@ class DatabaseHelper{
             return [];
         }
 
-        $sql = 'SELECT community.*
-                FROM community INNER JOIN participation ON community.id = participation.community
-                WHERE participation.user = ? AND participation.date_left IS NULL'
+        $sql = 'SELECT community.id, user.username as author, community.name, description, community.creation_date
+                FROM (community JOIN user ON community.author = user.id) JOIN participation ON user.id = participation.user
+                WHERE participation.user = ? AND participation.date_left IS NULL
+                ORDER BY community.name DESC'
                 .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
         $stmt = $this->db->prepare($sql);
         $types = 'i'.($limit > 0 ? 'ii' : '');
@@ -639,8 +656,12 @@ class DatabaseHelper{
 
         $count = count($array);
         $in = str_repeat('?,', $count - 1).'?';
-        $search_for = "id IN ($in)";
-        $sql = "SELECT * FROM post WHERE $search_for".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
+        $search_for = "post.id IN ($in)";
+        $sql = "SELECT post.id, user.username as author, community.name as community, post.title, post.content, post.attachment, post.creation_date, post.edited,
+                (SELECT SUM(vote) FROM vote_post WHERE post = post.id) as vote,
+                (SELECT COUNT(*) FROM comment WHERE post = post.id) as comments
+                FROM (post JOIN user ON post.author = user.id) JOIN community ON post.community = community.id
+                WHERE $search_for".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
         $stmt = $this->db->prepare($sql);
 
         $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
@@ -707,7 +728,12 @@ class DatabaseHelper{
      * @return array empty if there are no posts
      */
     public function getRandomPosts(int $limit = 10, int $offset = 0): array {
-        $sql = 'SELECT * FROM post ORDER BY RAND() LIMIT ? OFFSET ?';
+        $sql = 'SELECT post.id, user.username as author, community.name as community, post.title, post.content, post.attachment, post.creation_date, post.edited,
+                (SELECT SUM(vote) FROM vote_post WHERE post = post.id) as vote,
+                (SELECT COUNT(*) FROM comment WHERE post = post.id) as comments
+                FROM (post JOIN user ON post.author = user.id) JOIN community ON post.community = community.id
+                ORDER BY RAND()
+                LIMIT ? OFFSET ?';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('ii', $limit, $offset);
         $stmt->execute();
@@ -731,9 +757,12 @@ class DatabaseHelper{
 
         $count = count($array);
         $in  = str_repeat('?,', $count-1).'?';
-        $sql = "SELECT * FROM post
-                WHERE community IN ($in)
-                ORDER BY creation_date DESC"
+        $sql = "SELECT post.id, user.username as author, community.name as community, post.title, post.content, post.attachment, post.creation_date, post.edited,
+                (SELECT SUM(vote) FROM vote_post WHERE post = post.id) as vote,
+                (SELECT COUNT(*) FROM comment WHERE post = post.id) as comments
+                FROM (post JOIN user ON post.author = user.id) JOIN community ON post.community = community.id
+                WHERE community.id IN ($in)
+                ORDER BY post.creation_date DESC"
                 .($limit > 0 ? " LIMIT ? OFFSET ?" : '');
         $stmt = $this->db->prepare($sql);
 
@@ -773,7 +802,13 @@ class DatabaseHelper{
 
         $count = count($array);
         $in  = str_repeat('?,', $count-1).'?';
-        $sql = "SELECT * FROM post WHERE author IN ($in) ORDER BY creation_date DESC".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
+        $sql = "SELECT post.id, user.username as author, community.name as community, post.title, post.content, post.attachment, post.creation_date, post.edited,
+                (SELECT SUM(vote) FROM vote_post WHERE post = post.id) as vote,
+                (SELECT COUNT(*) FROM comment WHERE post = post.id) as comments
+                FROM (post JOIN user ON post.author = user.id) JOIN community ON post.community = community.id
+                WHERE user.id IN ($in)
+                ORDER BY post.creation_date DESC"
+                .($limit > 0 ? " LIMIT ? OFFSET ?" : '');
         $stmt = $this->db->prepare($sql);
 
         $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
@@ -809,7 +844,9 @@ class DatabaseHelper{
             return 0;
         }
 
-        $sql = 'SELECT vote FROM vote_post WHERE user = ? AND post = ?';
+        $sql = 'SELECT vote
+                FROM vote_post
+                WHERE user = ? AND post = ?';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('ii', $user['id'], $post['id']);
         $stmt->execute();
@@ -905,8 +942,12 @@ class DatabaseHelper{
 
         $count = count($array);
         $in = str_repeat('?,', $count - 1).'?';
-        $search_for = "id IN ($in)";
-        $sql = "SELECT * FROM comment WHERE $search_for".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
+        $search_for = "comment.id IN ($in)";
+        $sql = "SELECT comment.id, user.username as author, comment.content, comment.creation_date, comment.edited,
+                (SELECT SUM(vote) FROM vote_comment WHERE comment = comment.id) as vote
+                FROM comment JOIN user ON comment.author = user.id
+                WHERE $search_for"
+                .($limit > 0 ? " LIMIT ? OFFSET ?" : '');
         $stmt = $this->db->prepare($sql);
 
         $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
@@ -977,8 +1018,13 @@ class DatabaseHelper{
 
         $count = count($array);
         $in = str_repeat('?,', $count - 1).'?';
-        $search_for = "post IN ($in)";
-        $sql = "SELECT * FROM comment WHERE $search_for ORDER BY creation_date DESC".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
+        $search_for = "post ($in)";
+        $sql = "SELECT comment.id, user.username as author, comment.content, comment.creation_date, comment.edited,
+                (SELECT SUM(vote) FROM vote_comment WHERE comment = comment.id) as vote
+                FROM comment JOIN user ON comment.author = user.id
+                WHERE $search_for
+                ORDER BY vote DESC, comment.creation_date DESC"
+                .($limit > 0 ? " LIMIT ? OFFSET ?" : '');
         $stmt = $this->db->prepare($sql);
 
         $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
@@ -1031,7 +1077,12 @@ class DatabaseHelper{
         $count = count($array);
         $in = str_repeat('?,', $count - 1).'?';
         $search_for = "author IN ($in)";
-        $sql = "SELECT * FROM comment WHERE $search_for ORDER BY creation_date DESC".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
+        $sql = "SELECT comment.id, user.username as author, comment.content, comment.creation_date, comment.edited,
+                (SELECT SUM(vote) FROM vote_comment WHERE comment = comment.id) as vote
+                FROM comment JOIN user ON comment.author = user.id
+                WHERE $search_for
+                ORDER BY creation_date DESC"
+                .($limit > 0 ? " LIMIT ? OFFSET ?" : '');
         $stmt = $this->db->prepare($sql);
 
         $types = str_repeat('i', $count).($limit > 0 ? 'ii' : '');
