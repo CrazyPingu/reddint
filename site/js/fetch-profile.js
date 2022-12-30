@@ -6,17 +6,17 @@ const buttonPost = document.getElementById('buttonPost');
 const buttonComment = document.getElementById('buttonComment');
 const space = document.getElementsByClassName('spacePostComment')[0];
 const username = document.querySelector('div.upperProfile').id;
+let offset = 0;
 const baseOffset = 10;
-const defaultData = {offset: 0, username: username};
+const defaultData = { type: 'user', offset, username, limit: baseOffset };
 let selected = '';
-let offset = baseOffset;
 
 function incrementOffset() {
     offset += baseOffset;
 }
 
 buttonPost.addEventListener('click', () => {
-    if (selected === 'post') return;
+    offset = 0;
     asyncRequest('request-posts.php', (response) => {
         space.innerHTML = generatePostHTML(response);
     }, defaultData);
@@ -25,7 +25,7 @@ buttonPost.addEventListener('click', () => {
 });
 
 buttonComment.addEventListener('click', () => {
-    if (selected === 'comment') return;
+    offset = 0;
     asyncRequest('request-comments.php', (response) => {
         space.innerHTML = generateCommentHTML(response);
     }, defaultData);
@@ -35,10 +35,10 @@ buttonComment.addEventListener('click', () => {
 
 space.addEventListener('scroll', () => {
     if (space.scrollTop === (space.scrollHeight - space.offsetHeight)) {
-        selected === 'post' ? page='request-posts.php' : page='request-comments.php';
+        selected === 'post' ? page = 'request-posts.php' : page = 'request-comments.php';
         asyncRequest(page, (response) => {
             space.innerHTML += selected === 'post' ? generatePostHTML(response) : generateCommentHTML(response);
-        }, {offset: offset, username: username});
+        }, defaultData);
     }
     incrementOffset();
 });

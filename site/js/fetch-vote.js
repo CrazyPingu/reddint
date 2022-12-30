@@ -15,7 +15,7 @@ function requestCall(id, type, imgArray, scoreRef, vote) {
             imgArray[1].setAttribute('alt', response.vote >= 0 ? 'down-no-vote' : 'downvote');
             scoreRef.innerText = response.score;
         }
-    }, { vote: vote, id: id, type: type });
+    }, { vote, id, type });
 }
 
 function vote(button, idPostComment, type, imgArray, scoreRef) {
