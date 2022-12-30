@@ -5,24 +5,34 @@ import generateCommentHTML from './base-comments.js';
 const spacePost = document.querySelector('.post');
 const spaceComments = document.querySelector('.comments');
 const postId = spacePost.id;
+const formTag = document.getElementById('form-comment');
+const textTag = document.getElementById('content');
 
 let offset = 0;
 let baseOffset = 10;
 
 window.onload = function() {
-    asyncCall('single-post.php', (response) => {
+    asyncCall('posts.php', (response) => {
         spacePost.innerHTML = generatePostHTML(response);
-    }, {postId: postId});
-    asyncCall('single-post-comments.php', (response) => {
+    }, {type:'single', postId: postId});
+    asyncCall('comments.php', (response) => {
         spaceComments.innerHTML = generateCommentHTML(response);
-    }, {offset: 0, postId: postId});
+    }, {type: 'post', postId: postId, limit: baseOffset});
 }
+
+formTag.addEventListener('submit', (e) => {
+    e.preventDefault(); // Prevent the form from submitting
+
+    asyncCall('comments.php', (response) => {
+        spaceComments.innerHTML = generateCommentHTML(response) + spaceComments.innerHTML;
+    }, {type:'addComment', postId: postId, commentContent: textTag.innerText});
+});
 
 spaceComments.addEventListener('scroll', () => {
     if(spaceComments.scrollTop >= (spaceComments.scrollHeight - spaceComments.offsetHeight)) {
         asyncCall('single-post-comments.php', (response) => {
             spaceComments.innerHTML += generateCommentHTML(response);
-        }, {offset: offset, postId: postId});
+        }, {type: 'post', offset: offset, limit: baseOffset, postId: postId});
     }
     offset += baseOffset;
 });
