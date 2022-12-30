@@ -1,10 +1,6 @@
 <?php
 require_once  '../bootstrap.php';
-
-if (!isset($_SESSION['userId'])) {
-    echo json_encode(array('vote'=>'no-login', 'score'=>'no-login'));
-    exit();
-}
+require_once  '../pre-checks.php';
 
 $args = json_decode($_POST['args'], false);
 
