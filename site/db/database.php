@@ -242,7 +242,7 @@ class DatabaseHelper{
     public function getFollowersCount(int|string $user): int {
         $user = $this->getUser($user);
         if ($user == null) {
-            return [];
+            return 0;
         }
 
         $sql = 'SELECT COUNT(*) FROM following WHERE followed = ?';
@@ -261,7 +261,7 @@ class DatabaseHelper{
     public function getFollowedCount(int|string $user): int {
         $user = $this->getUser($user);
         if ($user == null) {
-            return [];
+            return 0;
         }
 
         $sql = 'SELECT COUNT(*) FROM following WHERE follower = ?';
@@ -464,7 +464,8 @@ class DatabaseHelper{
 
         $sql = 'UPDATE community SET description = ? WHERE id = ?';
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('si', $description ?? $community['description'], $community['id']);
+        $params = [$description ?? $community['description'], $community['id']];
+        $stmt->bind_param('si', ...$params);
         return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
