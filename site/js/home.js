@@ -5,12 +5,14 @@ const postsDiv = document.getElementById('postsSpace');
 let selectedButton = null;
 let offset = 0;
 
-function renderPosts(type) {
+function renderPosts() {
     asyncRequest(`posts.php`, (response) => {
         for (let postData of response) {
             postsDiv.appendChild(generatePost(postData));
         }
-    }, {type, offset, limit: 10});
+    }, {type: selectedButton.id == 'communitiesPosts' ? 'communities' : 'users',
+        offset,
+        limit: 10});
 }
 
 document.querySelectorAll('#communitiesPosts, #usersPosts').forEach(button => {
@@ -18,7 +20,7 @@ document.querySelectorAll('#communitiesPosts, #usersPosts').forEach(button => {
         postsDiv.innerHTML = '';
         offset = 0;
         selectedButton = button;
-        renderPosts(selectedButton.id == 'communitiesPosts' ? 'communities' : 'users');
+        renderPosts();
     });
 });
 
@@ -27,7 +29,7 @@ postsDiv.addEventListener('scroll', () => {
     const endOfPage = postsDiv.scrollTop + postsDiv.clientHeight >= postsDiv.scrollHeight;
     if (endOfPage) {
         offset += 10;
-        renderPosts(selectedButton.id == 'communitiesPosts' ? 'communities' : 'users');
+        renderPosts();
     }
 });
 
