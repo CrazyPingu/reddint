@@ -6,9 +6,7 @@ let selectedButton = null;
 let offset = 0;
 
 function renderPosts(type) {
-    console.log({type, offset, limit: 10});
     asyncRequest(`posts.php`, (response) => {
-        console.log(response);
         for (let postData of response) {
             postsDiv.appendChild(generatePost(postData));
         }
@@ -17,7 +15,7 @@ function renderPosts(type) {
 
 document.querySelectorAll('#communitiesPosts, #usersPosts').forEach(button => {
     button.addEventListener('click', () => {
-        if (button == selectedButton) return;
+        postsDiv.innerHTML = '';
         offset = 0;
         selectedButton = button;
         renderPosts(selectedButton.id == 'communitiesPosts' ? 'communities' : 'users');
@@ -26,7 +24,6 @@ document.querySelectorAll('#communitiesPosts, #usersPosts').forEach(button => {
 
 postsDiv.addEventListener('scroll', () => {
     // TODO: verify this actually works, find a better way to do this
-    console.log(postsDiv.scrollTop + postsDiv.clientHeight >= postsDiv.scrollHeight);
     const endOfPage = postsDiv.scrollTop + postsDiv.clientHeight >= postsDiv.scrollHeight;
     if (endOfPage) {
         offset += 10;
@@ -35,5 +32,5 @@ postsDiv.addEventListener('scroll', () => {
 });
 
 window.onload = function () {
-    communitiesButton.click();
+    document.getElementById('communitiesPosts').click();
 };
