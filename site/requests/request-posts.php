@@ -19,9 +19,9 @@ switch ($type) {
         break;
     // Return posts from a user
     case 'user':
-        $userId = $args->userId ?? false;
-        if ($userId) {
-            $posts = $dbh->getPostsByUsers([$userId], $limit, $offset);
+        $username = $args->username ?? false;
+        if ($username) {
+            $posts = $dbh->getPostsByUsers([$username], $limit, $offset);
         }
         break;
     // Return posts from communities followed by the user, or random posts if the user is not logged in

@@ -19,9 +19,9 @@ switch ($type) {
         break;
     // Return comments from a user
     case 'user':
-        $userId = $args->userId ?? false;
-        if ($userId) {
-            $comments = $dbh->getCommentsByUser($userId, $limit, $offset);
+        $username = $args->username ?? false;
+        if ($username) {
+            $comments = $dbh->getCommentsByUser($username, $limit, $offset);
         }
         break;
     // Add a comment
