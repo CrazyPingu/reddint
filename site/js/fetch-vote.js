@@ -6,8 +6,6 @@ function requestCall(id, type, imgArray, scoreRef, vote) {
             let error = document.createElement('p');
             error.innerHTML = 'Something went wrong';
             upvoteButton.parentNode.appendChild(error);
-        } else if (response.vote == 'no-login') {
-            window.location.href = './login.php';
         } else {
             imgArray[0].setAttribute('src', response.vote <= 0 ? './res/up-no-vote.svg' : './res/upvote.svg');
             imgArray[0].setAttribute('alt', response.vote <= 0 ? 'up-no-vote' : 'upvote');
