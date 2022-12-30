@@ -1,13 +1,27 @@
-<div class='upperProfile' id='<?php  echo $templateParams['userUsername']; ?>'>
-    <h2 id='username'><?php echo $templateParams['userUsername']; ?></h2>
+<div class='upperProfile' id='<?php echo $templateParams['userUsername']; ?>'>
+    <p id='username'>
+        <?php echo $templateParams['userUsername']; ?>
+    </p>
     <div class='rightProfile'>
         <div class='follow'>
             <p>Followers: <?php echo $templateParams['followersCount']; ?></p>
             <p>Following: <?php echo $templateParams['followingCount']; ?></p>
         </div>
-        <h5><?php echo $templateParams['userCreationDate']; ?></h5>
+        <p>
+            <?php echo $templateParams['userCreationDate']; ?>
+        </p>
     </div>
-    <h4><?php echo $templateParams['userBio']; ?></h4>
+
+    <?php if ($isUserLogged && $templateParams['userUsername'] != $_SESSION['username']): ?>
+        <div class='followButton'>
+            <?php if ($templateParams['isFollowing']): ?>
+                <button type='button' id='follow'>Unfollow</button>
+                <?php else: ?>
+                <button type='button' id='follow'>Follow</button>
+                <?php endif; ?>
+        </div>
+        <?php endif; ?>
+    <p><?php echo $templateParams['userBio']; ?></p>
 </div>
 <div class='buttonPostComment'>
     <button type='button' id='buttonPost'>Post</button>
