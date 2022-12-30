@@ -1,7 +1,7 @@
 import asyncRequest from './default-ajax.js';
 
 function requestCall(id, type, imgArray, scoreRef, vote) {
-    asyncRequest('vote.php', (response) => {
+    asyncRequest('request-vote.php', (response) => {
         if (response.vote == 'error') {
             let error = document.createElement('p');
             error.innerHTML = 'Something went wrong';

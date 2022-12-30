@@ -15,7 +15,7 @@ formTag.addEventListener('submit', (e) => {
     }
 
     // Send the request to the server, redirect to index.php if successful
-    asyncRequest('signup.php', (response) => {
+    asyncRequest('request-signup.php', (response) => {
         if (response) {
             // Print success message
             responseTag.innerHTML = "User created successfully, redirecting to home page...";

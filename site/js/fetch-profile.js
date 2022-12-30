@@ -17,7 +17,7 @@ function incrementOffset() {
 
 buttonPost.addEventListener('click', () => {
     if (selected === 'post') return;
-    asyncRequest('profile-post.php', (response) => {
+    asyncRequest('request-posts.php', (response) => {
         space.innerHTML = generatePostHTML(response);
     }, defaultData);
     offset = baseOffset;
@@ -26,7 +26,7 @@ buttonPost.addEventListener('click', () => {
 
 buttonComment.addEventListener('click', () => {
     if (selected === 'comment') return;
-    asyncRequest('profile-comment.php', (response) => {
+    asyncRequest('request-comments.php', (response) => {
         space.innerHTML = generateCommentHTML(response);
     }, defaultData);
     offset = baseOffset;
@@ -35,7 +35,7 @@ buttonComment.addEventListener('click', () => {
 
 space.addEventListener('scroll', () => {
     if (space.scrollTop === (space.scrollHeight - space.offsetHeight)) {
-        selected === 'post' ? page='profile-post.php' : page='profile-comment.php';
+        selected === 'post' ? page='request-posts.php' : page='request-comments.php';
         asyncRequest(page, (response) => {
             space.innerHTML += selected === 'post' ? generatePostHTML(response) : generateCommentHTML(response);
         }, {offset: offset, username: username});

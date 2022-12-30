@@ -14,7 +14,7 @@ formTag.addEventListener('submit', (e) => {
     }
 
     // Send the request to the server, redirect to index.php if successful
-    asyncRequest('login.php', (response) => {
+    asyncRequest('request-login.php', (response) => {
         if(response) {
             responseTag.innerHTML = "Login successful, redirecting to home page ";
 

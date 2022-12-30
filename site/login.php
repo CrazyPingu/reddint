@@ -4,7 +4,7 @@ require_once 'pre-checks.php';
 
 $templateParams['title'] = 'Reddint - Login';
 $templateParams['fileName'] = 'login-form.php';
-$templateParams['scriptFileName'] = 'login.js';
+$templateParams['scriptFileName'] = 'fetch-login.js';
 
 require_once 'template/base.php';
 

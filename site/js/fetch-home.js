@@ -6,7 +6,7 @@ let selectedButton = null;
 let offset = 0;
 
 function renderPosts() {
-    asyncRequest(`posts.php`, (response) => {
+    asyncRequest(`request-posts.php`, (response) => {
         for (let postData of response) {
             postsDiv.appendChild(generatePost(postData));
         }

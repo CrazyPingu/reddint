@@ -4,7 +4,7 @@ require_once 'pre-checks.php';
 
 $templateParams['title'] = 'Reddint - Home';
 $templateParams['fileName'] = 'home.php';
-$templateParams['scriptFileName'] = 'home.js';
+$templateParams['scriptFileName'] = 'fetch-home.js';
 
 require_once 'template/base.php';
 ?>

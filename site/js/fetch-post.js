@@ -12,10 +12,10 @@ let offset = 0;
 let baseOffset = 10;
 
 window.onload = function() {
-    asyncCall('posts.php', (response) => {
+    asyncCall('request-posts.php', (response) => {
         spacePost.innerHTML = generatePostHTML(response);
     }, {type:'single', postId: postId});
-    asyncCall('comments.php', (response) => {
+    asyncCall('request-comments.php', (response) => {
         spaceComments.innerHTML = generateCommentHTML(response);
     }, {type: 'post', postId: postId, limit: baseOffset});
 }
@@ -23,14 +23,14 @@ window.onload = function() {
 formTag.addEventListener('submit', (e) => {
     e.preventDefault(); // Prevent the form from submitting
 
-    asyncCall('comments.php', (response) => {
+    asyncCall('request-comments.php', (response) => {
         spaceComments.innerHTML = generateCommentHTML(response) + spaceComments.innerHTML;
     }, {type:'addComment', postId: postId, commentContent: textTag.innerText});
 });
 
 spaceComments.addEventListener('scroll', () => {
     if(spaceComments.scrollTop >= (spaceComments.scrollHeight - spaceComments.offsetHeight)) {
-        asyncCall('single-post-comments.php', (response) => {
+        asyncCall('request-comments.php', (response) => {
             spaceComments.innerHTML += generateCommentHTML(response);
         }, {type: 'post', offset: offset, limit: baseOffset, postId: postId});
     }
