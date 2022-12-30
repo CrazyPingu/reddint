@@ -1,3 +1,5 @@
+// TODO: move this to elementGenerator module, needs re-implementing
+
 function generateCommentHTML(data) {
     let html = '';
     data.forEach(element => {

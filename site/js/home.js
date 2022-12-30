@@ -25,6 +25,7 @@ document.querySelectorAll('#communitiesPosts, #usersPosts').forEach(button => {
 });
 
 postsDiv.addEventListener('scroll', () => {
+    // TODO: verify this actually works, find a better way to do this
     console.log(postsDiv.scrollTop + postsDiv.clientHeight >= postsDiv.scrollHeight);
     const endOfPage = postsDiv.scrollTop + postsDiv.clientHeight >= postsDiv.scrollHeight;
     if (endOfPage) {

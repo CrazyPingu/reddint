@@ -1,5 +1,5 @@
 <?php
-
+// TODO: Add views to semplify html building and make requests more lightweight
 class DatabaseHelper{
     private $db;
 
