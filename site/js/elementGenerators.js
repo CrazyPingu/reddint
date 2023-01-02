@@ -1,4 +1,5 @@
 import toggleFollow from "./fetch-follow.js";
+import { getVote, setVote } from "./fetch-vote.js";
 
 function generatePost(postData) {
     // Outer post div
@@ -34,11 +35,40 @@ function generatePost(postData) {
 
     const upvote = Object.assign(document.createElement("button"), {className: 'upvote',value: 'upvote'});
     const upvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/up-no-vote.svg',alt: 'upvote'});
+    upvote.addEventListener('click', function() {
+        // Change upvote image and post score
+        if (upvoteImg.src.includes('up-no-vote')) {
+            upvoteImg.src = './res/upvote.svg';
+            downvoteImg.src = './res/down-no-vote.svg';
+            score.innerText = Number(score.innerText) + 1;
+        } else {
+            upvoteImg.src = './res/up-no-vote.svg';
+            score.innerText = Number(score.innerText) - 1;
+        }
+        // Send vote to server
+        setVote(1, postData.id, 'post');
+    });
     upvote.appendChild(upvoteImg);
 
     const downvote = Object.assign(document.createElement("button"), {className: 'downvote',value: 'downvote'});
     const downvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/down-no-vote.svg',alt: 'downvote'});
+    downvote.addEventListener('click', function() {
+        // Change downvote image and post score
+        if (downvoteImg.src.includes('down-no-vote')) {
+            downvoteImg.src = './res/downvote.svg';
+            upvoteImg.src = './res/up-no-vote.svg';
+            score.innerText = Number(score.innerText) - 1;
+        } else {
+            downvoteImg.src = './res/down-no-vote.svg';
+            score.innerText = Number(score.innerText) + 1;
+        }
+        // Send vote to server
+        setVote(-1, postData.id, 'post');
+    });
     downvote.appendChild(downvoteImg);
+
+    // Receive vote from server and change image accordingly
+    getVote(postData.id, 'post', upvoteImg, downvoteImg);
 
     const score = Object.assign(document.createElement("p"), {className: 'score',innerText: postData.vote});
 
@@ -87,11 +117,40 @@ function generateComment(commentData) {
 
     const upvote = Object.assign(document.createElement("button"), {className: 'upvote',value: 'upvote'});
     const upvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/up-no-vote.svg',alt: 'upvote'});
+    upvote.addEventListener('click', function() {
+        // Change upvote image and comment score
+        if (upvoteImg.src.includes('up-no-vote')) {
+            upvoteImg.src = './res/upvote.svg';
+            downvoteImg.src = './res/down-no-vote.svg';
+            score.innerText = Number(score.innerText) + 1;
+        } else {
+            upvoteImg.src = './res/up-no-vote.svg';
+            score.innerText = Number(score.innerText) - 1;
+        }
+        // Send vote to server
+        setVote(1, commentData.id, 'comment');
+    });
     upvote.appendChild(upvoteImg);
 
     const downvote = Object.assign(document.createElement("button"), {className: 'downvote',value: 'downvote'});
     const downvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/down-no-vote.svg',alt: 'downvote'});
+    downvote.addEventListener('click', function() {
+        // Change downvote image and comment score
+        if (downvoteImg.src.includes('down-no-vote')) {
+            downvoteImg.src = './res/downvote.svg';
+            upvoteImg.src = './res/up-no-vote.svg';
+            score.innerText = Number(score.innerText) - 1;
+        } else {
+            downvoteImg.src = './res/down-no-vote.svg';
+            score.innerText = Number(score.innerText) + 1;
+        }
+        // Send vote to server
+        setVote(-1, commentData.id, 'comment');
+    });
     downvote.appendChild(downvoteImg);
+
+    // Receive vote from server and change image accordingly
+    getVote(commentData.id, 'comment', upvoteImg, downvoteImg);
 
     const score = Object.assign(document.createElement("p"), {className: 'score',innerText: commentData.vote});
 
