@@ -109,4 +109,20 @@ function generateComment(commentData) {
     return comment;
 }
 
+function generateFollow(followData) {
+    // Outer follow div
+    const follow = Object.assign(document.createElement("div"), {className: 'follow', id: followData.id});
+
+    // username
+    const username = Object.assign(document.createElement("a"), {href: `./profile.php?username=${encodeURIComponent(followData.username)}`,innerText: followData.username});
+    follow.appendChild(username);
+
+    // follow button
+    const isFollowing = followData.following || true;
+    const followButton = Object.assign(document.createElement("button"), {className: isFollowing ? 'unfollow':'follow', innerText: isFollowing ? 'Unfollow':'Follow'});
+    follow.appendChild(followButton);
+
+    return follow;
+}
+
 export { generatePost, generateElements, generateComment };
