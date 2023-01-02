@@ -12,8 +12,14 @@ $page = basename($_SERVER['PHP_SELF']);
 $isUserLogged = isset($_SESSION['userId']) && isset($_SESSION['username']);
 
 // Redirect from login.php to index.php if the user is already logged in
-if ($isUserLogged && ($page === 'login.php' || $page === 'notifications.php')) {
+if ($isUserLogged && $page === 'login.php') {
     header('Location: index.php');
+    exit();
+}
+
+// Redirect from notifications.php to login.php if the user is not logged in
+if (!$isUserLogged && $page === 'notifications.php') {
+    header('Location: login.php');
     exit();
 }
 
