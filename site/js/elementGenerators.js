@@ -62,8 +62,18 @@ function generatePost(postData) {
 }
 
 function generateElements(response, container, type) {
-    for (let element of response) {
-        container.appendChild(type == 'post' ? generatePost(element): generateComment(element));
+    for (const element of response) {
+        switch (type) {
+            case 'post':
+                container.appendChild(generatePost(element));
+                break;
+            case 'comment':
+                container.appendChild(generateComment(element));
+                break;
+            case 'follow':
+                container.appendChild(generateFollow(element));
+                break;
+        }
     }
 }
 
@@ -125,4 +135,4 @@ function generateFollow(followData) {
     return follow;
 }
 
-export { generatePost, generateElements, generateComment };
+export { generatePost, generateElements, generateComment, generateFollow };
