@@ -22,7 +22,7 @@
                         <div id='searchSpace'></div>
                     </li>
                     <li><a href=<?php echo 'profile.php' . (isset($_SESSION['username']) ? '?username=' . $_SESSION['username'] : ''); ?>>Profile</a></li>
-                    <li><a href='notification.php'>Notifications</a></li>
+                    <li><a href='notifications.php'>Notifications</a></li>
                     <li><a href='settings.php'>Settings</a></li>
                 </ul>
             </div>

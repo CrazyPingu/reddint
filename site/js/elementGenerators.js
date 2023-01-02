@@ -61,22 +61,6 @@ function generatePost(postData) {
     return post;
 }
 
-function generateElements(response, container, type) {
-    for (const element of response) {
-        switch (type) {
-            case 'post':
-                container.appendChild(generatePost(element));
-                break;
-            case 'comment':
-                container.appendChild(generateComment(element));
-                break;
-            case 'follow':
-                container.appendChild(generateFollow(element));
-                break;
-        }
-    }
-}
-
 function generateComment(commentData) {
     // Outer comment div
     const comment = Object.assign(document.createElement("div"), {className: 'comment', id: commentData.id});
@@ -135,4 +119,38 @@ function generateFollow(followData) {
     return follow;
 }
 
-export { generatePost, generateElements, generateComment, generateFollow };
+function generateNotification(notificationData) {
+    // Outer notification div
+    const notification = Object.assign(document.createElement("div"), {className: 'notification' + (notificationData.seen ? ' seen':'')});
+
+    // notification content
+    const notificationContent = Object.assign(document.createElement("p"), {className: 'notificationContent',innerText: notificationData.content});
+    notification.appendChild(notificationContent);
+
+    // date
+    const date = Object.assign(document.createElement("p"), {className: 'notificationDate',innerText: notificationData.date});
+    notification.appendChild(date);
+
+    return notification;
+}
+
+function generateElements(response, container, type) {
+    for (const element of response) {
+        switch (type) {
+            case 'post':
+                container.appendChild(generatePost(element));
+                break;
+            case 'comment':
+                container.appendChild(generateComment(element));
+                break;
+            case 'follow':
+                container.appendChild(generateFollow(element));
+                break;
+            case 'notification':
+                container.appendChild(generateNotification(element));
+                break;
+        }
+    }
+}
+
+export { generatePost, generateComment, generateFollow, generateNotification, generateElements };

@@ -197,8 +197,8 @@ class DatabaseHelper{
                 WHERE user.id IN (SELECT follower FROM following WHERE followed = ?)'
                 .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
         $stmt = $this->db->prepare($sql);
-        $types = 'i'.($limit > 0 ? 'ii' : '');
-        $params = [$user['id']];
+        $types = 'ii'.($limit > 0 ? 'ii' : '');
+        $params = [$user['id'], $user['id']];
         if ($limit > 0) array_push($params, $limit, $offset);
         $stmt->bind_param($types, ...$params);
         $stmt->execute();
