@@ -291,8 +291,6 @@ class DatabaseHelper{
         return $result->fetch_assoc()['COUNT(*)'] > 0;
     }
 
-
-
     ////////////////////////////////////
     // Notifications related queries  //
     ////////////////////////////////////
@@ -1189,4 +1187,56 @@ class DatabaseHelper{
         $result = $stmt->get_result();
         return $result->fetch_assoc()['SUM(vote)'] ?? 0;
     }
+
+
+    /////////////////////////////
+    // Search related queries  //
+    /////////////////////////////
+
+
+    /**
+     * Search for a user given a string
+     * @param string $query the query to search for
+     * @param int $limit amount of users (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array the users
+     */
+    public function searchUser(string $query, int $limit = 5, int $offset = 0): array {
+        $queryLike = $query.'%';
+        $sql = "SELECT username
+                FROM user
+                WHERE username LIKE ? OR email LIKE ?
+                ORDER BY LOCATE(?, username) ASC, LOCATE(?, email) ASC"
+                .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
+        $stmt = $this->db->prepare($sql);
+        $types = 'ssss'.($limit > 0 ? 'ii' : '');
+        $params = [$queryLike, $queryLike, $query, $query];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+    /**
+     * Summary of searchCommunities given a string
+     * @param string $query the query to search for
+     * @param int $limit amount of communities (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array the communities
+     */
+    public function searchCommunities(string $query, int $limit = 5, int $offset = 0): array {
+        $queryLike = $query.'%';
+        $sql = 'SELECT name FROM community WHERE name LIKE ?'
+                .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
+        $stmt = $this->db->prepare($sql);
+        $types = 's'.($limit > 0 ? 'ii' : '');
+        $params = [$queryLike];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 }
+
+
