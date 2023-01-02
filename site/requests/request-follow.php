@@ -10,7 +10,7 @@ $result = false;
 
 switch($type) {
     case 'follow':
-        if ($isUserLogged) {    
+        if ($isUserLogged) {
                 $result = $dbh->followUser($_SESSION['userId'], $args->usernameProfile);
             if (!$result) {
                 $result = $dbh->unfollowUser($_SESSION['userId'], $args->usernameProfile);
