@@ -9,7 +9,6 @@ searchBar.addEventListener('keyup', () => {
         asyncRequest('request-search.php', (response) => {
             searchSpace.innerHTML = '';
             response['user'].forEach(element => {
-                console.log(`./profile.php?user=${encodeURIComponent(element['username'])}`);
                 searchSpace.appendChild(
                     Object.assign(document.createElement('a'),
                         {
