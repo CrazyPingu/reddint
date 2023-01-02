@@ -18,8 +18,8 @@ $templateParams['userUsername'] = $user['username'];
 $templateParams['userBio'] = $user['bio'];
 $templateParams['userCreationDate'] = $user['creation_date'];
 
-$templateParams['followersCount'] = $dbh->getFollowersCount($user['id']);
-$templateParams['followingCount'] = $dbh->getFollowedCount($user['id']);
+$templateParams['followersCount'] = $user['followers'];
+$templateParams['followingCount'] = $user['following'];
 
 if ($isUserLogged) {
     $templateParams['isFollowing'] = $dbh->isFollowing($_SESSION['userId'], $user['id']);

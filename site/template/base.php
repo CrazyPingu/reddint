@@ -18,10 +18,8 @@
             <div class='menu'>
                 <ul class='list'>
                     <li>
-                        <form action='#' method='POST'>
-                            <input type='text' name='search' placeholder='Search'>
-                            <button type='submit'>Search</button>
-                        </form>
+                        <input type='text' id='search' placeholder='Search'>
+                        <div id='searchSpace'></div>
                     </li>
                     <li><a href=<?php echo 'profile.php' . (isset($_SESSION['username']) ? '?username=' . $_SESSION['username'] : ''); ?>>Profile</a></li>
                     <li><a href='notification.php'>Notifications</a></li>
@@ -38,6 +36,7 @@
         ?>
     </main>
     <script src='<?php echo 'js/' . $templateParams['scriptFileName'] ?? ''; ?>' type='module'></script>
+    <script src='./js/search-bar.js' type='module'></script>
 </body>
 
 </html>
