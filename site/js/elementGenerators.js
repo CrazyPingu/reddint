@@ -47,7 +47,7 @@ function generatePost(postData) {
     botPart.appendChild(vote);
 
     // comments Div containing comment button
-    const comments = Object.assign(document.createElement("div"), {className: 'comments', href: `./post.php?postId=${encodeURIComponent(postData.id)}`});
+    const comments = Object.assign(document.createElement("a"), {className: 'comments', href: `./post.php?postId=${encodeURIComponent(postData.id)}`});
     const commentsImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/comments.svg',alt: 'comments'});
     const numComments = Object.assign(document.createElement("p"), {innerText: postData.comments + ' comments'});
     // add comment button to comments div, then add comments div to botPart
