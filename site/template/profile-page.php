@@ -4,8 +4,8 @@
     </p>
     <div class='rightProfile'>
         <div class='follow'>
-            <p>Followers: <?php echo $templateParams['followersCount']; ?></p>
-            <p>Following: <?php echo $templateParams['followingCount']; ?></p>
+            <a href='follow-list.php?username=<?php echo $templateParams['userUsername']; ?>&type=followersList'>Followers: <?php echo $templateParams['followersCount']; ?></a>
+            <a href='follow-list.php?username=<?php echo $templateParams['userUsername']; ?>&type=followingList'>Following: <?php echo $templateParams['followingCount']; ?></a>
         </div>
         <p>
             <?php echo $templateParams['userCreationDate']; ?>
@@ -15,9 +15,9 @@
     <?php if ($isUserLogged && $templateParams['userUsername'] != $_SESSION['username']): ?>
         <div class='followButton'>
             <?php if ($templateParams['isFollowing']): ?>
-                <button type='button' id='follow'>Unfollow</button>
+                <button type='button' id='followButton'>Unfollow</button>
                 <?php else: ?>
-                <button type='button' id='follow'>Follow</button>
+                <button type='button' id='followButton'>Follow</button>
                 <?php endif; ?>
         </div>
         <?php endif; ?>
