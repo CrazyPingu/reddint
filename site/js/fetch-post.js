@@ -10,24 +10,34 @@ const textTag = document.getElementById('content');
 let offset = 0;
 let baseOffset = 10;
 
-window.onload = function () {
-    asyncRequest('request-posts.php', (response) => {
-        spacePost.appendChild(generatePost(response));
-    }, { type: 'single', postId });
-
+function loadComments() {
+    spaceComments.innerHTML = '';
     asyncRequest('request-comments.php', (response) => {
         generateElements(response, spaceComments, 'comment');
     }, { type: 'post', postId, limit: baseOffset });
 }
 
+
+window.onload = function () {
+    asyncRequest('request-posts.php', (response) => {
+        spacePost.appendChild(generatePost(response));
+    }, { type: 'single', postId });
+
+    loadComments();
+}
+
 formTag.addEventListener('submit', (e) => {
     e.preventDefault(); // Prevent the form from submitting
-
     asyncRequest('request-comments.php', (response) => {
         if (response) {
-            generateElements(response, spaceComments, 'comment');
+            loadComments();
+            textTag.value = '';
+        }else{
+            let errorTag = document.createElement('p');
+            errorTag.append('Error during the comment creation');
+            spaceComments.insertAdjacentHTML('afterbegin', errorTag.innerHTML);
         }
-    }, { type: 'addComment', postId, commentContent: textTag.innerText });
+    }, { type: 'addComment', postId, commentContent: textTag.value });
 });
 
 spaceComments.addEventListener('scroll', () => {
