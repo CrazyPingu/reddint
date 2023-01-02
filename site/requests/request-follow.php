@@ -6,11 +6,15 @@ $args = json_decode($_POST['args'], false);
 
 $type = $args->type;
 
+$result = false;
+
 switch($type) {
     case 'follow':
-            $result = $dbh->followUser($_SESSION['userId'], $args->usernameProfile);
-        if (!$result) {
-            $result = $dbh->unfollowUser($_SESSION['userId'], $args->usernameProfile);
+        if ($isUserLogged) {    
+                $result = $dbh->followUser($_SESSION['userId'], $args->usernameProfile);
+            if (!$result) {
+                $result = $dbh->unfollowUser($_SESSION['userId'], $args->usernameProfile);
+            }
         }
         break;
     case 'followersList':

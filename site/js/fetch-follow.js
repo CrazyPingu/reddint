@@ -6,6 +6,8 @@ function toggleFollow(button, usernameProfile) {
         asyncRequest('request-follow.php', (response) => {
             if (response) {
                 button.innerText = button.innerText == 'Follow' ? 'Unfollow' : 'Follow';
+            } else {
+                window.location.href = 'login.php';
             }
         }, { usernameProfile, type: 'follow' });
     });
