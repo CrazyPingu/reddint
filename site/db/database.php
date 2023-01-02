@@ -192,7 +192,7 @@ class DatabaseHelper{
             return [];
         }
 
-        $sql = 'SELECT *
+        $sql = 'SELECT user.*, (SELECT COUNT(*) > 0 FROM following WHERE follower = ? AND followed = user.id) as following
                 FROM user
                 WHERE user.id IN (SELECT follower FROM following WHERE followed = ?)'
                 .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
@@ -220,7 +220,7 @@ class DatabaseHelper{
             return [];
         }
 
-        $sql = 'SELECT *
+        $sql = 'SELECT *, 1 as following
                 FROM user
                 WHERE user.id IN (SELECT followed FROM following WHERE follower = ?)'
                 .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
