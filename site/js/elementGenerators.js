@@ -135,4 +135,4 @@ function generateFollow(followData) {
     return follow;
 }
 
-export { generatePost, generateElements, generateComment };
+export { generatePost, generateElements, generateComment, generateFollow };
