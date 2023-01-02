@@ -404,7 +404,7 @@ class DatabaseHelper{
         return $stmt->execute() && $stmt->affected_rows > 0;
     }
 
-    /***
+    /**
      * Get communities from a list of ids or names
      * @param int[]|string[] $communities the ids or names of the communities to get, if null get all communities
      * @param int $limit amount of communities (return size could be less)
