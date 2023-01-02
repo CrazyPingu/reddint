@@ -4,9 +4,21 @@ require_once '../pre-checks.php';
 
 $args = json_decode($_POST['args'], false);
 
-$result = $dbh->followUser($_SESSION['userId'], $args->usernameProfile);
-if (!$result) {
-    $result = $dbh->unfollowUser($_SESSION['userId'], $args->usernameProfile);
+$type = $args->type;
+
+switch($type) {
+    case 'follow':
+            $result = $dbh->followUser($_SESSION['userId'], $args->usernameProfile);
+        if (!$result) {
+            $result = $dbh->unfollowUser($_SESSION['userId'], $args->usernameProfile);
+        }
+        break;
+    case 'followersList':
+        $result = $dbh->getFollowers($args->usernameProfile, $args->limit, $args->offset);
+        break;
+    case 'followingList':
+        $result = $dbh->getFollowed($args->usernameProfile, $args->limit, $args->offset);
+        break;
 }
 
 echo json_encode($result);
