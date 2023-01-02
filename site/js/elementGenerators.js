@@ -35,37 +35,45 @@ function generatePost(postData) {
 
     const upvote = Object.assign(document.createElement("button"), {className: 'upvote',value: 'upvote'});
     const upvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/up-no-vote.svg',alt: 'upvote'});
-    upvote.addEventListener('click', function() {
-        // Change upvote image and post score
-        if (upvoteImg.src.includes('up-no-vote')) {
-            upvoteImg.src = './res/upvote.svg';
-            downvoteImg.src = './res/down-no-vote.svg';
-            score.innerText = Number(score.innerText) + 1;
-        } else {
-            upvoteImg.src = './res/up-no-vote.svg';
-            score.innerText = Number(score.innerText) - 1;
-        }
-        // Send vote to server
-        setVote(1, postData.id, 'post');
-    });
     upvote.appendChild(upvoteImg);
 
     const downvote = Object.assign(document.createElement("button"), {className: 'downvote',value: 'downvote'});
     const downvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/down-no-vote.svg',alt: 'downvote'});
-    downvote.addEventListener('click', function() {
-        // Change downvote image and post score
-        if (downvoteImg.src.includes('down-no-vote')) {
-            downvoteImg.src = './res/downvote.svg';
+    downvote.appendChild(downvoteImg);
+
+    // Add event listeners to vote buttons
+    upvote.addEventListener('click', function() {
+        // Change upvote image and post score
+        if (downvoteImg.src.includes('downvote.svg')) {
+            downvoteImg.src = './res/down-no-vote.svg';
+            upvoteImg.src = './res/upvote.svg';
+            score.innerText = Number(score.innerText) + 2;
+        } else if (upvoteImg.src.includes('upvote.svg')) {
             upvoteImg.src = './res/up-no-vote.svg';
             score.innerText = Number(score.innerText) - 1;
         } else {
+            upvoteImg.src = './res/upvote.svg';
+            score.innerText = Number(score.innerText) + 1;
+        }
+        // Send vote to server
+        setVote(1, postData.id, 'post');
+    });
+    downvote.addEventListener('click', function() {
+        // Change downvote image and post score
+        if (upvoteImg.src.includes('upvote.svg')) {
+            upvoteImg.src = './res/up-no-vote.svg';
+            downvoteImg.src = './res/downvote.svg';
+            score.innerText = Number(score.innerText) - 2;
+        } else if (downvoteImg.src.includes('downvote.svg')) {
             downvoteImg.src = './res/down-no-vote.svg';
             score.innerText = Number(score.innerText) + 1;
+        } else {
+            downvoteImg.src = './res/downvote.svg';
+            score.innerText = Number(score.innerText) - 1;
         }
         // Send vote to server
         setVote(-1, postData.id, 'post');
     });
-    downvote.appendChild(downvoteImg);
 
     // Receive vote from server and change image accordingly
     getVote(postData.id, 'post', upvoteImg, downvoteImg);
@@ -117,37 +125,45 @@ function generateComment(commentData) {
 
     const upvote = Object.assign(document.createElement("button"), {className: 'upvote',value: 'upvote'});
     const upvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/up-no-vote.svg',alt: 'upvote'});
-    upvote.addEventListener('click', function() {
-        // Change upvote image and comment score
-        if (upvoteImg.src.includes('up-no-vote')) {
-            upvoteImg.src = './res/upvote.svg';
-            downvoteImg.src = './res/down-no-vote.svg';
-            score.innerText = Number(score.innerText) + 1;
-        } else {
-            upvoteImg.src = './res/up-no-vote.svg';
-            score.innerText = Number(score.innerText) - 1;
-        }
-        // Send vote to server
-        setVote(1, commentData.id, 'comment');
-    });
     upvote.appendChild(upvoteImg);
 
     const downvote = Object.assign(document.createElement("button"), {className: 'downvote',value: 'downvote'});
     const downvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/down-no-vote.svg',alt: 'downvote'});
-    downvote.addEventListener('click', function() {
-        // Change downvote image and comment score
-        if (downvoteImg.src.includes('down-no-vote')) {
-            downvoteImg.src = './res/downvote.svg';
+    downvote.appendChild(downvoteImg);
+
+    // Add event listeners to vote buttons
+    upvote.addEventListener('click', function() {
+        // Change upvote image and comment score
+        if (downvoteImg.src.includes('downvote.svg')) {
+            downvoteImg.src = './res/down-no-vote.svg';
+            upvoteImg.src = './res/upvote.svg';
+            score.innerText = Number(score.innerText) + 2;
+        } else if (upvoteImg.src.includes('upvote.svg')) {
             upvoteImg.src = './res/up-no-vote.svg';
             score.innerText = Number(score.innerText) - 1;
         } else {
+            upvoteImg.src = './res/upvote.svg';
+            score.innerText = Number(score.innerText) + 1;
+        }
+        // Send vote to server
+        setVote(1, commentData.id, 'comment');
+    });
+    downvote.addEventListener('click', function() {
+        // Change downvote image and comment score
+        if (upvoteImg.src.includes('upvote.svg')) {
+            upvoteImg.src = './res/up-no-vote.svg';
+            downvoteImg.src = './res/downvote.svg';
+            score.innerText = Number(score.innerText) - 2;
+        } else if (downvoteImg.src.includes('downvote.svg')) {
             downvoteImg.src = './res/down-no-vote.svg';
             score.innerText = Number(score.innerText) + 1;
+        } else {
+            downvoteImg.src = './res/downvote.svg';
+            score.innerText = Number(score.innerText) - 1;
         }
         // Send vote to server
         setVote(-1, commentData.id, 'comment');
     });
-    downvote.appendChild(downvoteImg);
 
     // Receive vote from server and change image accordingly
     getVote(commentData.id, 'comment', upvoteImg, downvoteImg);
