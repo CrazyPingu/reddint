@@ -1,3 +1,5 @@
+import toggleFollow from "./fetch-follow.js";
+
 function generatePost(postData) {
     // Outer post div
     const post = Object.assign(document.createElement("div"), {className: 'post', id: postData.id});
@@ -112,8 +114,9 @@ function generateFollow(followData) {
     follow.appendChild(username);
 
     // follow button
-    const isFollowing = followData.following || true;
+    const isFollowing = followData.following;
     const followButton = Object.assign(document.createElement("button"), {className: isFollowing ? 'unfollow':'follow', innerText: isFollowing ? 'Unfollow':'Follow'});
+    toggleFollow(followButton, followData.username);
     follow.appendChild(followButton);
 
     return follow;
