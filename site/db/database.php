@@ -1203,7 +1203,7 @@ class DatabaseHelper{
      */
     public function searchUser(string $query, int $limit = 5, int $offset = 0): array {
         $queryLike = $query.'%';
-        $sql = "SELECT username
+        $sql = "SELECT DISTINCT(username)
                 FROM user
                 WHERE username LIKE ? OR email LIKE ?
                 ORDER BY LOCATE(?, username) ASC, LOCATE(?, email) ASC"
@@ -1227,7 +1227,7 @@ class DatabaseHelper{
      */
     public function searchCommunities(string $query, int $limit = 5, int $offset = 0): array {
         $queryLike = $query.'%';
-        $sql = 'SELECT name FROM community WHERE name LIKE ?'
+        $sql = 'SELECT DISTINCT(name) FROM community WHERE name LIKE ?'
                 .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
         $stmt = $this->db->prepare($sql);
         $types = 's'.($limit > 0 ? 'ii' : '');
