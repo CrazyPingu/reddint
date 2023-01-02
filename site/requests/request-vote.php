@@ -1,21 +1,25 @@
 <?php
-require_once  '../bootstrap.php';
-require_once  '../pre-checks.php';
+require_once '../bootstrap.php';
+require_once '../pre-checks.php';
 
 $args = json_decode($_POST['args'], false);
+$mode = isset($args->vote) ? 'set' : 'get';
+$result = false;
 
-switch($args->type) {
+switch ($args->type) {
     case 'post':
-        $dbh->votePost($_SESSION['userId'], $args->id, $args->vote);
-        $vote = $dbh->getUserPostVote($_SESSION['userId'], $args->id);
-        $score = $dbh->getPostVote($args->id);
+        if ($mode == 'get')
+            $result = $dbh->getUserPostVote($_SESSION['userId'], $args->id);
+        else
+            $result = $dbh->votePost($_SESSION['userId'], $args->id, $args->vote);
         break;
     case 'comment':
-        $dbh->voteComment($_SESSION['userId'], $args->id, $args->vote);
-        $vote = $dbh->getUserCommentVote($_SESSION['userId'], $args->id);
-        $score = $dbh->getCommentVote($args->id);
+        if ($mode == 'get')
+            $result = $dbh->getUserCommentVote($_SESSION['userId'], $args->id);
+        else
+            $result = $dbh->voteComment($_SESSION['userId'], $args->id, $args->vote);
         break;
 }
 
-echo json_encode(array('vote'=>$vote ?? 'error', 'score'=>$score ?? 'error'));
+echo json_encode($result);
 ?>
