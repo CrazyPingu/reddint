@@ -6,6 +6,11 @@ $args = json_decode($_POST['args'], false);
 $mode = isset($args->vote) ? 'set' : 'get';
 $result = false;
 
+if(!$isUserLogged) {
+    echo json_encode(false);
+    exit;
+}
+
 switch ($args->type) {
     case 'post':
         if ($mode == 'get')

@@ -59,6 +59,8 @@ function generatePost(postData) {
         setVote(1, postData.id, 'post');
     });
     downvote.addEventListener('click', function() {
+        // Send vote to server
+        setVote(-1, postData.id, 'post');
         // Change downvote image and post score
         if (upvoteImg.src.includes('upvote.svg')) {
             upvoteImg.src = './res/up-no-vote.svg';
@@ -71,8 +73,6 @@ function generatePost(postData) {
             downvoteImg.src = './res/downvote.svg';
             score.innerText = Number(score.innerText) - 1;
         }
-        // Send vote to server
-        setVote(-1, postData.id, 'post');
     });
 
     // Receive vote from server and change image accordingly
@@ -133,6 +133,8 @@ function generateComment(commentData) {
 
     // Add event listeners to vote buttons
     upvote.addEventListener('click', function() {
+        // Send vote to server
+        setVote(1, commentData.id, 'comment');
         // Change upvote image and comment score
         if (downvoteImg.src.includes('downvote.svg')) {
             downvoteImg.src = './res/down-no-vote.svg';
@@ -145,10 +147,10 @@ function generateComment(commentData) {
             upvoteImg.src = './res/upvote.svg';
             score.innerText = Number(score.innerText) + 1;
         }
-        // Send vote to server
-        setVote(1, commentData.id, 'comment');
     });
     downvote.addEventListener('click', function() {
+        // Send vote to server
+        setVote(-1, commentData.id, 'comment');
         // Change downvote image and comment score
         if (upvoteImg.src.includes('upvote.svg')) {
             upvoteImg.src = './res/up-no-vote.svg';
@@ -161,8 +163,6 @@ function generateComment(commentData) {
             downvoteImg.src = './res/downvote.svg';
             score.innerText = Number(score.innerText) - 1;
         }
-        // Send vote to server
-        setVote(-1, commentData.id, 'comment');
     });
 
     // Receive vote from server and change image accordingly
