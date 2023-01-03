@@ -12,16 +12,24 @@ if(!$isUserLogged) {
 
 switch ($args->type) {
     case 'post':
-        if ($mode == 'get')
+        if ($mode == 'get') {
             $result = $dbh->getUserPostVote($_SESSION['userId'], $args->id);
-        else
+        }
+        if ($mode == 'set') {
             $result = $dbh->votePost($_SESSION['userId'], $args->id, $args->vote);
+            if ($result)
+                $result = $dbh->getPostVote($args->id);
+        }
         break;
     case 'comment':
-        if ($mode == 'get')
+        if ($mode == 'get') {
             $result = $dbh->getUserCommentVote($_SESSION['userId'], $args->id);
-        else
+        }
+        if ($mode == 'set') {
             $result = $dbh->voteComment($_SESSION['userId'], $args->id, $args->vote);
+            if ($result)
+                $result = $dbh->getCommentVote($args->id);
+        }
         break;
 }
 
