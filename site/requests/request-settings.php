@@ -2,23 +2,24 @@
 require_once '../bootstrap.php';
 
 $args = json_decode($_POST['args'], false);
+$result = false;
 
 switch ($args->type) {
     case 'changeUsername':
-        $newUsername = $args->newUsername;
+        $result = $dbh->updateUser($_SESSION['userId'], username: $args->newUsername);
+        $_SESSION['username'] = $result ? $args->newUsername : $_SESSION['username'];
         break;
     case 'changeBio':
-        // $newBio = $args->newBio;
-        // $user->changeBio($newBio);
-        // break;
+        $result = $dbh->updateUser($_SESSION['userId'], bio: $args->newBio);
+        break;
     case 'changePassword':
-        // $oldPassword = $args->oldPassword;
-        // $newPassword = $args->newPassword;
-        // $confirmNewPassword = $args->confirmNewPassword;
-        // $user->changePassword($oldPassword, $newPassword, $confirmNewPassword);
-        // break;
-    // case 'logout':
-    //     session_destroy();
-    //     break;
+        $result = $dbh->updateUser($_SESSION['userId'], password: $args->newPassword);
+        break;
+    case 'logout':
+        session_destroy();
+        $result = true;
+        break;
 }
+
+echo json_encode($result);
 ?>

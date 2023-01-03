@@ -4,22 +4,24 @@
         <input type='text' name='newUsername' placeholder='New Username' required /><br />
         <input type='submit' name='submitUsername' value='Change username' /><br />
     </form>
+    <div id='messageUsername'></div>
 </section>
 <section>
     <form method='POST' id='changeBio'>
         <h2>Change Bio</h2>
-        <textarea maxlength='2048' placeholder='Enter bio' required></textarea><br />
+        <textarea maxlength='2048' name='newBio' placeholder='Enter bio' required></textarea><br />
         <input type='submit' name='submitBio' value='Change bio' /><br />
     </form>
+    <div id='messageBio'></div>
 </section>
 <section>
     <form method='POST' id='changePassword'>
         <h2>Change Password</h2>
-        <input type='password' name='oldPassword' placeholder='Old Password' required /><br />
         <input type='password' name='newPassword' placeholder='New Password' required /><br />
         <input type='password' name='confirmNewPassword' placeholder='Confirm New Password' required /><br />
         <input type='submit' name='submitPassword' value='Change password' /><br />
     </form>
+    <div id='messagePassword'></div>
 </section>
 <section>
     <form method='POST' id='logout'>

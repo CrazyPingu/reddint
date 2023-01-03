@@ -90,16 +90,16 @@ class DatabaseHelper{
      * @param string|null $password new password of the user
      * @param string|null $username new username of the user
      * @param string|null $bio new bio of the user
+     * @return bool true if the user was updated, false otherwise
      */
     public function updateUser(int|string $user, string $email = null, string $password = null, string $username = null, string $bio = null): bool {
         $user = $this->getUser($user);
         if ($user == null) {
             return false;
         }
-
-        $sql = 'UPDATE user SET email = ?, password = ?, username = ?, bio = ? WHERE id = ?';
+        $sql = 'UPDATE IGNORE user SET email = ?, password = ?, username = ?, bio = ? WHERE id = ?';
         $stmt = $this->db->prepare($sql);
-        $params = [$email ?? $user['email'], $password ?? password_hash($user['password'],PASSWORD_DEFAULT), $username ?? $user['username'], $bio ?? $user['bio'], $user['id']];
+        $params = [$email ?? $user['email'], password_hash($password ?? $user['password'], PASSWORD_DEFAULT), $username ?? $user['username'], $bio ?? $user['bio'], $user['id']];
         $stmt->bind_param('ssssi', ...$params);
         return $stmt->execute() && $stmt->affected_rows > 0;
     }
