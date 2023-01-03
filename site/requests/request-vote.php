@@ -1,6 +1,5 @@
 <?php
 require_once '../bootstrap.php';
-require_once '../pre-checks.php';
 
 $args = json_decode($_POST['args'], false);
 $mode = isset($args->vote) ? 'set' : 'get';

@@ -1,6 +1,5 @@
 <?php
 include_once '../bootstrap.php';
-include_once '../pre-checks.php';
 
 $args = json_decode($_POST['args'], false);
 

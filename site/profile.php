@@ -7,8 +7,6 @@ if(!(isset($_SESSION['username']) && $_SESSION['username'] == $_GET['username'] 
     exit();
 }
 
-require_once 'pre-checks.php';
-
 $templateParams['title'] = 'Reddint - Profile';
 $templateParams['fileName'] = 'profile-page.php';
 

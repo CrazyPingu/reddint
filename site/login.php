@@ -1,6 +1,11 @@
 <?php
 require_once 'bootstrap.php';
-require_once 'pre-checks.php';
+
+// Redirect from login.php to index.php if the user is already logged in
+if ($isUserLogged) {
+    header('Location: index.php');
+    exit();
+}
 
 $templateParams['title'] = 'Reddint - Login';
 $templateParams['fileName'] = 'login-form.php';

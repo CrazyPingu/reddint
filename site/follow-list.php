@@ -1,6 +1,5 @@
 <?php
     require_once 'bootstrap.php';
-    require_once 'pre-checks.php';
 
     $templateParams['title'] = 'Reddint - Follow List';
     $templateParams['fileName'] = 'follow-list-page.php';
