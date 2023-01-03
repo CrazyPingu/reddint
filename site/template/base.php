@@ -11,7 +11,7 @@
 
 <body>
     <header>
-        <div class='navbar'>
+        <nav>
             <h1><a href='./index.php' class='logo'>Reddint</a></h1>
             <input type='checkbox' id='toggler'>
             <label for='toggler'><i class='ri-menu-line'></i></label>
@@ -26,7 +26,7 @@
                     <li><a href='settings.php'>Settings</a></li>
                 </ul>
             </div>
-        </div>
+        </nav>
     </header>
     <main>
         <?php
