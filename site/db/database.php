@@ -99,7 +99,7 @@ class DatabaseHelper{
         }
         $sql = 'UPDATE IGNORE user SET email = ?, password = ?, username = ?, bio = ? WHERE id = ?';
         $stmt = $this->db->prepare($sql);
-        $params = [$email ?? $user['email'], password_hash($password ?? $user['password'], PASSWORD_DEFAULT), $username ?? $user['username'], $bio ?? $user['bio'], $user['id']];
+        $params = [$email ?? $user['email'], $password ? password_hash($password, PASSWORD_DEFAULT) : $user['password'], $username ?? $user['username'], $bio ?? $user['bio'], $user['id']];
         $stmt->bind_param('ssssi', ...$params);
         return $stmt->execute() && $stmt->affected_rows > 0;
     }
