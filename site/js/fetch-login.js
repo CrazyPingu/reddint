@@ -1,4 +1,5 @@
 import asyncRequest from './default-ajax.js';
+import obtainData from './form-data.js';
 
 const formTag = document.getElementById('login-form');
 const responseTag = document.getElementById('response');
@@ -7,11 +8,7 @@ formTag.addEventListener('submit', (e) => {
     e.preventDefault(); // Prevent the form from submitting
 
     // Format the form data into a JSON object
-    let formData = new FormData(formTag);
-    let args = {};
-    for (let [key, value] of formData.entries()) {
-        args[key] = value;
-    }
+    let args = obtainData(new FormData(formTag));
 
     // Send the request to the server, redirect to index.php if successful
     asyncRequest('request-login.php', (response) => {
