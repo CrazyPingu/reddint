@@ -25,6 +25,7 @@
                         <li><a href='login.php'>Login</a></li>
                         <li><a href='signup.php'>Signup</a></li>
                     <?php endif; ?>
+                    <li><a href='community.php'>Communities</a></li>
                     <li><a href=<?php echo 'profile.php' . ($isUserLogged ? '?username=' . $_SESSION['username'] : ''); ?>>Profile</a></li>
                     <li><a href='notifications.php'>Notifications <?php echo ($isUserLogged ? $templateParams['numNotifications'] : ''); ?></a></li>
                     <li><a href='settings.php'>Settings</a></li>
