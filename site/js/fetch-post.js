@@ -1,8 +1,8 @@
 import asyncRequest from "./default-ajax.js";
 import { generatePost, generateElements } from './elementGenerators.js';
 
-const spacePost = document.querySelector('.post');
-const spaceComments = document.querySelector('.comments');
+const spacePost = document.querySelector('.post-container');
+const spaceComments = document.querySelector('.comments-container');
 const postId = spacePost.id;
 const formTag = document.getElementById('form-comment');
 const textTag = document.getElementById('content');
