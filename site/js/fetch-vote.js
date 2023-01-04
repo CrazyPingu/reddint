@@ -3,10 +3,6 @@ import asyncRequest from './default-ajax.js';
 function changeImages(vote, upvoteImg, downvoteImg) {
     upvoteImg.src = vote > 0 ? './res/upvote.svg' : './res/up-no-vote.svg';
     downvoteImg.src = vote < 0 ? './res/downvote.svg' : './res/down-no-vote.svg';
-    if (vote == 0) {
-        upvoteImg.src = './res/up-no-vote.svg';
-        downvoteImg.src = './res/down-no-vote.svg';
-    }
 }
 
 function setVote(vote, id, type, upvoteImg, downvoteImg, score) {
