@@ -142,7 +142,7 @@ export function generateCommunity(communityData) {
     // community name
     const communityName = Object.assign(document.createElement("h2"), {className: 'communityName'});
     // community link
-    const communityLink = Object.assign(document.createElement("a"), {href: `./community.php?name=${encodeURIComponent(communityData.name)}`,innerText: communityData.name});
+    const communityLink = Object.assign(document.createElement("a"), {href: `./community.php?community=${encodeURIComponent(communityData.name)}`,innerText: communityData.name});
     // community description
     const communityDescription = Object.assign(document.createElement("p"), {className: 'communityDescription',innerText: communityData.description});
     // community members
