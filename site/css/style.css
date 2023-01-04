@@ -1,72 +1,62 @@
 body {
-    background-color: white;
-    color: black;
+  color: white;
+  background: #1a1a1b;
 }
 
-p {
-    display: inline;
+article {
+  margin: 5vmin auto;
+  padding: 5vmin;
+  background: #FF5700;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+article p {
+  display: inline;
+}
+article img.svg {
+  width: 2vmin;
 }
 
-.post, .comment {
-    margin-top: 3vmin;
-    margin-bottom: 3vmin;
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
-
-img.svg {
-    width: 2vmin;
+nav .menu {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
 }
-/*
-    Navbar
-*/
-nav{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
+nav .menu .list {
+  list-style-type: none;
+  flex-direction: column;
+  padding: 0;
 }
-
-nav a{
-    text-decoration: none;
-    color: inherit;
+nav input[type=checkbox] {
+  margin-left: auto;
+  cursor: pointer;
 }
-
-.list{
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
+nav input[type=checkbox]:checked ~ .menu {
+  max-height: 30vh;
 }
-
-#toggler, nav label{
-    display: none;
+nav a, nav input[type=text] {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 1vmin;
+  margin: 0 auto;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  width: 30vmin;
 }
-
-@media screen and (max-width: 720px){
-    .menu{
-        width: 100%;
-        max-height: 0;
-        overflow: hidden;
-    }
-    .list{
-        position: relative;
-        flex-direction: column;
-        align-items: left;
-        padding: 0;
-    }
-    #toggler, nav label{
-        display: inline-block;
-        align-items: center;
-        cursor: pointer;
-    }
-    #toggler:checked ~ .menu{
-        max-height: 100vh;
-    }
-
-    input[type="text"]{
-        width: 65%;
-    }
-
-    .upvote > img, .downvote > img {
-        width: 2vmax;
-    }
+nav a.logo, nav input[type=text].logo {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
+nav a:hover:not(input[type=text]), nav input[type=text]:hover:not(input[type=text]) {
+  background: #FF5700;
+  color: #1a1a1b;
+}/*# sourceMappingURL=style.css.map */

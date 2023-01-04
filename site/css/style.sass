@@ -1,0 +1,51 @@
+$orange: #FF5700
+$background: #1a1a1b
+$font-color: white
+$selected-font-color: $background
+
+body
+    color: $font-color
+    background: $background
+
+article
+    margin: 5vmin auto
+    padding: 5vmin
+    background: $orange
+    width: fit-content
+    p
+        display: inline
+    img
+        &.svg
+            width: 2vmin
+
+nav
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
+    .menu
+        width: 100%
+        max-height: 0
+        overflow: hidden
+        .list
+            list-style-type: none
+            flex-direction: column
+            padding: 0
+    input[type=checkbox]
+        // display: none
+        margin-left: auto
+        cursor: pointer
+        &:checked ~ .menu
+            max-height: 30vh
+    a, input[type=text]
+        color: $font-color
+        text-decoration: none
+        display: block
+        padding: 1vmin
+        margin: 0 auto
+        width: fit-content
+        width: 30vmin
+        &.logo
+            width: fit-content
+        &:hover:not(input[type=text])
+            background: $orange
+            color: $selected-font-color

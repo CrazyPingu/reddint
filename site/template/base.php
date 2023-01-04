@@ -14,7 +14,7 @@
         <nav>
             <h1><a href='./index.php' class='logo'>Reddint</a></h1>
             <input type='checkbox' id='toggler'>
-            <label for='toggler'><i class='ri-menu-line'></i></label>
+            <label for='toggler'></label>
             <div class='menu'>
                 <ul class='list'>
                     <li>
