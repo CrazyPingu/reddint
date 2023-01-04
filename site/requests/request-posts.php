@@ -46,6 +46,10 @@ switch ($type) {
             $posts = $dbh->getPost($postId);
         }
         break;
+    case 'create':
+        if ($isUserLogged) {
+            $posts = $dbh->addPost($_SESSION['userId'], $args->community, $args->title, $args->content);
+        }
 }
 
 echo json_encode($posts);

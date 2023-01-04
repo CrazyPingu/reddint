@@ -25,6 +25,11 @@ switch ($type) {
             $result = $dbh->getRandomCommunities($args->limit, $args->offset);
         }
         break;
+    case 'create':
+        if ($isUserLogged) {
+            $result = $dbh->addCommunity($_SESSION['userId'], $args->nameCommunity, $args->description);
+        }
+        break;
 }
 
 echo json_encode($result);
