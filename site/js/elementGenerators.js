@@ -13,7 +13,7 @@ export function generatePost(postData) {
     const date = Object.assign(document.createElement("p"), {innerText: postData.creation_date});
 
     // Post title and content
-    const postTitle = Object.assign(document.createElement("h1"), {className: 'postTitle'});
+    const postTitle = Object.assign(document.createElement("h2"), {className: 'postTitle'});
     const postLink = Object.assign(document.createElement("a"), {href: `./post.php?postId=${encodeURIComponent(postData.id)}`,innerText: postData.title});
     const postContent = Object.assign(document.createElement("p"), {className: 'postContent',innerText: postData.content});
     const botPart = Object.assign(document.createElement("div"), {className: 'botPart'});
@@ -137,6 +137,24 @@ export function generateNotification(notificationData) {
 
 export function generateCommunity(communityData) {
     // Outer community div
+    const community = Object.assign(document.createElement("article"), {className: 'community', id: communityData.id});
+
+    // community name
+    const communityName = Object.assign(document.createElement("h2"), {className: 'communityName'});
+    // community link
+    const communityLink = Object.assign(document.createElement("a"), {href: `./community.php?name=${encodeURIComponent(communityData.name)}`,innerText: communityData.name});
+    // community description
+    const communityDescription = Object.assign(document.createElement("p"), {className: 'communityDescription',innerText: communityData.description});
+    // community members
+    const communityMembers = Object.assign(document.createElement("p"), {className: 'communityMembers',innerText: 'Members: '+communityData.participating});
+
+    // Append elements to community div
+    communityName.appendChild(communityLink);
+    community.appendChild(communityName);
+    community.appendChild(communityDescription);
+    community.appendChild(communityMembers);
+
+    return community;
 }
 
 export function generateElements(response, container, type) {
