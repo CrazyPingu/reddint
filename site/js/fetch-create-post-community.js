@@ -13,11 +13,12 @@ document.querySelectorAll('#createPost, #createCommunity').forEach((form) => {
         asyncRequest(post, (response) => {
             let responseTag = document.createElement('p');
             if(response) {
-                responseTag.append('Successfully created!');
+                responseTag.append('Successfully created! ');
+                responseTag.appendChild(Object.assign(document.createElement('a'), {href: 'community.php?community='+data.nameCommunity, innerText: 'Go to the community'}));
             } else {
-                responseTag.append('Error,not created!');
+                responseTag.append('Error, not created!');
             }
-            form.append(responseTag);
+            form.appendChild(responseTag);
         }, data);
     });
 });
