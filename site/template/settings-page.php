@@ -1,7 +1,8 @@
 <section>
     <form method='POST' id='changeUsername'>
         <h2>Change Username</h2>
-        <input type='text' name='newUsername' placeholder='New Username' required /><br />
+        <input type='text' name='newUsername' placeholder='New Username' value="<?php echo $_SESSION['username']; ?>"
+            required /><br />
         <input type='submit' name='submitUsername' value='Change username' /><br />
     </form>
     <div id='messageUsername'></div>
@@ -9,7 +10,8 @@
 <section>
     <form method='POST' id='changeBio'>
         <h2>Change Bio</h2>
-        <textarea maxlength='2048' name='newBio' placeholder='Enter bio' required></textarea><br />
+        <textarea maxlength='2048' name='newBio' placeholder='Enter bio'
+            required><?php echo $templateParams['userBio']; ?></textarea><br />
         <input type='submit' name='submitBio' value='Change bio' /><br />
     </form>
     <div id='messageBio'></div>
