@@ -13,6 +13,14 @@ class DatabaseHelper{
         $this->db->close();
     }
 
+    // Get the maximum id from the post and comment tables, this is used to generate new ids
+    private function getMaxId() {
+        $sql = 'SELECT MAX(id)
+                FROM (SELECT id FROM post UNION SELECT id FROM comment) as id';
+        $result = $this->db->query($sql);
+        return $result->fetch_assoc()['MAX(id)'] ?? 0;
+    }
+
     ///////////////////////////
     // User related queries  //
     ///////////////////////////
@@ -629,11 +637,12 @@ class DatabaseHelper{
     public function addPost(int|string $author, int|string $community, string $title, string $content): bool {
         $author = $this->getUser($author);
         $community = $this->getCommunity($community);
+        $id = $this->getMaxId() + 1;
         if ($author == null || $community == null || empty($title) || empty($content)) {
             return false;
         }
 
-        $sql = 'INSERT IGNORE INTO post (author, community, title, content, creation_date) VALUES (?, ?, ?, ?, NOW())';
+        $sql = "INSERT IGNORE INTO post (id,author,community,title,content,creation_date) VALUES ($id,?,?,?,?,NOW())";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('iiss', $author['id'], $community['id'], $title, $content);
         return $stmt->execute() && $stmt->affected_rows > 0;
@@ -915,11 +924,12 @@ class DatabaseHelper{
      */
     public function addComment(int $post, int|string $author, string $content): bool {
         $author = $this->getUser($author);
+        $id = $this->getMaxId() + 1;
         if ($post == null || $author == null || empty($content)) {
             return false;
         }
 
-        $sql = 'INSERT INTO comment (author, post, content, creation_date) VALUES (?, ?, ?, NOW())';
+        $sql = "INSERT INTO comment (id,author,post,content,creation_date) VALUES ($id,?,?,?,NOW())";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('iis', $author['id'], $post, $content);
         return $stmt->execute() && $stmt->affected_rows > 0;

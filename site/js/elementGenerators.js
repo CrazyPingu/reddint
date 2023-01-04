@@ -13,7 +13,8 @@ function generatePost(postData) {
     const date = Object.assign(document.createElement("p"), {innerText: postData.creation_date});
 
     // Post title and content
-    const postTitle = Object.assign(document.createElement("h1"), {className: 'postTitle',href: `./post.php?postId=${encodeURIComponent(postData.id)}`,innerText: postData.title});
+    const postTitle = Object.assign(document.createElement("h1"), {className: 'postTitle'});
+    const postLink = Object.assign(document.createElement("a"), {href: `./post.php?postId=${encodeURIComponent(postData.id)}`,innerText: postData.title});
     const postContent = Object.assign(document.createElement("p"), {className: 'postContent',innerText: postData.content});
     const botPart = Object.assign(document.createElement("div"), {className: 'botPart'});
 
@@ -42,6 +43,7 @@ function generatePost(postData) {
     communityAuthor.appendChild(authorLink);
     topPart.appendChild(communityAuthor);
     topPart.appendChild(date);
+    postTitle.appendChild(postLink);
     post.appendChild(topPart);
     post.appendChild(postTitle);
     post.appendChild(postContent);
