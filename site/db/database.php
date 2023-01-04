@@ -656,7 +656,7 @@ class DatabaseHelper{
         $in = str_repeat('?,', $count - 1).'?';
         $search_for = "post.id IN ($in)";
         $sql = "SELECT post.id, user.username as author, community.name as community, post.title, post.content, post.attachment, post.creation_date, post.edited,
-                (SELECT SUM(vote) FROM vote_post WHERE post = post.id) as vote,
+                (SELECT COALESCE(SUM(vote),0) FROM vote_post WHERE post = post.id) as vote,
                 (SELECT COUNT(*) FROM comment WHERE post = post.id) as comments
                 FROM (post JOIN user ON post.author = user.id) JOIN community ON post.community = community.id
                 WHERE $search_for".($limit > 0 ? " LIMIT ? OFFSET ?" : '');
@@ -727,7 +727,7 @@ class DatabaseHelper{
      */
     public function getRandomPosts(int $limit = 10, int $offset = 0): array {
         $sql = 'SELECT post.id, user.username as author, community.name as community, post.title, post.content, post.attachment, post.creation_date, post.edited,
-                (SELECT SUM(vote) FROM vote_post WHERE post = post.id) as vote,
+                (SELECT COALESCE(SUM(vote),0) FROM vote_post WHERE post = post.id) as vote,
                 (SELECT COUNT(*) FROM comment WHERE post = post.id) as comments
                 FROM (post JOIN user ON post.author = user.id) JOIN community ON post.community = community.id
                 ORDER BY RAND()
@@ -756,7 +756,7 @@ class DatabaseHelper{
         $count = count($array);
         $in  = str_repeat('?,', $count-1).'?';
         $sql = "SELECT post.id, user.username as author, community.name as community, post.title, post.content, post.attachment, post.creation_date, post.edited,
-                (SELECT SUM(vote) FROM vote_post WHERE post = post.id) as vote,
+                (SELECT COALESCE(SUM(vote),0) FROM vote_post WHERE post = post.id) as vote,
                 (SELECT COUNT(*) FROM comment WHERE post = post.id) as comments
                 FROM (post JOIN user ON post.author = user.id) JOIN community ON post.community = community.id
                 WHERE community.id IN ($in)
@@ -801,7 +801,7 @@ class DatabaseHelper{
         $count = count($array);
         $in  = str_repeat('?,', $count-1).'?';
         $sql = "SELECT post.id, user.username as author, community.name as community, post.title, post.content, post.attachment, post.creation_date, post.edited,
-                (SELECT SUM(vote) FROM vote_post WHERE post = post.id) as vote,
+                (SELECT COALESCE(SUM(vote),0) FROM vote_post WHERE post = post.id) as vote,
                 (SELECT COUNT(*) FROM comment WHERE post = post.id) as comments
                 FROM (post JOIN user ON post.author = user.id) JOIN community ON post.community = community.id
                 WHERE user.id IN ($in)
@@ -942,7 +942,7 @@ class DatabaseHelper{
         $in = str_repeat('?,', $count - 1).'?';
         $search_for = "comment.id IN ($in)";
         $sql = "SELECT comment.id, user.username as author, comment.content, comment.creation_date, comment.edited,
-                (SELECT SUM(vote) FROM vote_comment WHERE comment = comment.id) as vote
+                (SELECT COALESCE(SUM(vote),0) FROM vote_comment WHERE comment = comment.id) as vote
                 FROM comment JOIN user ON comment.author = user.id
                 WHERE $search_for"
                 .($limit > 0 ? " LIMIT ? OFFSET ?" : '');
@@ -1018,7 +1018,7 @@ class DatabaseHelper{
         $in = str_repeat('?,', $count - 1).'?';
         $search_for = "comment.post IN ($in)";
         $sql = "SELECT comment.id, user.username as author, comment.content, comment.creation_date, comment.edited,
-                (SELECT SUM(vote) FROM vote_comment WHERE comment = comment.id) as vote
+                (SELECT COALESCE(SUM(vote),0) FROM vote_comment WHERE comment = comment.id) as vote
                 FROM comment JOIN user ON comment.author = user.id
                 WHERE $search_for
                 ORDER BY vote DESC, comment.creation_date DESC"
@@ -1076,7 +1076,7 @@ class DatabaseHelper{
         $in = str_repeat('?,', $count - 1).'?';
         $search_for = "author IN ($in)";
         $sql = "SELECT comment.id, user.username as author, comment.content, comment.creation_date, comment.edited,
-                (SELECT SUM(vote) FROM vote_comment WHERE comment = comment.id) as vote
+                (SELECT COALESCE(SUM(vote),0) FROM vote_comment WHERE comment = comment.id) as vote
                 FROM comment JOIN user ON comment.author = user.id
                 WHERE $search_for
                 ORDER BY creation_date DESC"

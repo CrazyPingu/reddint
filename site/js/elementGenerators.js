@@ -3,7 +3,7 @@ import { getVote, setVote } from "./fetch-vote.js";
 
 function generatePost(postData) {
     // Outer post div
-    const post = Object.assign(document.createElement("div"), {className: 'post', id: postData.id});
+    const post = Object.assign(document.createElement("article"), {className: 'post', id: postData.id});
 
     // topPart div containing community, author and date
     const topPart = Object.assign(document.createElement("div"), {className: 'topPartPost'});
@@ -13,7 +13,7 @@ function generatePost(postData) {
     const date = Object.assign(document.createElement("p"), {innerText: postData.creation_date});
 
     // Post title and content
-    const postTitle = Object.assign(document.createElement("a"), {className: 'postTitle',href: `./post.php?postId=${encodeURIComponent(postData.id)}`,innerText: postData.title});
+    const postTitle = Object.assign(document.createElement("h1"), {className: 'postTitle',href: `./post.php?postId=${encodeURIComponent(postData.id)}`,innerText: postData.title});
     const postContent = Object.assign(document.createElement("p"), {className: 'postContent',innerText: postData.content});
     const botPart = Object.assign(document.createElement("div"), {className: 'botPart'});
 
@@ -38,10 +38,10 @@ function generatePost(postData) {
     getVote(postData.id, 'post', upvoteImg, downvoteImg);
 
     // Append topPart, post, botPart to post
-    topPart.appendChild(date);
     communityAuthor.appendChild(communityLink);
     communityAuthor.appendChild(authorLink);
     topPart.appendChild(communityAuthor);
+    topPart.appendChild(date);
     post.appendChild(topPart);
     post.appendChild(postTitle);
     post.appendChild(postContent);
