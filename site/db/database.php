@@ -606,18 +606,14 @@ class DatabaseHelper{
             return [];
         }
 
-        $sql = 'SELECT community.id, user.username as author, community.name, description, community.creation_date
-                FROM (community JOIN user ON community.author = user.id) JOIN participation ON user.id = participation.user
-                WHERE participation.user = ? AND participation.date_left IS NULL
-                ORDER BY community.name DESC'
-                .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
+        $sql = 'SELECT DISTINCT(community)
+                FROM participation
+                WHERE user = ? AND date_left IS NULL';
         $stmt = $this->db->prepare($sql);
-        $types = 'i'.($limit > 0 ? 'ii' : '');
-        $params = [$user['id']];
-        if ($limit > 0) array_push($params, $limit, $offset);
-        $stmt->bind_param($types, ...$params);
+        $stmt->bind_param('i', $user['id']);
         $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $this->getCommunities(array_column($result, 'community'), $limit, $offset);
     }
 
 
