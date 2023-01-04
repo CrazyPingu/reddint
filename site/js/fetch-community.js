@@ -21,12 +21,18 @@ const args = { type, offset, limit: baseOffset };
 
 
 window.onload = function () {
+    const modifyButton = document.getElementById('modifyButton');
+    let communityInformations = document.getElementsByClassName('communityInformations');
+    if (modifyButton) {
+        modifyButton.addEventListener('click', () => {
+            window.location.href = 'modify-community.php?community='+communityInformations[0].id;
+        });
+    }
     if (document.getElementsByClassName('spacePosts')[0]) {
         space = document.getElementsByClassName('spacePosts')[0];
-        let communityName = document.getElementsByClassName('communityInformations')[0].id;
-        args.communityName = communityName;
+        args.communityName = communityInformations[0].id;
         type = 'post';
-        toggleParticipation(document.getElementById('participateButton'), communityName);
+        toggleParticipation(document.getElementById('participateButton'), communityInformations[0].id);
     } else {
         space = document.getElementsByClassName('spaceCommunities')[0];
         type = 'community';

@@ -30,6 +30,12 @@ switch ($type) {
             $result = $dbh->addCommunity($_SESSION['userId'], $args->nameCommunity, $args->description);
         }
         break;
+    case 'change':
+        $result = $dbh->updateCommunity($args->nameCommunity, $args->description);
+        break;
+    case 'delete':
+        $result = $dbh->deleteCommunity($args->nameCommunity);
+        break;
 }
 
 echo json_encode($result);

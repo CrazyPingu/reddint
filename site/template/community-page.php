@@ -17,6 +17,9 @@
             </div>
         </div>
     </div>
+    <?php if ($isUserLogged && $_SESSION['username'] == $templateParams['communityAuthor']) : ?>
+        <button type='button' id='modifyButton'>Modify community</button>
+    <?php endif; ?>
     <div class='spacePosts'></div>
 <?php else: ?>
     <div class='spaceCommunities'></div>
