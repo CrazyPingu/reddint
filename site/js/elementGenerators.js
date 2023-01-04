@@ -1,7 +1,7 @@
 import toggleFollow from "./fetch-follow.js";
 import { getVote, setVote } from "./fetch-vote.js";
 
-function generatePost(postData) {
+export function generatePost(postData) {
     // Outer post div
     const post = Object.assign(document.createElement("article"), {className: 'post', id: postData.id});
 
@@ -61,7 +61,7 @@ function generatePost(postData) {
     return post;
 }
 
-function generateComment(commentData) {
+export function generateComment(commentData) {
     // Outer comment div
     const comment = Object.assign(document.createElement("div"), {className: 'comment', id: commentData.id});
 
@@ -103,7 +103,7 @@ function generateComment(commentData) {
     return comment;
 }
 
-function generateFollow(followData) {
+export function generateFollow(followData) {
     // Outer follow div
     const follow = Object.assign(document.createElement("div"), {className: 'follow', id: followData.id});
 
@@ -120,7 +120,7 @@ function generateFollow(followData) {
     return follow;
 }
 
-function generateNotification(notificationData) {
+export function generateNotification(notificationData) {
     // Outer notification div
     const notification = Object.assign(document.createElement("div"), {className: 'notification' + (notificationData.seen ? ' seen':'')});
     // notification content
@@ -135,23 +135,14 @@ function generateNotification(notificationData) {
     return notification;
 }
 
-function generateElements(response, container, type) {
-    for (const element of response) {
-        switch (type) {
-            case 'post':
-                container.appendChild(generatePost(element));
-                break;
-            case 'comment':
-                container.appendChild(generateComment(element));
-                break;
-            case 'follow':
-                container.appendChild(generateFollow(element));
-                break;
-            case 'notification':
-                container.appendChild(generateNotification(element));
-                break;
-        }
-    }
+export function generateCommunity(communityData) {
+    // Outer community div
 }
 
-export { generatePost, generateComment, generateFollow, generateNotification, generateElements };
+export function generateElements(response, container, type) {
+    const funcName = 'generate'+type.charAt(0).toUpperCase()+type.slice(1);
+    const func = eval(funcName);
+    for (const element of response) {
+        container.appendChild(func(element));
+    }
+}
