@@ -21,14 +21,14 @@ export function generatePost(postData) {
     // botPart Div containing vote buttons, score and comments button
     const vote = Object.assign(document.createElement("div"), {className: 'vote'});
     const upvote = Object.assign(document.createElement("button"), {className: 'upvote',value: 'upvote'});
-    const upvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/up-no-vote.svg',alt: 'upvote'});
+    const upvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/svg/up-no-vote.svg',alt: 'upvote'});
     const downvote = Object.assign(document.createElement("button"), {className: 'downvote',value: 'downvote'});
-    const downvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/down-no-vote.svg',alt: 'downvote'});
+    const downvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/svg/down-no-vote.svg',alt: 'downvote'});
     const score = Object.assign(document.createElement("p"), {className: 'score',innerText: postData.vote});
 
     // comments Div containing comment button
     const comments = Object.assign(document.createElement("a"), {className: 'comments', href: `./post.php?postId=${encodeURIComponent(postData.id)}`});
-    const commentsImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/comments.svg',alt: 'comments'});
+    const commentsImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/svg/comments.svg',alt: 'comments'});
     const numComments = Object.assign(document.createElement("p"), {innerText: postData.comments + ' comments'});
 
     // Add event listeners to vote buttons
@@ -76,9 +76,9 @@ export function generateComment(commentData) {
     // vote div containing vote buttons and score
     const vote = Object.assign(document.createElement("div"), {className: 'vote'});
     const upvote = Object.assign(document.createElement("button"), {className: 'upvote',value: 'upvote'});
-    const upvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/up-no-vote.svg',alt: 'upvote'});
+    const upvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/svg/up-no-vote.svg',alt: 'upvote'});
     const downvote = Object.assign(document.createElement("button"), {className: 'downvote',value: 'downvote'});
-    const downvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/down-no-vote.svg',alt: 'downvote'});
+    const downvoteImg = Object.assign(document.createElement("img"), {className: 'svg',src: './res/svg/down-no-vote.svg',alt: 'downvote'});
     const score = Object.assign(document.createElement("p"), {className: 'score',innerText: commentData.vote});
 
     // Add event listeners to vote buttons

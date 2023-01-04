@@ -5,7 +5,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <link rel='stylesheet' type='text/css' href='css/style.css'>
-    <link rel='icon' href='res/favicon.ico' type='image/x-icon' sizes='16x16'>
+    <link rel='icon' href='res/ico/favicon.ico' type='image/x-icon' sizes='16x16'>
     <title>
         <?php echo $templateParams['title']; ?>
     </title>
