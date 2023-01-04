@@ -5,12 +5,11 @@ const spacePost = document.querySelector('.post-container');
 const spaceComments = document.querySelector('.comments-container');
 const formTag = document.getElementById('form-comment');
 const textTag = document.getElementById('content');
+const postId = spacePost.getAttribute('data-id');
 
 let offset = 0;
 let baseOffset = 10;
-const postId = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop),
-}).postId;
+
 
 function loadComments() {
     spaceComments.innerHTML = '';

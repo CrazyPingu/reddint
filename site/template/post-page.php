@@ -1,4 +1,4 @@
-<div class='post-container'></div>
+<div class='post-container' data-id='<?php echo $templateParams['postId'] ?>'></div>
 <div class='create-comment'>
     <form method='post' id='form-comment'>
         <textarea name='comment' id='content' placeholder='Comment' maxlength='8192' required></textarea>
