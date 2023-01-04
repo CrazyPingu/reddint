@@ -18,6 +18,19 @@ article img.svg {
   width: 2vmin;
 }
 
+.comment {
+  padding: 5vmin;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.comment p {
+  display: inline;
+}
+.comment img.svg {
+  width: 2vmin;
+}
+
 nav {
   display: flex;
   flex-wrap: wrap;

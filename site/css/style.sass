@@ -7,16 +7,24 @@ body
     color: $font-color
     background: $background
 
-article
-    margin: 5vmin auto
-    padding: 5vmin
-    background: $orange
-    width: fit-content
+@mixin imgAndp()
     p
         display: inline
     img
         &.svg
             width: 2vmin
+
+article
+    margin: 5vmin auto
+    padding: 5vmin
+    background: $orange
+    width: fit-content
+    @include imgAndp()
+
+.comment
+    padding: 5vmin
+    width: fit-content
+    @include imgAndp()
 
 nav
     display: flex
