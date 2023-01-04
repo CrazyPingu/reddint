@@ -7,6 +7,7 @@ if($community) {
     $templateParams['description'] = $community['description'];
     $templateParams['creationDate'] = $community['creation_date'];
     $templateParams['membersCount'] = $community['participating'];
+    $templateParams['communityAuthor'] = $community['author'];
     $templateParams['isParticipating'] = $dbh->isParticipating($_SESSION['userId'] ?? -1, $community['id']);
 }
 
