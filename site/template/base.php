@@ -10,6 +10,7 @@
         <?php echo $templateParams['title']; ?>
     </title>
 </head>
+
 <body>
     <input type="checkbox" id="toggle">
     <nav>
@@ -29,7 +30,7 @@
                 <li class="nav-link nav-item"><a href='login.php'>Login</a></li>
                 <li class="nav-link nav-item"><a href='signup.php'>Signup</a></li>
             <?php else: ?>
-                <li class="nav-link nav-item"><a href='create-post-community.php'>Create post/community</a></li>
+                <li class="nav-link nav-item"><a href='create-post-community.php'>Create</a></li>
                 <li class="nav-link nav-item"><a href=<?php echo 'profile.php?username=' . $_SESSION['username']; ?>>Profile</a></li>
                 <li class="nav-link nav-item"><a href='notifications.php'>Notifications <?php echo ($isUserLogged ? $templateParams['numNotifications'] : ''); ?></a></li>
                 <li class="nav-link nav-item"><a href='settings.php'>Settings</a></li>
@@ -46,4 +47,5 @@
     <script src='<?php echo 'js/' . $templateParams['scriptFileName'] ?? ''; ?>' type='module'></script>
     <script src='./js/search-bar.js' type='module'></script>
 </body>
+
 </html>

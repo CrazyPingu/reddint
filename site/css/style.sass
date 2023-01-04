@@ -7,6 +7,8 @@ $post-background: #1a1a1b
 $navbar-search-bar-background: #272729
 $navbar-highlight-color: $orange
 $background-hamburger: #ffffff
+$navbar-dimension: 10vmin
+
 *
     margin: 0
     padding: 0
@@ -38,17 +40,20 @@ article
     @include imgAndp()
 
 nav
+    position: sticky
     display: flex
     justify-content: space-between
-    padding: 0 5vw
-    height: 20vmin
-    line-height: 20vmin
+    box-sizing: border-box
+    padding: 0 min(3vw, 15vw)
+    width: 100vw
+    height: $navbar-dimension
+    line-height: $navbar-dimension
     background: $navbar-background
     a
         color: inherit
         font-size: 1.2rem
         &.logo
-            font-size: 2rem
+            font-size: 7vmin
             font-weight: bold
             color: $orange
     .nav-list
@@ -56,7 +61,7 @@ nav
         position: absolute
         background: $navbar-background
         width: 100%
-        top: 20vmin
+        top: $navbar-dimension
         left: 0
         display: none
         input[type=text]
@@ -83,9 +88,9 @@ nav
         margin: auto 0
         cursor: pointer
         .bar
-            width: 8vmin
+            width: 6vmin
             height: 1vmin
-            margin: 1vmin 0
+            margin: 0.4rem 0
             background: $background-hamburger
             transition: 0.5s
 
@@ -104,3 +109,30 @@ input[type=checkbox]
                     display: none
                 &:nth-child(3)
                     transform: rotate(-45deg)
+
+@media screen and (min-width: 1830px)
+    nav
+        position: sticky
+        width: 100vw
+        height: 10vmin
+        line-height: 10vmin
+        // box-sizing: border-box
+        .nav-list
+            position: relative
+            display: flex
+            justify-content: space-evenly
+            flex-wrap: wrap
+            top: 0
+            input[type=text]
+                width: 25vw
+            .nav-item
+                &:hover
+                    background: $navbar-background
+                :not(input[type=text])
+                    padding: 0 1vw
+            .nav-link
+                color: $font-color
+                font-size: 1rem
+        .navbar-toggler
+            .bar
+                display: none
