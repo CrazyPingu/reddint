@@ -21,7 +21,7 @@ searchBar.addEventListener('keyup', () => {
                 searchSpace.appendChild(
                     Object.assign(document.createElement('a'),
                     {
-                        href: `./community.php?name=${encodeURIComponent(element['name'])}`,
+                        href: `./community.php?community=${encodeURIComponent(element['name'])}`,
                         innerText: element['name']
                     }));
                 searchSpace.appendChild(document.createElement('br'));
