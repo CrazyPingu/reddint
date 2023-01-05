@@ -10,6 +10,7 @@
         <?php echo $templateParams['title']; ?>
     </title>
 </head>
+
 <body>
     <input type='checkbox' id='toggle'>
     <nav>
@@ -27,17 +28,41 @@
             <li class='nav-link nav-item'><a href='community.php'><img class='svg' alt='communities icon'
                         src='./res/svg/community.svg' />Communities</a></li>
             <?php if (!$isUserLogged): ?>
-                <li class='nav-link nav-item'><a href='login.php'>Login</a></li>
-                <li class='nav-link nav-item'><a href='signup.php'>Signup</a></li>
+                <li class='nav-link nav-item'>
+                    <a href='login.php'>
+                        Login
+                    </a>
+                </li>
+                <li class='nav-link nav-item'>
+                    <a href='signup.php'>
+                        Signup
+                    </a>
+                </li>
             <?php else: ?>
-                <li class='nav-link nav-item'><a href='create-post-community.php'><img class='svg' alt='create icon'
-                            src='./res/svg/create.svg' />Create</a></li>
-                <li class='nav-link nav-item'><a href=<?php echo 'profile.php?username=' . $_SESSION['username']; ?>><img
-                            class='svg' alt='profile icon' src='./res/svg/profile.svg' />Profile</a></li>
-                <li class='nav-link nav-item'><a href='notifications.php'><img class='svg' alt='notification icon'
-                            src='./res/svg/notification-bell.svg' />Notifications&nbsp;<?php echo ($isUserLogged ? $templateParams['numNotifications'] : ''); ?></a></li>
-                <li class='nav-link nav-item'><a href='settings.php'><img class='svg' alt='settings icon'
-                            src='./res/svg/settings.svg' />Settings</a></li>
+                <li class='nav-link nav-item'>
+                    <a href='create-post-community.php'>
+                        <img class='svg' alt='create icon' src='./res/svg/create.svg' />
+                        Create
+                    </a>
+                </li>
+                <li class='nav-link nav-item'>
+                    <a href=<?php echo 'profile.php?username=' . $_SESSION['username']; ?>>
+                        <img class='svg' alt='profile icon' src='./res/svg/profile.svg' />
+                        Profile
+                    </a>
+                </li>
+                <li class='nav-link nav-item'>
+                    <a href='notifications.php'>
+                        <img class='svg' alt='notification icon' src='./res/svg/notification-bell.svg' />
+                        Notifications&nbsp;<?php echo ($isUserLogged ? $templateParams['numNotifications'] : ''); ?>
+                    </a>
+                </li>
+                <li class='nav-link nav-item'>
+                    <a href='settings.php'>
+                        <img class='svg' alt='settings icon' src='./res/svg/settings.svg' />
+                        Settings
+                    </a>
+                </li>
             <?php endif; ?>
         </ul>
     </nav>
@@ -51,4 +76,5 @@
     <script src='<?php echo 'js/' . $templateParams['scriptFileName'] ?? ''; ?>' type='module'></script>
     <script src='./js/search-bar.js' type='module'></script>
 </body>
+
 </html>

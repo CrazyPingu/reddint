@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512px"
-    height="512px" viewBox="0 0 512 512" version="1.1">
-    <g id="surface1">
-        <path
-            style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
-            d="M 21 13 C 21 15.761475 18.761475 18 16 18 C 13.238525 18 11 15.761475 11 13 C 11 10.238525 13.238525 8 16 8 C 18.761475 8 21 10.238525 21 13 Z M 21 13 "
-            transform="matrix(16,0,0,16,0,0)" />
-        <path
-            style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
-            d="M 23 28 C 23 24.134033 19.865967 21 16 21 C 12.134033 21 9 24.134033 9 28 Z M 23 28 "
-            transform="matrix(16,0,0,16,0,0)" />
-        <path
-            style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
-            d="M 24 14 C 26.351318 14 28.38501 12.361816 28.885498 10.064209 C 29.385986 7.766846 28.218018 5.431152 26.079834 4.453125 C 23.94165 3.475098 21.410889 4.118896 20 6 "
-            transform="matrix(16,0,0,16,0,0)" />
-        <path
-            style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
-            d="M 25 24 L 31 24 C 31 20.134033 27.865967 17 24 17 " transform="matrix(16,0,0,16,0,0)" />
-        <path
-            style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
-            d="M 12 6 C 10.589111 4.118896 8.05835 3.475098 5.920166 4.453125 C 3.781982 5.431152 2.614014 7.766846 3.114502 10.064209 C 3.61499 12.361816 5.648682 14 8 14 "
-            transform="matrix(16,0,0,16,0,0)" />
-        <path
-            style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
-            d="M 8 17 C 4.134033 17 1 20.134033 1 24 L 7 24 " transform="matrix(16,0,0,16,0,0)" />
-    </g>
+        height="512px" viewBox="0 0 512 512" version="1.1">
+        <g id="surface1">
+                <path
+                        style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
+                        d="M 21 13 C 21 15.761475 18.761475 18 16 18 C 13.238525 18 11 15.761475 11 13 C 11 10.238525 13.238525 8 16 8 C 18.761475 8 21 10.238525 21 13 Z M 21 13 "
+                        transform="matrix(16,0,0,16,0,0)" />
+                <path
+                        style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
+                        d="M 23 28 C 23 24.134033 19.865967 21 16 21 C 12.134033 21 9 24.134033 9 28 Z M 23 28 "
+                        transform="matrix(16,0,0,16,0,0)" />
+                <path
+                        style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
+                        d="M 24 14 C 26.351318 14 28.38501 12.361816 28.885498 10.064209 C 29.385986 7.766846 28.218018 5.431152 26.079834 4.453125 C 23.94165 3.475098 21.410889 4.118896 20 6 "
+                        transform="matrix(16,0,0,16,0,0)" />
+                <path
+                        style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
+                        d="M 25 24 L 31 24 C 31 20.134033 27.865967 17 24 17 "
+                        transform="matrix(16,0,0,16,0,0)" />
+                <path
+                        style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
+                        d="M 12 6 C 10.589111 4.118896 8.05835 3.475098 5.920166 4.453125 C 3.781982 5.431152 2.614014 7.766846 3.114502 10.064209 C 3.61499 12.361816 5.648682 14 8 14 "
+                        transform="matrix(16,0,0,16,0,0)" />
+                <path
+                        style="fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;"
+                        d="M 8 17 C 4.134033 17 1 20.134033 1 24 L 7 24 "
+                        transform="matrix(16,0,0,16,0,0)" />
+        </g>
 </svg>
