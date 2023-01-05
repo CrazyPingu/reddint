@@ -1,11 +1,15 @@
 import asyncRequest from "./default-ajax.js";
 import { generatePost, generateElements } from './elementGenerators.js';
+import addConfirmButton from './confirm.js';
 
 const spacePost = document.querySelector('.post-container');
 const spaceComments = document.querySelector('.comments-container');
 const formTag = document.getElementById('form-comment');
 const textTag = document.getElementById('content');
 const postId = spacePost.getAttribute('data-id');
+const editButton = document.getElementById('editButton');
+const deleteButton = document.getElementById('deleteButton');
+const space = document.getElementById('editSpace');
 
 let offset = 0;
 let baseOffset = 10;
@@ -23,6 +27,44 @@ window.onload = function () {
         spacePost.appendChild(generatePost(response));
     }, { type: 'single', postId });
     loadComments();
+
+
+    if(editButton) {
+        editButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const title = document.querySelector('h2.postTitle a');
+            title.contentEditable = true;
+            title.classList.add('editable');
+
+            const content = document.querySelector('p.postContent');
+            content.contentEditable = true;
+            content.classList.add('editable');
+
+            let saveButton = Object.assign(document.createElement('button'), {id: 'saveButton', innerText: 'Save'});
+            document.querySelector('article.post').appendChild(saveButton);
+            saveButton.addEventListener('click', () => {
+                asyncRequest('request-posts.php', (response) => {
+                    if(response) {
+                        title.contentEditable = false;
+                        title.classList.remove('editable');
+                        content.contentEditable = false;
+                        content.classList.remove('editable');
+                        document.querySelector('article.post').removeChild(saveButton);
+                    } else {
+                        let errorTag = document.createElement('p');
+                        errorTag.append('Error during the post editing');
+                        space.appendChild(errorTag);
+                    }
+                }, { type: 'edit', postId, titlePost: title.innerText, contentPost: content.innerText });
+            });
+        });
+    }
+
+    if (deleteButton) {
+        deleteButton.addEventListener('click', (e) => {
+            addConfirmButton(space, 'request-posts.php', {type: 'delete', postId});
+        });
+    }
 }
 
 formTag.addEventListener('submit', (e) => {
