@@ -8,9 +8,13 @@ export function generatePost(postData) {
     // topPart div containing community, author and date
     const topPart = Object.assign(document.createElement("div"), {className: 'topPartPost'});
     const communityAuthor = Object.assign(document.createElement("div"), {className: 'communityAuthor'});
+    const communityImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/community.svg', alt: 'community'});
     const communityLink = Object.assign(document.createElement("a"), {href: `./community.php?community=${encodeURIComponent(postData.community)}`,innerText: postData.community});
+    const authorImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/profile.svg', alt: 'user'});
     const authorLink = Object.assign(document.createElement("a"), {href: `./profile.php?username=${encodeURIComponent(postData.author)}`,innerText: postData.author});
-    const date = Object.assign(document.createElement("p"), {innerText: postData.creation_date});
+    const dateDiv = Object.assign(document.createElement("div"), {className: 'date'});
+    const dateImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/time.svg', alt: 'date'});
+    const date = Object.assign(document.createElement("p"), {innerText: 'created '+dateDiffToNow(postData.creation_date)+' ago'});
 
     // Post title and content
     const postTitle = Object.assign(document.createElement("h2"), {className: 'postTitle'});
@@ -39,10 +43,14 @@ export function generatePost(postData) {
     getVote(postData.id, 'post', upvoteImg, downvoteImg);
 
     // Append topPart, post, botPart to post
+    communityAuthor.appendChild(communityImg);
     communityAuthor.appendChild(communityLink);
+    communityAuthor.appendChild(authorImg);
     communityAuthor.appendChild(authorLink);
     topPart.appendChild(communityAuthor);
-    topPart.appendChild(date);
+    dateDiv.appendChild(dateImg);
+    dateDiv.appendChild(date);
+    topPart.appendChild(dateDiv);
     postTitle.appendChild(postLink);
     post.appendChild(topPart);
     post.appendChild(postTitle);
@@ -67,8 +75,11 @@ export function generateComment(commentData) {
 
     // div containing author and date
     const authorDate = Object.assign(document.createElement("div"), {className: 'commentAuthorDate'});
+    const authorImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/profile.svg', alt: 'user'});
     const authorLink = Object.assign(document.createElement("a"), {href: `./profile.php?username=${encodeURIComponent(commentData.author)}`,innerText: commentData.author});
-    const date = Object.assign(document.createElement("p"), {innerText: commentData.creation_date});
+    const dateDiv = Object.assign(document.createElement("div"), {className: 'date'});
+    const dateImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/time.svg', alt: 'date'});
+    const date = Object.assign(document.createElement("p"), {innerText: 'created '+dateDiffToNow(commentData.creation_date)+' ago'});
 
     // comment content
     const commentContent = Object.assign(document.createElement("p"), {className: 'commentContent',innerText: commentData.content});
@@ -89,8 +100,11 @@ export function generateComment(commentData) {
     getVote(commentData.id, 'comment', upvoteImg, downvoteImg);
 
     // Append elements to comment div
+    authorDate.appendChild(authorImg);
     authorDate.appendChild(authorLink);
-    authorDate.appendChild(date);
+    dateDiv.appendChild(dateImg);
+    dateDiv.appendChild(date);
+    authorDate.appendChild(dateDiv);
     comment.appendChild(authorDate);
     comment.appendChild(commentContent);
     upvote.appendChild(upvoteImg);
@@ -163,4 +177,31 @@ export function generateElements(response, container, type) {
     for (const element of response) {
         container.appendChild(func(element));
     }
+}
+
+function formatDate(dateString, timeZone = 'GMT+1') {
+    return new Date(Date.parse(dateString+' '+timeZone));
+}
+
+function dateDiff(date1, date2) {
+    const diff = Math.abs(date1.getTime() - date2.getTime());
+    const years = Math.floor(diff / (1000 * 3600 * 24 * 365));
+    const days = Math.floor(diff / (1000 * 3600 * 24));
+    const hours = Math.floor((diff % (1000 * 3600 * 24)) / (1000 * 3600));
+    const minutes = Math.floor((diff % (1000 * 3600)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    if (years > 0) return years + 'y';
+    if (days > 0) return days + 'd';
+    if (hours > 0) return hours + 'h';
+    if (minutes > 0) return minutes + 'm';
+    return seconds + 's';
+}
+
+function dateDiffToNow(date) {
+    //check if date is a string, if so, convert it to a date object
+    if (typeof date === 'string'){
+        date = formatDate(date);
+    }
+    return dateDiff(date, new Date());
 }
