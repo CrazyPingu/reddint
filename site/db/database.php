@@ -701,7 +701,6 @@ class DatabaseHelper{
 
         $sql = 'UPDATE post SET title = ?, content = ?, edited = 1 WHERE id = ?';
         $stmt = $this->db->prepare($sql);
-        echo $title ?? $post['title'], $content ?? $post['content'], $post['id'];
         $params = [$title ?? $post['title'], $content ?? $post['content'], $post['id']];
         $stmt->bind_param('ssi', ...$params);
         return $stmt->execute() && $stmt->affected_rows > 0;
