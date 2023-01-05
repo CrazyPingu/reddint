@@ -1194,19 +1194,19 @@ class DatabaseHelper{
     }
 
 
+
     /////////////////////////////
     // Search related queries  //
     /////////////////////////////
 
-
     /**
-     * Search for a user given a string
+     * Search for usernames and emails given a string query
      * @param string $query the query to search for
-     * @param int $limit amount of users (return size could be less)
+     * @param int $limit amount of usernames (return size could be less)
      * @param int $offset offset for pagination
-     * @return array the users
+     * @return array the usernames by order of relevance
      */
-    public function searchUser(string $query, int $limit = 5, int $offset = 0): array {
+    public function searchUsers(string $query, int $limit = 5, int $offset = 0): array {
         $queryLike = $query.'%';
         $sql = "SELECT DISTINCT(username)
                 FROM user
@@ -1224,11 +1224,11 @@ class DatabaseHelper{
 
 
     /**
-     * Summary of searchCommunities given a string
+     * Search for communities given a string query
      * @param string $query the query to search for
      * @param int $limit amount of communities (return size could be less)
      * @param int $offset offset for pagination
-     * @return array the communities
+     * @return array the community names by order of relevance
      */
     public function searchCommunities(string $query, int $limit = 5, int $offset = 0): array {
         $queryLike = $query.'%';
@@ -1237,6 +1237,33 @@ class DatabaseHelper{
         $stmt = $this->db->prepare($sql);
         $types = 's'.($limit > 0 ? 'ii' : '');
         $params = [$queryLike];
+        if ($limit > 0) array_push($params, $limit, $offset);
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Search for both users and communities given a string query
+     * @param string $query the query to search for
+     * @param int $limit amount of results (return size could be less)
+     * @param int $offset offset for pagination
+     * @return array the usernames and community names by order of relevance
+     */
+    public function searchUsersAndCommunities(string $query, int $limit = 5, int $offset = 0): array {
+        $queryLike = $query.'%';
+        $sql = "SELECT DISTINCT(username) AS name, 'profile' AS type
+                FROM user
+                WHERE username LIKE ? OR email LIKE ?
+                UNION
+                SELECT DISTINCT(name) AS name, 'community' AS type
+                FROM community
+                WHERE name LIKE ?
+                ORDER BY LOCATE(?, name) ASC, LOCATE(?, name) ASC"
+                .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
+        $stmt = $this->db->prepare($sql);
+        $types = 'sssss'.($limit > 0 ? 'ii' : '');
+        $params = [$queryLike, $queryLike, $queryLike, $query, $query];
         if ($limit > 0) array_push($params, $limit, $offset);
         $stmt->bind_param($types, ...$params);
         $stmt->execute();
