@@ -1,5 +1,6 @@
 import asyncRequest from './default-ajax.js';
 import obtainData from './form-data.js';
+import addConfirmButton from './confirm.js';
 
 const changeUsernameForm = document.getElementById('changeUsername');
 const messageUsername = document.getElementById('messageUsername');
@@ -55,14 +56,5 @@ logoutForm.addEventListener('submit', (e) => {
 
 //Delete account
 document.getElementById('deleteProfile').addEventListener('click', () => {
-    asyncRequest('request-settings.php', (response) => {
-        let responseTag = document.createElement('p');
-        if (response) {
-            responseTag.append('Account deleted successfully ');
-            responseTag.appendChild(Object.assign(document.createElement('a'), {href: 'index.php', innerText: 'Go to home page'}));
-        } else {
-            responseTag.append('Error, account not deleted');
-        }
-        deleteButtonDiv.appendChild(responseTag);
-    }, { type: 'delete' });
+    addConfirmButton(deleteButtonDiv, 'request-settings.php', { type: 'delete' });
 });
