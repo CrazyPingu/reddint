@@ -14,7 +14,9 @@ document.querySelectorAll('#createPost, #createCommunity').forEach((form) => {
             let responseTag = document.createElement('p');
             if(response) {
                 responseTag.append('Successfully created! ');
-                responseTag.appendChild(Object.assign(document.createElement('a'), {href: 'community.php?community='+data.nameCommunity, innerText: 'Go to the community'}));
+                if (form.id == 'createCommunity') {
+                    responseTag.appendChild(Object.assign(document.createElement('a'), {href: 'community.php?community='+data.nameCommunity, innerText: 'Go to the community'}));
+                }
             } else {
                 responseTag.append('Error, not created!');
             }
