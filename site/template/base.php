@@ -34,11 +34,13 @@
             <?php if (!$isUserLogged): ?>
                 <li class='nav-link nav-item'>
                     <a href='login.php'>
+                        <img class='svg' alt='login icon' src='<?php echo RES_SVG;?>login.svg' />
                         Login
                     </a>
                 </li>
                 <li class='nav-link nav-item'>
                     <a href='signup.php'>
+                        <img class='svg' alt='signup icon' src='<?php echo RES_SVG;?>signup.svg' />
                         Signup
                     </a>
                 </li>
