@@ -25,8 +25,12 @@
                 <input type='text' id='search' placeholder='Search'>
                 <div id='searchSpace'></div>
             </li>
-            <li class='nav-link nav-item'><a href='community.php'><img class='svg' alt='communities icon'
-                        src='./res/svg/community.svg' />Communities</a></li>
+            <li class='nav-link nav-item'>
+                <a href='community.php'>
+                    <img class='svg' alt='communities icon' src='./res/svg/community.svg' />
+                    Communities
+                </a>
+            </li>
             <?php if (!$isUserLogged): ?>
                 <li class='nav-link nav-item'>
                     <a href='login.php'>
@@ -74,7 +78,7 @@
         ?>
     </main>
     <script src='<?php echo 'js/' . $templateParams['scriptFileName'] ?? ''; ?>' type='module'></script>
-    <script src='./js/search-bar.js' type='module'></script>
+    <script src='js/search-bar.js' type='module'></script>
 </body>
 
 </html>
