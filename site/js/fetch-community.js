@@ -20,6 +20,12 @@ let offset = 0;
 let baseOffset = 10;
 const args = { type, offset, limit: baseOffset };
 
+function render(container, args) {
+    asyncRequest('request-community.php', (response) => {
+        generateElements(response, container, args.type);
+    }, args);
+}
+
 
 window.onload = function () {
     const communityInformations = document.getElementsByClassName('communityInformations');
@@ -35,9 +41,7 @@ window.onload = function () {
     }
 
     args.type = type;
-    asyncRequest('request-community.php', (response) => {
-        generateElements(response, space, type);
-    }, args);
+    render(space, args);
 
     const editButton = document.getElementById('editButton');
     if (editButton) {
@@ -76,9 +80,7 @@ window.onload = function () {
         if (space.scrollTop + space.clientHeight >= space.scrollHeight) {
             offset += baseOffset;
             args.offset = offset;
-            asyncRequest('request-community.php', (response) => {
-                generateElements(response, space, type);
-            }, args);
+            render(space, args);
         }
     });
 }
