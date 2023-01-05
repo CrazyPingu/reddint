@@ -8,6 +8,11 @@ let offset = 0;
 function renderPosts() {
     asyncRequest(`request-posts.php`, (response) => {
             postsDiv.innerHTML = '';
+            if (response.length == 0) {
+                const noPosts = Object.assign(document.createElement('p'), {className: 'no-result', innerText: 'No posts to show'});
+                postsDiv.appendChild(noPosts);
+                return;
+            }
             generateElements(response, postsDiv, 'post');
     }, {type: selectedButton.id == 'communitiesPosts' ? 'communities' : 'users',
         offset,

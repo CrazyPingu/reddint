@@ -13,6 +13,17 @@ function toggleFollow(button, usernameProfile) {
     });
 }
 
+function renderFollowers(listFollowTag, args) {
+    asyncRequest('request-follow.php', (response) => {
+        if (response.length == 0) {
+            const noFollowers = Object.assign(document.createElement('p'), {className: 'no-result', innerText: 'No users to show' });
+            listFollowTag.appendChild(noFollowers);
+            return;
+        }
+        generateElements(response, listFollowTag, 'follow');
+    }, args);
+}
+
 window.onload = function () {
     const usernameProfile = document.getElementsByClassName('followContainer')[0].id;
     const listFollowTag = document.getElementsByClassName('listFollow')[0];
@@ -20,17 +31,13 @@ window.onload = function () {
     let baseOffset = 10;
     const args = { type: listFollowTag.id, usernameProfile, offset, limit: baseOffset };
 
-    asyncRequest('request-follow.php', (response) => {
-        generateElements(response, listFollowTag, 'follow');
-    }, args);
+    renderFollowers(listFollowTag, args);
 
     document.querySelectorAll('#followers, #following').forEach(button => {
         button.addEventListener('click', () => {
             listFollowTag.innerHTML = '';
             args.type = button.id == 'followers' ? 'followersList' : 'followingList';
-            asyncRequest('request-follow.php', (response) => {
-                generateElements(response, listFollowTag, 'follow');
-            }, args);
+            renderFollowers(listFollowTag, args);
         });
     });
 
@@ -38,9 +45,7 @@ window.onload = function () {
         if (listFollowTag.scrollTop + listFollowTag.clientHeight >= listFollowTag.scrollHeight) {
             offset += baseOffset;
             args.offset = offset;
-            asyncRequest('request-follow.php', (response) => {
-                generateElements(response, listFollowTag, 'follow');
-            }, args);
+            renderFollowers(listFollowTag, args);
         }
     });
 }

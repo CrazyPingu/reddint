@@ -11,6 +11,11 @@ function pushNotification(user, content) {
 // Render notifications elements
 function renderNotifications() {
     asyncRequest(`request-notifications.php`, (response) => {
+        if (response.length == 0) {
+            const noNotifications = Object.assign(document.createElement('p'), {className: 'no-result', innerText: 'No notifications to show'});
+            notificationsDiv.appendChild(noNotifications);
+            return;
+        }
         generateElements(response, notificationsDiv, 'notification');
     }, {type: 'get', offset, limit: 50});
 }
