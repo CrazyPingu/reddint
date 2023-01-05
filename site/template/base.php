@@ -27,7 +27,7 @@
             </li>
             <li class='nav-link nav-item'>
                 <a href='community.php'>
-                    <img class='svg' alt='communities icon' src='./res/svg/community.svg' />
+                    <img class='svg' alt='communities icon' src='<?php echo RES_SVG;?>community.svg' />
                     Communities
                 </a>
             </li>

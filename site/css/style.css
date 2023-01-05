@@ -11,6 +11,18 @@ body {
   background: #333333;
 }
 
+p {
+  color: white;
+  display: inline;
+}
+
+a {
+  color: red;
+}
+a:hover {
+  color: #FF5700;
+}
+
 img.svg {
   width: 3vmin;
   margin-right: 0.5rem;
@@ -24,18 +36,12 @@ article {
   width: -moz-fit-content;
   width: fit-content;
 }
-article p {
-  display: inline;
-}
 
 .comment {
   padding: 5vmin;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-}
-.comment p {
-  display: inline;
 }
 
 input[type=checkbox] {
@@ -62,8 +68,12 @@ nav {
   justify-content: space-between;
   width: 100%;
   height: 11vmin;
-  line-height: 11vmin;
   background: #1a1a1b;
+}
+nav h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 nav a {
   color: inherit;
@@ -72,13 +82,10 @@ nav a {
   flex-wrap: nowrap;
 }
 nav a.logo {
-  font-size: 4rem;
+  font-size: 5vmax;
   font-weight: bold;
   color: #FF5700;
   margin-left: 2vmin;
-}
-nav #searchSpace a {
-  display: inline;
 }
 nav .nav-list {
   position: absolute;
@@ -92,7 +99,7 @@ nav .nav-list input[type=text] {
   background: #272729;
   border-radius: 10rem;
   border: none;
-  padding: 1rem;
+  padding: 1vmin 2vmin;
   color: white;
   box-sizing: border-box;
   width: 100%;
@@ -100,6 +107,8 @@ nav .nav-list input[type=text] {
 nav .nav-list .nav-item {
   display: none;
   margin: 0 2rem;
+  margin-top: 2vmin;
+  margin-bottom: 2vmin;
 }
 nav .nav-list .nav-item #searchSpace {
   display: flex;
@@ -107,8 +116,19 @@ nav .nav-list .nav-item #searchSpace {
   flex-wrap: nowrap;
   flex-direction: column;
 }
-nav .nav-list .nav-item #searchSpace a {
-  max-width: 30%;
+nav .nav-list .nav-item #searchSpace .search-result {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 2vmin 1vmin;
+}
+nav .nav-list .nav-item #searchSpace .search-result a, nav .nav-list .nav-item #searchSpace .search-result p {
+  display: inline;
+  width: 100%;
+  height: 100%;
+}
+nav .nav-list .nav-item #searchSpace:has(*) {
+  border-bottom: 3px solid #FF5700;
 }
 nav .nav-list .nav-item:hover:not(:has(> #searchSpace)), nav .nav-list .nav-item #searchSpace > a:hover {
   color: #FF5700;
@@ -139,7 +159,9 @@ nav .navbar-toggler .bar {
     top: 0;
   }
   nav .nav-list .nav-item {
-    display: inline;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   nav .nav-list .nav-item:has(> input[type=text]) {
     width: 100%;
@@ -148,15 +170,41 @@ nav .navbar-toggler .bar {
   nav .nav-list .nav-item input[type=text] {
     width: 100%;
   }
-  nav .nav-list .nav-link {
+  nav .nav-list .nav-item.nav-link {
     color: white;
+  }
+  nav .nav-list .nav-item.nav-link a, nav .nav-list .nav-item.nav-link p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) {
+    display: inline;
+    margin: auto 0;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace {
+    position: absolute;
+    display: flex;
+    justify-content: start;
+    background: #272729;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace .search-result > a, nav .nav-list .nav-item:has(> #searchSpace) #searchSpace p {
+    display: inline;
+    margin: 0 1vmin;
+    max-width: 100%;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace:has(*) {
+    border-bottom: none;
+  }
+  nav .nav-list input[type=text]:has(~ #searchSpace:not(:empty)) {
+    border-bottom-left-radius: 0;
   }
   nav .navbar-toggler .bar {
     display: none;
   }
   #searchSpace {
     background: #1a1a1b;
-    padding-left: 1vw;
   }
   #searchSpace:nth-last-child(1) {
     border-radius: 0 0 25px 25px;

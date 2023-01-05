@@ -10,13 +10,16 @@ searchBar.addEventListener('keyup', () => {
             searchSpace.innerHTML = '';
 
             if (response.length == 0) {
-                searchSpace.innerHTML = '<p class="result-none">No results found</p>';
+                const errorDiv = Object.assign(document.createElement('div'), {className: 'search-result'});
+                const message = Object.assign(document.createElement('p'), {innerText: 'No results found'});
+                errorDiv.appendChild(message);
+                searchSpace.appendChild(errorDiv);
                 return;
             }
 
             response.forEach(element => {
                 const type = element['type'];
-                const resultDiv = Object.assign(document.createElement("div"), {className: 'result-'+type});
+                const resultDiv = Object.assign(document.createElement("div"), {className: 'search-result'});
                 const resultImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/'+type+'.svg', alt: type});
                 const resultName = Object.assign(document.createElement("a"), {
                     href: `./${type}.php?${type=='profile'?'username':'community'}=${encodeURIComponent(element['name'])}`,
