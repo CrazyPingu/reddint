@@ -13,7 +13,7 @@ body {
 
 img.svg {
   width: 3vmin;
-  margin-right: 0.3rem;
+  margin-right: 0.5rem;
 }
 
 article {
@@ -38,6 +38,23 @@ article p {
   display: inline;
 }
 
+input[type=checkbox] {
+  display: none;
+}
+input[type=checkbox]:checked ~ nav .nav-list .nav-item {
+  display: grid;
+}
+input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(1) {
+  position: absolute;
+  transform: rotate(45deg);
+}
+input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(2) {
+  display: none;
+}
+input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(3) {
+  transform: rotate(-45deg);
+}
+
 nav {
   position: -webkit-sticky;
   position: sticky;
@@ -53,16 +70,12 @@ nav a {
   font-size: 1.6vmin;
   display: flex;
   flex-wrap: nowrap;
-  page-break-after: avoid;
 }
 nav a.logo {
-  font-size: 7vmin;
+  font-size: 4rem;
   font-weight: bold;
   color: #FF5700;
   margin-left: 2vmin;
-}
-nav #searchSpace:has(> a) {
-  border: 1px solid #FF5700;
 }
 nav #searchSpace a {
   display: inline;
@@ -88,8 +101,17 @@ nav .nav-list .nav-item {
   display: none;
   margin: 0 2rem;
 }
-nav .nav-list .nav-item:hover {
-  background: #FF5700;
+nav .nav-list .nav-item #searchSpace {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+nav .nav-list .nav-item #searchSpace a {
+  max-width: 30%;
+}
+nav .nav-list .nav-item:hover:not(:has(> #searchSpace)), nav .nav-list .nav-item #searchSpace > a:hover {
+  color: #FF5700;
 }
 nav .navbar-toggler {
   display: grid !important;
@@ -109,49 +131,7 @@ nav .navbar-toggler .bar {
   transition: 0.5s;
 }
 
-input[type=checkbox] {
-  display: none;
-}
-input[type=checkbox]:checked ~ nav .nav-list .nav-item {
-  display: grid;
-}
-input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(1) {
-  position: absolute;
-  transform: rotate(45deg);
-}
-input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(2) {
-  display: none;
-}
-input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(3) {
-  transform: rotate(-45deg);
-}
-
-@media screen and (550px <= width < 1730px) {
-  .nav-list .nav-item:nth-child(1) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    margin-top: -7vmin;
-    margin-left: 30vmin;
-    width: 40vw;
-  }
-  .nav-list .nav-item:nth-child(1) input[type=text] {
-    padding: 1.5vmin;
-  }
-  .nav-list .nav-item:nth-child(1):hover {
-    background: none;
-  }
-  #searchSpace {
-    background: #1a1a1b;
-    padding-left: 1vw;
-  }
-  #searchSpace:nth-last-child(1) {
-    border-radius: 0 0 25px 25px;
-  }
-}
-@media screen and (width >= 1730px) {
+@media screen and (width >= 1180px) {
   nav .nav-list {
     position: relative;
     display: flex;
@@ -170,10 +150,6 @@ input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(3) {
   }
   nav .nav-list .nav-link {
     color: white;
-    font-size: 1rem;
-  }
-  nav .nav-list .nav-link:hover {
-    background: none;
   }
   nav .navbar-toggler .bar {
     display: none;

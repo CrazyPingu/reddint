@@ -15,7 +15,6 @@ searchBar.addEventListener('keyup', () => {
                             href: `./profile.php?username=${encodeURIComponent(element['username'])}`,
                             innerText: element['username']
                         }));
-                searchSpace.appendChild(document.createElement('br'));
             });
             response['communities'].forEach(element => {
                 searchSpace.appendChild(
@@ -24,7 +23,6 @@ searchBar.addEventListener('keyup', () => {
                         href: `./community.php?community=${encodeURIComponent(element['name'])}`,
                         innerText: element['name']
                     }));
-                searchSpace.appendChild(document.createElement('br'));
             });
         }, { value: searchBar.value })
     }

@@ -41,25 +41,25 @@
             <?php else: ?>
                 <li class='nav-link nav-item'>
                     <a href='create-post-community.php'>
-                        <img class='svg' alt='create icon' src='./res/svg/create.svg' />
+                        <img class='svg' alt='create icon' src='<?php echo RES_SVG;?>create.svg' />
                         Create
                     </a>
                 </li>
                 <li class='nav-link nav-item'>
                     <a href=<?php echo 'profile.php?username=' . $_SESSION['username']; ?>>
-                        <img class='svg' alt='profile icon' src='./res/svg/profile.svg' />
+                        <img class='svg' alt='profile icon' src='<?php echo RES_SVG;?>profile.svg' />
                         Profile
                     </a>
                 </li>
                 <li class='nav-link nav-item'>
                     <a href='notifications.php'>
-                        <img class='svg' alt='notification icon' src='./res/svg/notification-bell.svg' />
+                        <img class='svg' alt='notification icon' src='<?php echo RES_SVG;?>notification-bell.svg' />
                         Notifications&nbsp;<?php echo ($isUserLogged ? $templateParams['numNotifications'] : ''); ?>
                     </a>
                 </li>
                 <li class='nav-link nav-item'>
                     <a href='settings.php'>
-                        <img class='svg' alt='settings icon' src='./res/svg/settings.svg' />
+                        <img class='svg' alt='settings icon' src='<?php echo RES_SVG;?>settings.svg' />
                         Settings
                     </a>
                 </li>
