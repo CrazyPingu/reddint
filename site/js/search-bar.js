@@ -9,6 +9,11 @@ searchBar.addEventListener('keyup', () => {
         asyncRequest('request-search.php', (response) => {
             searchSpace.innerHTML = '';
 
+            if (response.length == 0) {
+                searchSpace.innerHTML = '<p class="result-none">No results found</p>';
+                return;
+            }
+
             response.forEach(element => {
                 const type = element['type'];
                 const resultDiv = Object.assign(document.createElement("div"), {className: 'result-'+type});
