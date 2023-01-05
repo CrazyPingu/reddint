@@ -1,6 +1,6 @@
 import asyncRequest from "./default-ajax.js";
 import { generatePost, generateElements } from './elementGenerators.js';
-import addConfirmButton from './confirm.js';
+import addConfirmButton from './add-buttons.js';
 
 const spacePost = document.querySelector('.post-container');
 const spaceComments = document.querySelector('.comments-container');

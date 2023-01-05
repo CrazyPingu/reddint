@@ -1,6 +1,6 @@
 import asyncRequest from './default-ajax.js';
 import { generateElements } from './elementGenerators.js';
-import addConfirmButton from './confirm.js';
+import addConfirmButton from './add-buttons.js';
 
 function toggleParticipation(button, communityName) {
     button.addEventListener('click', function () {
