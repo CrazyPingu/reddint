@@ -10,8 +10,7 @@ $navbar-search-bar-background: #272729
 $navbar-highlight-color: $orange
 $background-hamburger: #ffffff
 $navbar-dimension: 11vmin
-$media-query-1: 550px
-$media-query-2: 1730px
+$media-query: 1180px
 
 *
     margin: 0
@@ -36,7 +35,7 @@ body
 img
     &.svg
         width: 3vmin
-        margin-right: 0.3rem
+        margin-right: 0.5rem
 
 article
     margin: 5vmin auto
@@ -50,6 +49,22 @@ article
     width: fit-content
     @include imgAndp()
 
+input[type=checkbox]
+    display: none
+    &:checked ~ nav
+        .nav-list
+            .nav-item
+                display: grid
+        .navbar-toggler
+            .bar
+                &:nth-child(1)
+                    position: absolute
+                    transform: rotate(45deg)
+                &:nth-child(2)
+                    display: none
+                &:nth-child(3)
+                    transform: rotate(-45deg)
+
 nav
     position: sticky
     display: flex
@@ -61,18 +76,14 @@ nav
     a
         color: inherit
         font-size: 1.6vmin
-        // display: grid
         display: flex
         flex-wrap: nowrap
-        page-break-after: avoid
         &.logo
-            font-size: 7vmin
+            font-size: 4rem
             font-weight: bold
             color: $orange
             margin-left: 2vmin
     #searchSpace
-        &:has(> a)
-            border: 1px solid $orange
         a
             display: inline
     .nav-list
@@ -93,8 +104,15 @@ nav
         .nav-item
             display: none
             margin: 0 2rem
-            &:hover
-                background: $orange
+            #searchSpace
+                display: flex
+                justify-content: center
+                flex-wrap: nowrap
+                flex-direction: column
+                a
+                    max-width: 30%
+            &:hover:not(:has(> #searchSpace)), #searchSpace > a:hover
+                color: $orange
     .navbar-toggler
         display: grid !important
         display: none
@@ -108,41 +126,8 @@ nav
             margin: 0.2rem 0
             background: $orange
             transition: 0.5s
-input[type=checkbox]
-    display: none
-    &:checked ~ nav
-        .nav-list
-            .nav-item
-                display: grid
-        .navbar-toggler
-            .bar
-                &:nth-child(1)
-                    position: absolute
-                    transform: rotate(45deg)
-                &:nth-child(2)
-                    display: none
-                &:nth-child(3)
-                    transform: rotate(-45deg)
 
-@media screen and ($media-query-1 <= width < $media-query-2)
-    .nav-list
-        .nav-item:nth-child(1)
-            display: flex
-            flex-direction: column
-            align-items: center
-            justify-content: center
-            position: absolute
-            margin-top: -7vmin
-            margin-left: 30vmin
-            width: 40vw
-            // min-width: 20vw
-            input[type=text]
-                padding: 1.5vmin
-            &:hover
-                background: none
-    @include roundedCornersSearch()
-
-@media screen and (width >= $media-query-2)
+@media screen and (width >= $media-query)
     nav
         .nav-list
             position: relative
@@ -158,9 +143,7 @@ input[type=checkbox]
                     width: 100%
             .nav-link
                 color: $font-color
-                font-size: 1rem
-                &:hover
-                    background: none
+                // font-size: 1rem
         .navbar-toggler
             .bar
                 display: none
