@@ -1,5 +1,6 @@
 import asyncRequest from './default-ajax.js';
 import { generateElements } from './elementGenerators.js';
+import addConfirmButton from './confirm.js';
 
 function toggleParticipation(button, communityName) {
     button.addEventListener('click', function () {
@@ -21,13 +22,8 @@ const args = { type, offset, limit: baseOffset };
 
 
 window.onload = function () {
-    const modifyButton = document.getElementById('modifyButton');
-    let communityInformations = document.getElementsByClassName('communityInformations');
-    if (modifyButton) {
-        modifyButton.addEventListener('click', () => {
-            window.location.href = 'modify-community.php?community='+communityInformations[0].id;
-        });
-    }
+    const communityInformations = document.getElementsByClassName('communityInformations');
+
     if (document.getElementsByClassName('spacePosts')[0]) {
         space = document.getElementsByClassName('spacePosts')[0];
         args.communityName = communityInformations[0].id;
@@ -42,6 +38,39 @@ window.onload = function () {
     asyncRequest('request-community.php', (response) => {
         generateElements(response, space, type);
     }, args);
+
+    const editButton = document.getElementById('editButton');
+    if (editButton) {
+        editButton.addEventListener('click', () => {
+            const description = document.getElementById('communityDescription');
+            description.contentEditable = true;
+            description.classList.add('editable');
+
+            let saveButton = Object.assign(document.createElement('button'), { id: 'saveButton', innerText: 'Save' });
+            communityInformations[0].appendChild(saveButton);
+            saveButton.addEventListener('click', () => {
+                asyncRequest('request-community.php', (response) => {
+                    if (response) {
+                        description.contentEditable = false;
+                        description.classList.remove('editable');
+                        communityInformations[0].removeChild(saveButton);
+                    } else {
+                        let errorTag = document.createElement('p');
+                        errorTag.append('Error, description not changed');
+                        document.getElementById('editSpace').appendChild(errorTag);
+                        communityInformations[0].appendChild(errorTag);
+                    }
+                }, { type: 'edit', nameCommunity: communityInformations[0].id, description: description.innerText });
+            });
+        });
+    }
+    const deleteButton = document.getElementById('deleteButton');
+    if (deleteButton) {
+        deleteButton.addEventListener('click', () => {
+            let args = { type: 'delete', nameCommunity: communityInformations[0].id};
+            addConfirmButton(document.getElementById('editSpace'), 'request-community.php', args);
+        });
+    }
 
     space.addEventListener('scroll', () => {
         if (space.scrollTop + space.clientHeight >= space.scrollHeight) {

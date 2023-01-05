@@ -4,11 +4,14 @@ require_once 'bootstrap.php';
 $community = $dbh->getCommunity($_GET['community'] ?? -1);
 if($community) {
     $templateParams['communityName'] = $community['name'];
-    $templateParams['description'] = $community['description'];
+    $templateParams['communityDescription'] = $community['description'];
     $templateParams['creationDate'] = $community['creation_date'];
     $templateParams['membersCount'] = $community['participating'];
     $templateParams['communityAuthor'] = $community['author'];
     $templateParams['isParticipating'] = $dbh->isParticipating($_SESSION['userId'] ?? -1, $community['id']);
+} else if (isset($_GET['community'])) {
+    header('Location: index.php');
+    exit();
 }
 
 $templateParams['title'] = 'Reddint - Community';

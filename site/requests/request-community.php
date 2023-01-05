@@ -30,7 +30,7 @@ switch ($type) {
             $result = $dbh->addCommunity($_SESSION['userId'], $args->nameCommunity, $args->description);
         }
         break;
-    case 'change':
+    case 'edit':
         $result = $dbh->updateCommunity($args->nameCommunity, $args->description);
         break;
     case 'delete':

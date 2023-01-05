@@ -7,18 +7,22 @@
                 <p><?php echo $templateParams['creationDate'] ?></p>
             </div>
             <div class='lowerPart'>
-                    <button type='button' id='participateButton'>
-                        <?php if($templateParams['isParticipating']): ?>
-                            Leave
-                            <?php else: ?>
-                            Join
-                            <?php endif; ?>
-                    </button>
+                <p id='communityDescription'><?php echo $templateParams['communityDescription'] ?></p>
+                <button type='button' id='participateButton'>
+                    <?php if($templateParams['isParticipating']): ?>
+                        Leave
+                        <?php else: ?>
+                        Join
+                        <?php endif; ?>
+                </button>
             </div>
         </div>
     </div>
     <?php if ($isUserLogged && $_SESSION['username'] == $templateParams['communityAuthor']) : ?>
-        <button type='button' id='modifyButton'>Modify community</button>
+        <div id='editSpace' class='buttons'>
+            <button type='button' id='editButton'>Edit community</button>
+            <button type='button' id='deleteButton'>Delete community</button>
+        </div>
     <?php endif; ?>
     <div class='spacePosts'></div>
 <?php else: ?>
