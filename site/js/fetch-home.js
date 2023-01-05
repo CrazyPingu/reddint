@@ -7,6 +7,7 @@ let offset = 0;
 
 function renderPosts() {
     asyncRequest(`request-posts.php`, (response) => {
+            postsDiv.innerHTML = '';
             generateElements(response, postsDiv, 'post');
     }, {type: selectedButton.id == 'communitiesPosts' ? 'communities' : 'users',
         offset,
@@ -15,7 +16,6 @@ function renderPosts() {
 
 document.querySelectorAll('#communitiesPosts, #usersPosts').forEach(button => {
     button.addEventListener('click', () => {
-        postsDiv.innerHTML = '';
         offset = 0;
         selectedButton = button;
         renderPosts();

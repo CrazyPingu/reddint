@@ -1,3 +1,5 @@
+@use "sass:math"
+
 $orange: #FF5700
 $background: #333333
 $font-color: white
@@ -8,6 +10,9 @@ $navbar-search-bar-background: #272729
 $navbar-highlight-color: $orange
 $background-hamburger: #ffffff
 $navbar-dimension: 10vmin
+$media-query-1: 550px
+$media-query-2: 1730px
+
 
 *
     margin: 0
@@ -43,9 +48,8 @@ nav
     position: sticky
     display: flex
     justify-content: space-between
-    box-sizing: border-box
-    padding: 0 min(3vw, 15vw)
-    width: 100vw
+    width: 94%
+    padding: 0 3%
     height: $navbar-dimension
     line-height: $navbar-dimension
     background: $navbar-background
@@ -57,13 +61,12 @@ nav
             font-weight: bold
             color: $orange
     .nav-list
-        display: grid
         position: absolute
         background: $navbar-background
         width: 100%
         top: $navbar-dimension
         left: 0
-        display: none
+        display: grid
         input[type=text]
             background: $navbar-search-bar-background
             border-radius: 10rem
@@ -73,11 +76,12 @@ nav
             box-sizing: border-box
             width: 100%
         .nav-item
-            padding: 0 2vw
+            padding: 0 2.7vw
+            display: none
             &:hover
                 background: $orange
             :not(input[type=text])
-                padding: 0 4vw
+                padding: 0 0.3rem
         .nav-link
             color: #f1f1f1
             font-size: 1.2rem
@@ -90,16 +94,15 @@ nav
         .bar
             width: 6vmin
             height: 1vmin
-            margin: 0.4rem 0
-            background: $background-hamburger
+            margin: 0.2rem 0
+            background: $orange
             transition: 0.5s
-
 input[type=checkbox]
     display: none
     &:checked ~ nav
         .nav-list
-            transform: translateY(0)
-            display: grid
+            .nav-item
+                display: grid
         .navbar-toggler
             .bar
                 &:nth-child(1)
@@ -110,26 +113,42 @@ input[type=checkbox]
                 &:nth-child(3)
                     transform: rotate(-45deg)
 
-@media screen and (min-width: 1830px)
+@media screen and ($media-query-1 <= width < $media-query-2)
+    .nav-list
+        .nav-item:nth-child(1)
+            display: grid
+            position: absolute
+            margin-top: math.div(-$navbar-dimension, 1.3)
+            margin-left: 30vmin
+            width: 40vw
+            min-width: 20vw
+            input[type=text]
+                padding: 1.5vmin
+            &:hover
+                background: none
+    #searchSpace
+        background: $navbar-background
+        padding-left: 1vw
+        &:nth-last-child(1)
+            border-radius: 0 0 25px 25px
+
+@media screen and (width >= $media-query-2)
     nav
         position: sticky
-        width: 100vw
         height: 10vmin
         line-height: 10vmin
-        // box-sizing: border-box
         .nav-list
             position: relative
             display: flex
-            justify-content: space-evenly
+            justify-content: left
             flex-wrap: wrap
             top: 0
             input[type=text]
-                width: 25vw
+                min-width: 25vw
             .nav-item
+                display: inline
                 &:hover
                     background: $navbar-background
-                :not(input[type=text])
-                    padding: 0 1vw
             .nav-link
                 color: $font-color
                 font-size: 1rem

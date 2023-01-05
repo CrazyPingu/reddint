@@ -44,9 +44,8 @@ nav {
   position: sticky;
   display: flex;
   justify-content: space-between;
-  box-sizing: border-box;
-  padding: 0 3vw;
-  width: 100vw;
+  width: 94%;
+  padding: 0 3%;
   height: 10vmin;
   line-height: 10vmin;
   background: #1a1a1b;
@@ -61,13 +60,12 @@ nav a.logo {
   color: #FF5700;
 }
 nav .nav-list {
-  display: grid;
   position: absolute;
   background: #1a1a1b;
   width: 100%;
   top: 10vmin;
   left: 0;
-  display: none;
+  display: grid;
 }
 nav .nav-list input[type=text] {
   background: #272729;
@@ -79,13 +77,14 @@ nav .nav-list input[type=text] {
   width: 100%;
 }
 nav .nav-list .nav-item {
-  padding: 0 2vw;
+  padding: 0 2.7vw;
+  display: none;
 }
 nav .nav-list .nav-item:hover {
   background: #FF5700;
 }
 nav .nav-list .nav-item :not(input[type=text]) {
-  padding: 0 4vw;
+  padding: 0 0.3rem;
 }
 nav .nav-list .nav-link {
   color: #f1f1f1;
@@ -103,16 +102,15 @@ nav .navbar-toggler {
 nav .navbar-toggler .bar {
   width: 6vmin;
   height: 1vmin;
-  margin: 0.4rem 0;
-  background: #ffffff;
+  margin: 0.2rem 0;
+  background: #FF5700;
   transition: 0.5s;
 }
 
 input[type=checkbox] {
   display: none;
 }
-input[type=checkbox]:checked ~ nav .nav-list {
-  transform: translateY(0);
+input[type=checkbox]:checked ~ nav .nav-list .nav-item {
   display: grid;
 }
 input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(1) {
@@ -126,29 +124,51 @@ input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(3) {
   transform: rotate(-45deg);
 }
 
-@media screen and (min-width: 1830px) {
+@media screen and (550px <= width < 1730px) {
+  .nav-list .nav-item:nth-child(1) {
+    display: grid;
+    position: absolute;
+    margin-top: -7.6923076923vmin;
+    margin-left: 30vmin;
+    width: 40vw;
+    min-width: 20vw;
+  }
+  .nav-list .nav-item:nth-child(1) input[type=text] {
+    padding: 1.5vmin;
+  }
+  .nav-list .nav-item:nth-child(1):hover {
+    background: none;
+  }
+  #searchSpace {
+    background: #1a1a1b;
+    padding-left: 1vw;
+  }
+  #searchSpace:nth-last-child(1) {
+    border-radius: 0 0 25px 25px;
+  }
+}
+@media screen and (width >= 1730px) {
   nav {
     position: -webkit-sticky;
     position: sticky;
-    width: 100vw;
     height: 10vmin;
     line-height: 10vmin;
   }
   nav .nav-list {
     position: relative;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: left;
     flex-wrap: wrap;
     top: 0;
   }
   nav .nav-list input[type=text] {
-    width: 25vw;
+    min-width: 25vw;
+  }
+  nav .nav-list .nav-item {
+    display: inline;
   }
   nav .nav-list .nav-item:hover {
     background: #1a1a1b;
-  }
-  nav .nav-list .nav-item :not(input[type=text]) {
-    padding: 0 1vw;
   }
   nav .nav-list .nav-link {
     color: white;
