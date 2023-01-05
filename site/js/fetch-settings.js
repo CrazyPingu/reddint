@@ -8,6 +8,7 @@ const messageBio = document.getElementById('messageBio');
 const changePasswordForm = document.getElementById('changePassword');
 const messagePassword = document.getElementById('messagePassword');
 const logoutForm = document.getElementById('logout');
+const deleteButtonDiv = document.getElementsByClassName('deleteButton')[0];
 
 
 //Username change
@@ -52,5 +53,16 @@ logoutForm.addEventListener('submit', (e) => {
     }, { type: 'logout' });
 });
 
-
-
+//Delete account
+document.getElementById('deleteProfile').addEventListener('click', () => {
+    asyncRequest('request-settings.php', (response) => {
+        let responseTag = document.createElement('p');
+        if (response) {
+            responseTag.append('Account deleted successfully ');
+            responseTag.appendChild(Object.assign(document.createElement('a'), {href: 'index.php', innerText: 'Go to home page'}));
+        } else {
+            responseTag.append('Error, account not deleted');
+        }
+        deleteButtonDiv.appendChild(responseTag);
+    }, { type: 'delete' });
+});

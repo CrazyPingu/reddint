@@ -19,6 +19,10 @@ switch ($args->type) {
         session_destroy();
         $result = true;
         break;
+    case 'delete':
+        $result = $dbh->deleteUser($_SESSION['userId']);
+        session_destroy();
+        break;
 }
 
 echo json_encode($result);
