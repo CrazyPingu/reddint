@@ -9,8 +9,8 @@ document.querySelectorAll('#createPost, #createCommunity').forEach((form) => {
         e.preventDefault();
         const data = obtainData(new FormData(form));
         data.type = 'create';
-        let post = form.id == 'createPost' ? 'request-posts.php' : 'request-community.php';
-        asyncRequest(post, (response) => {
+        let fileName = form.id == 'createPost' ? 'request-posts.php' : 'request-community.php';
+        asyncRequest(fileName, (response) => {
             let responseTag = document.createElement('p');
             if(response) {
                 responseTag.append('Successfully created! ');
