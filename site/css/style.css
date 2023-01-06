@@ -44,23 +44,6 @@ article {
   width: fit-content;
 }
 
-input[type=checkbox] {
-  display: none;
-}
-input[type=checkbox]:checked ~ nav .nav-list .nav-item {
-  display: grid;
-}
-input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(1) {
-  position: absolute;
-  transform: rotate(45deg);
-}
-input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(2) {
-  display: none;
-}
-input[type=checkbox]:checked ~ nav .navbar-toggler .bar:nth-child(3) {
-  transform: rotate(-45deg);
-}
-
 nav {
   position: -webkit-sticky;
   position: sticky;
@@ -69,6 +52,22 @@ nav {
   width: 100%;
   height: 11vmin;
   background: #1a1a1b;
+}
+nav #toggle {
+  display: none;
+}
+nav #toggle:checked ~ .nav-list .nav-item {
+  display: grid;
+}
+nav #toggle:checked ~ .navbar-toggler .bar:nth-child(1) {
+  position: absolute;
+  transform: rotate(45deg);
+}
+nav #toggle:checked ~ .navbar-toggler .bar:nth-child(2) {
+  display: none;
+}
+nav #toggle:checked ~ .navbar-toggler .bar:nth-child(3) {
+  transform: rotate(-45deg);
 }
 nav h1 {
   display: flex;
@@ -79,7 +78,7 @@ nav a {
   color: inherit;
   font-size: 1.6vmin;
   display: flex;
-  flex-wrap: nowrap;
+  align-items: center;
 }
 nav a.logo {
   font-size: 5vmax;
@@ -91,7 +90,7 @@ nav .nav-list {
   position: absolute;
   background: #1a1a1b;
   width: 100%;
-  top: 10vmin;
+  top: calc(11vmin - 1px);
   left: 0;
   display: grid;
 }
@@ -106,9 +105,7 @@ nav .nav-list input[type=text] {
 }
 nav .nav-list .nav-item {
   display: none;
-  margin: 0 2rem;
-  margin-top: 2vmin;
-  margin-bottom: 2vmin;
+  padding: 2vmin;
 }
 nav .nav-list .nav-item #searchSpace {
   display: flex;
@@ -120,12 +117,11 @@ nav .nav-list .nav-item #searchSpace .search-result {
   display: flex;
   justify-content: start;
   align-items: center;
-  padding: 2vmin 1vmin;
+  padding: 2vmin 0;
 }
 nav .nav-list .nav-item #searchSpace .search-result a, nav .nav-list .nav-item #searchSpace .search-result p {
   display: inline;
   width: 100%;
-  height: 100%;
 }
 nav .nav-list .nav-item #searchSpace:has(*) {
   border-bottom: 3px solid #FF5700;
@@ -162,6 +158,7 @@ nav .navbar-toggler .bar {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
   }
   nav .nav-list .nav-item:has(> input[type=text]) {
     width: 100%;
@@ -170,10 +167,7 @@ nav .navbar-toggler .bar {
   nav .nav-list .nav-item input[type=text] {
     width: 100%;
   }
-  nav .nav-list .nav-item.nav-link {
-    color: white;
-  }
-  nav .nav-list .nav-item.nav-link a, nav .nav-list .nav-item.nav-link p {
+  nav .nav-list .nav-item a, nav .nav-list .nav-item p {
     display: flex;
     align-items: center;
     justify-content: center;
