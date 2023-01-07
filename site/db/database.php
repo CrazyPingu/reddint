@@ -308,25 +308,31 @@ class DatabaseHelper{
      * @param int|string $receiver id or email or username of the user to send the notification to
      * @param int|string $sender id or email or username of the user that sent the notification
      * @param string $content content of the notification
-     * @param string|null $type type of the notification, either 'post' or 'comment'
-     * @param int|null $id id of the post or comment depending on the type, null if it is a generic notification
+     * @param int $postId id of the post related to the notification (if any)
+     * @param int $commentId id of the comment related to the notification (if any)
      * @return bool true if the notification was added, false if there was an error (user not found, post not found, etc.)
      */
-    public function addNotification(int|string $receiver, int|string $sender, string $content, string $type = null, int $id = null): bool {
+    public function addNotification(int|string $receiver, int|string $sender, string $content, int $postId = null, int $commentId = null): bool {
         $receiver = $this->getUser($receiver);
         $sender = $this->getUser($sender);
+        $post = $this->getPost($postId);
+        $comment = $this->getComment($commentId);
         if ($receiver == null || $sender == null) {
             return false;
         }
 
         $sql = 'INSERT IGNORE INTO notification (receiver, sender, content, date'
-                .($type == 'post' ? ', post)' : ($type == 'comment' ? ', comment)' : ')'))
-                .' VALUES (?, ?, ?, NOW()'
-                .($type == 'post' || $type == 'comment' ? ', ?)' : ')');
+                .($post != null ? ', post' : '')
+                .($comment != null ? ', comment' : '')
+                .') VALUES (?, ?, ?, NOW()'
+                .($post != null ? ', ?' : '')
+                .($comment != null ? ', ?' : '')
+                .')';
         $stmt = $this->db->prepare($sql);
-        $types = 'iis'.($type == 'post' || $type == 'comment' ? 'i' : '');
+        $types = 'iis'.($post != null ? 'i' : '').($comment != null ? 'i' : '');
         $params = [$receiver['id'], $sender['id'], $content];
-        if ($type == 'post' || $type == 'comment') array_push($params, $id);
+        if ($post != null) array_push($params, $post['id']);
+        if ($comment != null) array_push($params, $comment['id']);
         $stmt->bind_param($types, ...$params);
         return $stmt->execute() && $stmt->affected_rows > 0;
     }
@@ -1284,5 +1290,3 @@ class DatabaseHelper{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 }
-
-
