@@ -1,6 +1,6 @@
 import asyncRequest from './default-ajax.js';
 import obtainData from './form-data.js';
-import addConfirmButton from './confirm.js';
+import addConfirmButton from './add-buttons.js';
 
 const changeUsernameForm = document.getElementById('changeUsername');
 const messageUsername = document.getElementById('messageUsername');
