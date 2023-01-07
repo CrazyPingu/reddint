@@ -324,7 +324,7 @@ class DatabaseHelper{
                 .' VALUES (?, ?, ?, NOW()'
                 .($type == 'post' || $type == 'comment' ? ', ?)' : ')');
         $stmt = $this->db->prepare($sql);
-        $types = 'ii'.($type == 'post' || $type == 'comment' ? 'i' : '');
+        $types = 'iis'.($type == 'post' || $type == 'comment' ? 'i' : '');
         $params = [$receiver['id'], $sender['id'], $content];
         if ($type == 'post' || $type == 'comment') array_push($params, $id);
         $stmt->bind_param($types, ...$params);
@@ -344,7 +344,11 @@ class DatabaseHelper{
             return [];
         }
 
-        $sql = 'SELECT * FROM notification
+        $sql = 'SELECT notification.id,
+                (SELECT username FROM user WHERE id = notification.sender) AS sender,
+                (SELECT username FROM user WHERE id = notification.receiver) AS receiver,
+                notification.content, notification.date, notification.post, notification.comment
+                FROM notification
                 WHERE receiver = ?
                 ORDER BY date DESC'
                 .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
