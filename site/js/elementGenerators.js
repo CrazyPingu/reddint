@@ -7,12 +7,13 @@ export function generatePost(postData) {
 
     // topPart div containing community, author and date
     const topPart = Object.assign(document.createElement("div"), {className: 'topPartPost'});
-    const communityAuthor = Object.assign(document.createElement("div"), {className: 'communityAuthor'});
+    const communityPost = Object.assign(document.createElement("div"), {className: 'communityPost'});
     const communityImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/community.svg', alt: 'community'});
     const communityLink = Object.assign(document.createElement("a"), {href: `./community.php?community=${encodeURIComponent(postData.community)}`,innerText: postData.community});
+    const authorPost = Object.assign(document.createElement("div"), {className: 'authorPost'});
     const authorImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/profile.svg', alt: 'user'});
     const authorLink = Object.assign(document.createElement("a"), {href: `./profile.php?username=${encodeURIComponent(postData.author)}`,innerText: postData.author});
-    const dateDiv = Object.assign(document.createElement("div"), {className: 'date'});
+    const datePost = Object.assign(document.createElement("div"), {className: 'datePost'});
     const dateImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/time.svg', alt: 'date'});
     const date = Object.assign(document.createElement("p"), {innerText: 'created '+dateDiffToNow(postData.creation_date)+' ago'});
 
@@ -43,14 +44,15 @@ export function generatePost(postData) {
     getVote(postData.id, 'post', upvoteImg, downvoteImg);
 
     // Append topPart, post, botPart to post
-    communityAuthor.appendChild(communityImg);
-    communityAuthor.appendChild(communityLink);
-    communityAuthor.appendChild(authorImg);
-    communityAuthor.appendChild(authorLink);
-    topPart.appendChild(communityAuthor);
-    dateDiv.appendChild(dateImg);
-    dateDiv.appendChild(date);
-    topPart.appendChild(dateDiv);
+    communityPost.appendChild(communityImg);
+    communityPost.appendChild(communityLink);
+    topPart.appendChild(communityPost);
+    authorPost.appendChild(authorImg);
+    authorPost.appendChild(authorLink);
+    topPart.appendChild(authorPost);
+    datePost.appendChild(dateImg);
+    datePost.appendChild(date);
+    topPart.appendChild(datePost);
     postTitle.appendChild(postLink);
     post.appendChild(topPart);
     post.appendChild(postTitle);
