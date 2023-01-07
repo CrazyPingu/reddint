@@ -305,19 +305,29 @@ class DatabaseHelper{
 
     /**
      * Add a notification for a specific user to the database
-     * @param int|string $user id or email or username of the user
+     * @param int|string $receiver id or email or username of the user to send the notification to
+     * @param int|string $sender id or email or username of the user that sent the notification
      * @param string $content content of the notification
-     * @return bool true if the notification was added, false if there was an error
+     * @param string|null $type type of the notification, either 'post' or 'comment'
+     * @param int|null $id id of the post or comment depending on the type, null if it is a generic notification
+     * @return bool true if the notification was added, false if there was an error (user not found, post not found, etc.)
      */
-    public function addNotification(int|string $user, string $content): bool {
-        $user = $this->getUser($user);
-        if ($user == null) {
+    public function addNotification(int|string $receiver, int|string $sender, string $content, string $type = null, int $id = null): bool {
+        $receiver = $this->getUser($receiver);
+        $sender = $this->getUser($sender);
+        if ($receiver == null || $sender == null) {
             return false;
         }
 
-        $sql = 'INSERT INTO notification (user, date, content) VALUES (?, NOW(), ?)';
+        $sql = 'INSERT IGNORE INTO notification (receiver, sender, content, date'
+                .($type == 'post' ? ', post)' : ($type == 'comment' ? ', comment)' : ')'))
+                .' VALUES (?, ?, ?, NOW()'
+                .($type == 'post' || $type == 'comment' ? ', ?)' : ')');
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('is', $user['id'], $content);
+        $types = 'ii'.($type == 'post' || $type == 'comment' ? 'i' : '');
+        $params = [$receiver['id'], $sender['id'], $content];
+        if ($type == 'post' || $type == 'comment') array_push($params, $id);
+        $stmt->bind_param($types, ...$params);
         return $stmt->execute() && $stmt->affected_rows > 0;
     }
 

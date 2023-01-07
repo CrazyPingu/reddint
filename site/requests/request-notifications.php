@@ -16,7 +16,7 @@ switch ($type) {
         $result = $dbh->readAllNotifications($_SESSION['userId']);
         break;
     case 'add':
-        $result = $dbh->addNotification($args->user, $args->content);
+        $result = $dbh->addNotification($args->receiver, $_SESSION['userId'], $args->content, $args->type ?? null, $args->id ?? null);
         break;
 }
 
