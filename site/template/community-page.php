@@ -19,7 +19,7 @@
         </div>
     </div>
     <?php if ($isUserLogged && $_SESSION['username'] == $templateParams['communityAuthor']) : ?>
-        <div id='editSpace' class='buttons'>
+        <div id='editSpace' class='optionButtons'>
             <button type='button' id='editButton'>Edit community</button>
             <button type='button' id='deleteButton'>Delete community</button>
         </div>

@@ -1,6 +1,6 @@
 <div class='post-container' data-id='<?php echo $templateParams['postId'] ?>'></div>
 <?php if ($isUserLogged && $_SESSION['username'] == $templateParams['postAuthor']): ?>
-    <div id='editSpace' class='buttons'>
+    <div id='editSpace' class='optionButtons'>
         <button id='editButton'>Edit post</button>
         <button id='deleteButton'>Delete post</button><br>
     </div>

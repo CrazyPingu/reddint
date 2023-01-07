@@ -1,5 +1,5 @@
 <div class='followContainer' id='<?php echo $templateParams['userUsername'];?>'>
-    <div class='buttons'>
+    <div class='optionButtons'>
         <button type='button' id='followers'>Followers</button>
         <button type='button' id='following'>Following</button>
     </div>

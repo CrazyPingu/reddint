@@ -1,14 +1,16 @@
 @use "sass:math"
 
-$orange: #FF5700
-$hover-color: $orange
+$main-color: #FF5700
+$single-border: 2px solid $main-color
+$half-single-border: 1px solid $main-color
+$hover-color: $main-color
 $background: #333333
 $font-color: white
 $selected-font-color: $background
 $navbar-background: #1a1a1b
-$post-background: #1a1a1b
+$post-background: $navbar-background
 $navbar-search-bar-background: #272729
-$navbar-highlight-color: $orange
+$navbar-highlight-color: $main-color
 $result-search: $navbar-search-bar-background
 $background-hamburger: #ffffff
 $navbar-dimension: 11vmin
@@ -26,26 +28,96 @@ body
     color: $font-color
     background: $background
 
-p
-    color: $font-color
-    display: inline
-a
-    color: red
+// p
+//     color: $font-color
+//     display: inline
+// a
+//     color: red
 
 img
     &.svg
         width: 3vmin
-        margin-right: 0.5rem
+        margin: 0.5rem
 
-article
-    margin: 5vmin auto
-    padding: 5vmin
-    background: $post-background
-    width: fit-content
+.optionButtons
+    display: flex
+    width: 100%
+    :nth-child(1)
+        border-right: $half-single-border
+    :nth-child(2)
+        border-left: $half-single-border
+    > *
+        width: 50%
+        cursor: pointer
+        text-align: center
+        padding: 1vmin
+        background: $navbar-background
+        color: $font-color
+        border: none
+        border-top: $single-border
 
-.comment
-    padding: 5vmin
-    width: fit-content
+.postContainer
+    display: flex
+    justify-content: center
+    flex-direction: column
+    .post
+        background: $post-background
+        width: 50%
+        min-width: 35ch
+        word-break: break-word
+        margin: 5vmin auto
+        border-radius: 2rem
+        a
+            color: $font-color
+            &:hover
+                color: $hover-color
+        .topPartPost
+            margin: 2vmin
+            display: grid
+            .communityAndAuthor, .datePost
+                display: flex
+                align-items: center
+                justify-content: space-around
+                .authorPost, .communityPost
+                    display: flex
+                    align-items: center
+                    justify-content: center
+            .datePost
+                margin-top: 1vmin
+                justify-content: center
+        .postTitle
+            margin: 0 2vmin
+            display: flex
+            justify-content: center
+            align-items: center
+            font-size: 2rem
+            font-weight: bold
+        .postContent
+            margin: 3vmin
+        .botPart
+            margin: 2vmin
+            display: flex
+            justify-content: space-between
+            align-items: center
+            .svg
+                width: 1.6rem
+            .vote
+                display: flex
+                align-items: center
+                justify-content: center
+                button
+                    position: inherit
+                    background: transparent
+                    border: none
+                    cursor: pointer
+            .comments
+                display: flex
+                align-items: center
+                justify-content: center
+
+// .comment
+//     padding: 5vmin
+//     width: fit-content
 
 nav
     position: sticky
@@ -80,8 +152,8 @@ nav
         &.logo
             font-size: 6vmin
             font-weight: bold
-            color: $orange
-            margin-left: 2vmin
+            color: $main-color
+            margin: 0 2vmin
     .nav-list
         position: absolute
         background: $navbar-background
@@ -113,8 +185,10 @@ nav
                     a,p
                         display: inline
                         width: 100%
+                        &:hover
+                            color: $hover-color
                 &:has(*)
-                    border-bottom: 3px solid $orange
+                    border-bottom: $single-border
             &:hover:not(:has(> #searchSpace)), #searchSpace > a:hover
                 color: $hover-color
     .navbar-toggler
@@ -127,7 +201,7 @@ nav
             width: 6vmin
             height: 1vmin
             margin: 0.5vmin
-            background: $orange
+            background: $main-color
             transition: 0.5s
 
 @media screen and (width >= $media-query)
@@ -161,8 +235,6 @@ nav
                         .search-result
                             :not(p)
                                 margin: 0 1rem
-                                &:hover
-                                    color: $hover-color
                             > a , > p
                                 display: inline
                                 margin: 0 1vmin
