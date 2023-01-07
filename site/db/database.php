@@ -315,8 +315,8 @@ class DatabaseHelper{
     public function addNotification(int|string $receiver, int|string $sender, string $content, int $postId = null, int $commentId = null): bool {
         $receiver = $this->getUser($receiver);
         $sender = $this->getUser($sender);
-        $post = $this->getPost($postId);
-        $comment = $this->getComment($commentId);
+        $post = $this->getPost($postId ?? -1);
+        $comment = $this->getComment($commentId ?? -1);
         if ($receiver == null || $sender == null) {
             return false;
         }
