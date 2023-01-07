@@ -345,7 +345,7 @@ class DatabaseHelper{
         }
 
         $sql = 'SELECT * FROM notification
-                WHERE user = ?
+                WHERE receiver = ?
                 ORDER BY date DESC'
                 .($limit > 0 ? ' LIMIT ? OFFSET ?' : '');
         $stmt = $this->db->prepare($sql);
@@ -369,7 +369,7 @@ class DatabaseHelper{
             return false;
         }
 
-        $sql = 'UPDATE notification SET seen = 1 WHERE user = ?';
+        $sql = 'UPDATE notification SET seen = 1 WHERE receiver = ?';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('i', $user['id']);
         $stmt->execute();
@@ -387,7 +387,7 @@ class DatabaseHelper{
             return 0;
         }
 
-        $sql = 'SELECT COUNT(*) FROM notification WHERE user = ? AND seen = 0';
+        $sql = 'SELECT COUNT(*) FROM notification WHERE receiver = ? AND seen = 0';
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('i', $user['id']);
         $stmt->execute();
