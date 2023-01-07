@@ -1,4 +1,5 @@
 import toggleFollow from "./fetch-follow.js";
+import pushNotification from "./fetch-notifications.js";
 import { getVote, setVote } from "./fetch-vote.js";
 
 export function generatePost(postData) {
@@ -7,6 +8,7 @@ export function generatePost(postData) {
 
     // topPart div containing community, author and date
     const topPart = Object.assign(document.createElement("div"), {className: 'topPartPost'});
+    const communityAndAuthor = Object.assign(document.createElement("div"), {className: 'communityAndAuthor'});
     const communityPost = Object.assign(document.createElement("div"), {className: 'communityPost'});
     const communityImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/community.svg', alt: 'community'});
     const communityLink = Object.assign(document.createElement("a"), {href: `./community.php?community=${encodeURIComponent(postData.community)}`,innerText: postData.community});
@@ -37,8 +39,14 @@ export function generatePost(postData) {
     const numComments = Object.assign(document.createElement("p"), {innerText: postData.comments + ' comments'});
 
     // Add event listeners to vote buttons
-    upvote.addEventListener('click', () => setVote(1, postData.id, 'post', upvoteImg, downvoteImg, score));
-    downvote.addEventListener('click', () => setVote(-1, postData.id, 'post', upvoteImg, downvoteImg, score));
+    upvote.addEventListener('click', () => {
+        setVote(1, postData.id, 'post', upvoteImg, downvoteImg, score)
+        .then(() => pushNotification(postData.author, 'upvoted your', postData.id));
+    });
+    downvote.addEventListener('click', () => {
+        setVote(-1, postData.id, 'post', upvoteImg, downvoteImg, score)
+        .then(() => pushNotification(postData.author, 'downvoted your', postData.id));
+    });
 
     // Receive vote from server and change image accordingly
     getVote(postData.id, 'post', upvoteImg, downvoteImg);
@@ -46,10 +54,11 @@ export function generatePost(postData) {
     // Append topPart, post, botPart to post
     communityPost.appendChild(communityImg);
     communityPost.appendChild(communityLink);
-    topPart.appendChild(communityPost);
+    communityAndAuthor.appendChild(communityPost);
     authorPost.appendChild(authorImg);
     authorPost.appendChild(authorLink);
-    topPart.appendChild(authorPost);
+    communityAndAuthor.appendChild(authorPost);
+    topPart.appendChild(communityAndAuthor);
     datePost.appendChild(dateImg);
     datePost.appendChild(date);
     topPart.appendChild(datePost);
@@ -95,8 +104,14 @@ export function generateComment(commentData) {
     const score = Object.assign(document.createElement("p"), {className: 'score',innerText: commentData.vote});
 
     // Add event listeners to vote buttons
-    upvote.addEventListener('click', () => setVote(1, commentData.id, 'comment', upvoteImg, downvoteImg, score));
-    downvote.addEventListener('click', () => setVote(-1, commentData.id, 'comment', upvoteImg, downvoteImg, score));
+    upvote.addEventListener('click', () => {
+        setVote(1, commentData.id, 'comment', upvoteImg, downvoteImg, score)
+        .then(() => pushNotification(commentData.author, 'upvoted your', commentData.post, commentData.id));
+    });
+    downvote.addEventListener('click', () => {
+        setVote(-1, commentData.id, 'comment', upvoteImg, downvoteImg, score)
+        .then(() => pushNotification(commentData.author, 'downvoted your', commentData.post, commentData.id));
+    });
 
     // Receive vote from server and change image accordingly
     getVote(commentData.id, 'comment', upvoteImg, downvoteImg);
@@ -140,11 +155,23 @@ export function generateNotification(notificationData) {
     // Outer notification div
     const notification = Object.assign(document.createElement("div"), {className: 'notification' + (notificationData.seen ? ' seen':'')});
     // notification content
-    const notificationContent = Object.assign(document.createElement("p"), {className: 'notificationContent',innerText: notificationData.content});
+    const notificationContent = Object.assign(document.createElement("div"), {className: 'notificationContent'});
+    const senderLink = Object.assign(document.createElement("a"), {href: `./profile.php?username=${encodeURIComponent(notificationData.sender)}`,innerText: notificationData.sender + ' '});
+    const notificationText = Object.assign(document.createElement("p"), {innerText: notificationData.content + ' '});
     // date
-    const date = Object.assign(document.createElement("p"), {className: 'notificationDate',innerText: notificationData.date});
+    const date = Object.assign(document.createElement("p"), {className: 'notificationDate',innerText: dateDiffToNow(notificationData.date) + ' ago'});
 
     // Append elements to notification div
+    notificationContent.appendChild(senderLink);
+    notificationContent.appendChild(notificationText);
+    if (notificationData.post) {
+        const postLink = Object.assign(document.createElement("a"), {
+            href: `./post.php?postId=${notificationData.post}`
+            + (notificationData.comment ? `#${notificationData.comment}` : ''),
+            innerText: notificationData.comment ? 'comment' : 'post'
+        });
+        notificationContent.appendChild(postLink);
+    }
     notification.appendChild(notificationContent);
     notification.appendChild(date);
 

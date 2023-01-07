@@ -1,10 +1,14 @@
 import asyncRequest from './default-ajax.js';
 import { generateElements } from './elementGenerators.js';
+import pushNotification from './fetch-notifications.js';
 
 function toggleFollow(button, usernameProfile) {
     button.addEventListener('click', function () {
         asyncRequest('request-follow.php', (response) => {
             if (response) {
+                if (button.innerText == 'Follow') {
+                    pushNotification(usernameProfile, 'followed you');
+                }
                 button.innerText = button.innerText == 'Follow' ? 'Unfollow' : 'Follow';
             } else {
                 window.location.href = 'login.php';

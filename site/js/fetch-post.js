@@ -1,6 +1,7 @@
 import asyncRequest from "./default-ajax.js";
 import { generatePost, generateElements } from './elementGenerators.js';
 import addConfirmButton from './add-buttons.js';
+import pushNotification from './fetch-notifications.js';
 
 const spacePost = document.querySelector('.post-container');
 const spaceComments = document.querySelector('.comments-container');
@@ -72,6 +73,7 @@ formTag.addEventListener('submit', (e) => {
     asyncRequest('request-comments.php', (response) => {
         if (response) {
             loadComments();
+            pushNotification(document.querySelector('div.authorPost a').innerText, 'added a comment to your', postId);
             textTag.value = '';
         }else{
             let errorTag = document.createElement('p');

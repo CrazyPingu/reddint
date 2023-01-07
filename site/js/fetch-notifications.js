@@ -4,8 +4,8 @@ import {generateElements} from "./elementGenerators.js";
 const notificationsDiv = document.getElementById('notificationsSpace');
 let offset = 0;
 
-function pushNotification(user, content) {
-    asyncRequest(`request-notifications.php`, args={type: 'add', user, content});
+function pushNotification(receiver, content, postId = null, commentId = null) {
+    asyncRequest(`request-notifications.php`, () => {}, {type: 'add', receiver, content, postId, commentId});
 }
 
 // Render notifications elements

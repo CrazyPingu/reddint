@@ -6,7 +6,7 @@ function changeImages(vote, upvoteImg, downvoteImg) {
 }
 
 function setVote(vote, id, type, upvoteImg, downvoteImg, score) {
-    asyncRequest('request-vote.php', (response) => {
+    return asyncRequest('request-vote.php', (response) => {
         if (response === false)
             return window.location.href = './login.php';
 
@@ -16,7 +16,7 @@ function setVote(vote, id, type, upvoteImg, downvoteImg, score) {
 }
 
 function getVote(id, type, upvoteImg, downvoteImg) {
-    asyncRequest('request-vote.php', (vote) => {
+    return asyncRequest('request-vote.php', (vote) => {
         if (upvoteImg == null || downvoteImg == null || vote === false)
             return;
 
