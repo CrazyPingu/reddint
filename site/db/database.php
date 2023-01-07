@@ -966,7 +966,7 @@ class DatabaseHelper{
         $count = count($array);
         $in = str_repeat('?,', $count - 1).'?';
         $search_for = "comment.id IN ($in)";
-        $sql = "SELECT comment.id, user.username as author, comment.content, comment.creation_date, comment.edited,
+        $sql = "SELECT comment.id, comment.post, user.username as author, comment.content, comment.creation_date, comment.edited,
                 (SELECT COALESCE(SUM(vote),0) FROM vote_comment WHERE comment = comment.id) as vote
                 FROM comment JOIN user ON comment.author = user.id
                 WHERE $search_for"
@@ -1042,7 +1042,7 @@ class DatabaseHelper{
         $count = count($array);
         $in = str_repeat('?,', $count - 1).'?';
         $search_for = "comment.post IN ($in)";
-        $sql = "SELECT comment.id, user.username as author, comment.content, comment.creation_date, comment.edited,
+        $sql = "SELECT comment.id, comment.post, user.username as author, comment.content, comment.creation_date, comment.edited,
                 (SELECT COALESCE(SUM(vote),0) FROM vote_comment WHERE comment = comment.id) as vote
                 FROM comment JOIN user ON comment.author = user.id
                 WHERE $search_for
@@ -1100,7 +1100,7 @@ class DatabaseHelper{
         $count = count($array);
         $in = str_repeat('?,', $count - 1).'?';
         $search_for = "author IN ($in)";
-        $sql = "SELECT comment.id, user.username as author, comment.content, comment.creation_date, comment.edited,
+        $sql = "SELECT comment.id, comment.post, user.username as author, comment.content, comment.creation_date, comment.edited,
                 (SELECT COALESCE(SUM(vote),0) FROM vote_comment WHERE comment = comment.id) as vote
                 FROM comment JOIN user ON comment.author = user.id
                 WHERE $search_for
