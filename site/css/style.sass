@@ -1,6 +1,7 @@
 @use "sass:math"
 
 $orange: #FF5700
+$hover-color: $orange
 $background: #333333
 $font-color: white
 $selected-font-color: $background
@@ -11,7 +12,7 @@ $navbar-highlight-color: $orange
 $result-search: $navbar-search-bar-background
 $background-hamburger: #ffffff
 $navbar-dimension: 11vmin
-$media-query: 1180px
+$media-query: 1200px
 $spacing-navbar: 2vmin
 
 *
@@ -30,8 +31,6 @@ p
     display: inline
 a
     color: red
-    &:hover
-        color: $orange
 
 img
     &.svg
@@ -72,9 +71,10 @@ nav
         display: flex
         align-items: center
         justify-content: center
+    a,p
+        font-size: 1.6vmin
     a
         color: inherit
-        font-size: 1.6vmin
         display: flex
         align-items: center
         &.logo
@@ -116,10 +116,9 @@ nav
                 &:has(*)
                     border-bottom: 3px solid $orange
             &:hover:not(:has(> #searchSpace)), #searchSpace > a:hover
-                color: $orange
+                color: $hover-color
     .navbar-toggler
-        display: grid !important
-        display: none
+        display: grid
         height: min-content
         margin: auto 0
         margin-right: 2vmin
@@ -146,13 +145,11 @@ nav
                 &:has(> input[type=text])
                     width: 100%
                     min-width: 0
-                input[type=text]
-                    width: 100%
                 a,p
                     display: flex
                     align-items: center
                     justify-content: center
-                    color: $font-color
+                    color: inherit
                 &:has(> #searchSpace)
                     display: inline
                     margin: auto 0
@@ -161,23 +158,22 @@ nav
                         display: flex
                         justify-content: start
                         background: $result-search
-                        .search-result > a,p
-                            display: inline
-                            margin: 0 1vmin
-                            max-width: 100%
+                        .search-result
+                            :not(p)
+                                margin: 0 1rem
+                                &:hover
+                                    color: $hover-color
+                            > a , > p
+                                display: inline
+                                margin: 0 1vmin
+                                max-width: 100%
                         &:has(*)
                             border-bottom: none
             input[type=text]:has(~ #searchSpace:not(:empty))
                 border-bottom-left-radius: 0
         .navbar-toggler
-            .bar
-                display: none
+            display: none
     #searchSpace
         background: $navbar-background
         &:nth-last-child(1)
             border-radius: 0 0 25px 25px
-
-// media-query: #searchSpace:empty
-//     input[type=text]
-//         border-bottom-left-radius: 0
-//         background: purple

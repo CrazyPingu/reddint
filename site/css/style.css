@@ -19,9 +19,6 @@ p {
 a {
   color: red;
 }
-a:hover {
-  color: #FF5700;
-}
 
 img.svg {
   width: 3vmin;
@@ -74,9 +71,11 @@ nav h1 {
   align-items: center;
   justify-content: center;
 }
+nav a, nav p {
+  font-size: 1.6vmin;
+}
 nav a {
   color: inherit;
-  font-size: 1.6vmin;
   display: flex;
   align-items: center;
 }
@@ -130,8 +129,7 @@ nav .nav-list .nav-item:hover:not(:has(> #searchSpace)), nav .nav-list .nav-item
   color: #FF5700;
 }
 nav .navbar-toggler {
-  display: grid !important;
-  display: none;
+  display: grid;
   height: -webkit-min-content;
   height: -moz-min-content;
   height: min-content;
@@ -147,7 +145,7 @@ nav .navbar-toggler .bar {
   transition: 0.5s;
 }
 
-@media screen and (width >= 1180px) {
+@media screen and (width >= 1200px) {
   nav .nav-list {
     position: relative;
     display: flex;
@@ -164,14 +162,11 @@ nav .navbar-toggler .bar {
     width: 100%;
     min-width: 0;
   }
-  nav .nav-list .nav-item input[type=text] {
-    width: 100%;
-  }
   nav .nav-list .nav-item a, nav .nav-list .nav-item p {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: inherit;
   }
   nav .nav-list .nav-item:has(> #searchSpace) {
     display: inline;
@@ -183,7 +178,13 @@ nav .navbar-toggler .bar {
     justify-content: start;
     background: #272729;
   }
-  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace .search-result > a, nav .nav-list .nav-item:has(> #searchSpace) #searchSpace p {
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace .search-result :not(p) {
+    margin: 0 1rem;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace .search-result :not(p):hover {
+    color: #FF5700;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace .search-result > a, nav .nav-list .nav-item:has(> #searchSpace) #searchSpace .search-result > p {
     display: inline;
     margin: 0 1vmin;
     max-width: 100%;
@@ -194,7 +195,7 @@ nav .navbar-toggler .bar {
   nav .nav-list input[type=text]:has(~ #searchSpace:not(:empty)) {
     border-bottom-left-radius: 0;
   }
-  nav .navbar-toggler .bar {
+  nav .navbar-toggler {
     display: none;
   }
   #searchSpace {
