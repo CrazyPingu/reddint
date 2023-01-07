@@ -81,7 +81,7 @@ nav a {
   align-items: center;
 }
 nav a.logo {
-  font-size: 5vmax;
+  font-size: 6vmin;
   font-weight: bold;
   color: #FF5700;
   margin-left: 2vmin;
@@ -142,7 +142,7 @@ nav .navbar-toggler {
 nav .navbar-toggler .bar {
   width: 6vmin;
   height: 1vmin;
-  margin: 0.2rem 0;
+  margin: 0.5vmin;
   background: #FF5700;
   transition: 0.5s;
 }
