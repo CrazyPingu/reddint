@@ -30,8 +30,8 @@ function render(container, args) {
 window.onload = function () {
     const communityInformations = document.getElementsByClassName('communityInformations');
 
-    if (document.getElementsByClassName('spacePosts')[0]) {
-        space = document.getElementsByClassName('spacePosts')[0];
+    if (document.getElementsByClassName('postContainer')[0]) {
+        space = document.getElementsByClassName('postContainer')[0];
         args.communityName = communityInformations[0].id;
         type = 'post';
         toggleParticipation(document.getElementById('participateButton'), communityInformations[0].id);

@@ -35,7 +35,7 @@ window.onload = function () {
         asyncRequest(`request-notifications.php`, (response) => {
             if (response) {
                 document.querySelectorAll('.notification').forEach((notification) => {
-                    notification.classList.add('read');
+                    notification.classList.add('seen');
                 });
             }
         }, {type: 'read'});

@@ -37,12 +37,12 @@ img.svg {
   border-top: 2px solid #FF5700;
 }
 
-.postContainer {
+.postContainer, .spacePostComment {
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
-.postContainer .post {
+.postContainer .post, .spacePostComment .post {
   background: #1a1a1b;
   width: 50%;
   min-width: 35ch;
@@ -50,31 +50,31 @@ img.svg {
   margin: 5vmin auto;
   border-radius: 2rem;
 }
-.postContainer .post a {
+.postContainer .post a, .spacePostComment .post a {
   color: white;
 }
-.postContainer .post a:hover {
+.postContainer .post a:hover, .spacePostComment .post a:hover {
   color: #FF5700;
 }
-.postContainer .post .topPartPost {
+.postContainer .post .topPartPost, .spacePostComment .post .topPartPost {
   margin: 2vmin;
   display: grid;
 }
-.postContainer .post .topPartPost .communityAndAuthor, .postContainer .post .topPartPost .datePost {
+.postContainer .post .topPartPost .communityAndAuthor, .postContainer .post .topPartPost .datePost, .spacePostComment .post .topPartPost .communityAndAuthor, .spacePostComment .post .topPartPost .datePost {
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
-.postContainer .post .topPartPost .communityAndAuthor .authorPost, .postContainer .post .topPartPost .communityAndAuthor .communityPost, .postContainer .post .topPartPost .datePost .authorPost, .postContainer .post .topPartPost .datePost .communityPost {
+.postContainer .post .topPartPost .communityAndAuthor .authorPost, .postContainer .post .topPartPost .communityAndAuthor .communityPost, .postContainer .post .topPartPost .datePost .authorPost, .postContainer .post .topPartPost .datePost .communityPost, .spacePostComment .post .topPartPost .communityAndAuthor .authorPost, .spacePostComment .post .topPartPost .communityAndAuthor .communityPost, .spacePostComment .post .topPartPost .datePost .authorPost, .spacePostComment .post .topPartPost .datePost .communityPost {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.postContainer .post .topPartPost .datePost {
+.postContainer .post .topPartPost .datePost, .spacePostComment .post .topPartPost .datePost {
   margin-top: 1vmin;
   justify-content: center;
 }
-.postContainer .post .postTitle {
+.postContainer .post .postTitle, .spacePostComment .post .postTitle {
   margin: 0 2vmin;
   display: flex;
   justify-content: center;
@@ -82,30 +82,30 @@ img.svg {
   font-size: 2rem;
   font-weight: bold;
 }
-.postContainer .post .postContent {
+.postContainer .post .postContent, .spacePostComment .post .postContent {
   margin: 3vmin;
 }
-.postContainer .post .botPart {
+.postContainer .post .botPart, .spacePostComment .post .botPart {
   margin: 2vmin;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.postContainer .post .botPart .svg {
+.postContainer .post .botPart .svg, .spacePostComment .post .botPart .svg {
   width: 1.6rem;
 }
-.postContainer .post .botPart .vote {
+.postContainer .post .botPart .vote, .spacePostComment .post .botPart .vote {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.postContainer .post .botPart .vote button {
+.postContainer .post .botPart .vote button, .spacePostComment .post .botPart .vote button {
   position: inherit;
   background: transparent;
   border: none;
   cursor: pointer;
 }
-.postContainer .post .botPart .comments {
+.postContainer .post .botPart .comments, .spacePostComment .post .botPart .comments {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,7 +133,7 @@ img.svg {
   font-weight: bold;
 }
 .spaceCommunities .community .communityDescription {
-  margin: 2vmin;
+  margin: 3vmin;
 }
 .spaceCommunities .community .communityMembers {
   margin: 2vmin;
@@ -146,6 +146,30 @@ img.svg {
 }
 .spaceCommunities .community a:hover {
   color: #FF5700;
+}
+
+.communityInformations {
+  background: #1a1a1b;
+}
+.communityInformations .generalInformationCommunity {
+  display: flex;
+  justify-content: space-around;
+  padding: 2vmin;
+  border-top: 2px solid #FF5700;
+}
+.communityInformations .generalInformationCommunity p {
+  margin: 0 2vmin;
+  font-weight: bold;
+  display: inline;
+}
+.communityInformations .communityDescription {
+  border-top: 2px solid #FF5700;
+  word-break: break-word;
+  padding: 2vmin;
+}
+.communityInformations button {
+  float: right;
+  margin-right: 2vmin;
 }
 
 nav {
@@ -261,7 +285,8 @@ nav .navbar-toggler .bar {
   align-items: center;
   margin: 2vmin 2vmin 0 0;
 }
-.readAllNotifications button {
+
+button {
   color: white;
   background: #1a1a1b;
   border: 2px solid #FF5700;
@@ -281,7 +306,7 @@ nav .navbar-toggler .bar {
   border: 2px solid #FF5700;
   background: #1a1a1b;
 }
-.notificationContainer .notification.seen, .notificationContainer .notification.read {
+.notificationContainer .notification.seen {
   background: #333333;
 }
 .notificationContainer .notification .readAllNotificationButton {

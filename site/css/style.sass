@@ -51,7 +51,7 @@ img
         border: none
         border-top: $single-border
 
-.postContainer
+.postContainer, .spacePostComment
     display: flex
     justify-content: center
     flex-direction: column
@@ -129,7 +129,7 @@ img
             font-size: 2rem
             font-weight: bold
         .communityDescription
-            margin: 2vmin
+            margin: 3vmin
         .communityMembers
             margin: 2vmin
             display: flex
@@ -139,6 +139,25 @@ img
             color: $font-color
             &:hover
                 color: $hover-color
+
+.communityInformations
+    background: $navbar-background
+    .generalInformationCommunity
+        display: flex
+        justify-content: space-around
+        padding: 2vmin
+        border-top: $single-border
+        p
+            margin: 0 2vmin
+            font-weight: bold
+            display: inline
+    .communityDescription
+        border-top: $single-border
+        word-break: break-word
+        padding: 2vmin
+    button
+        float: right
+        margin-right: 2vmin
 
 nav
     position: sticky
@@ -225,19 +244,19 @@ nav
             background: $main-color
             transition: 0.5s
 
-// notification
-
 .readAllNotifications
     display: grid
     justify-content: end
     align-items: center
     margin: 2vmin 2vmin 0 0
-    button
-        color: $font-color
-        background: $navbar-background
-        border: $single-border
-        padding: 1vmin
-        cursor: pointer
+
+button
+    color: $font-color
+    background: $navbar-background
+    border: $single-border
+    padding: 1vmin
+    cursor: pointer
+
 .notificationContainer
     display: grid
     margin: 2vmin
@@ -248,7 +267,7 @@ nav
         padding: 2vmin 0
         border: $single-border
         background: $navbar-background
-        &.seen, &.read
+        &.seen
             background: $background
         .readAllNotificationButton
             display: grid
