@@ -111,6 +111,43 @@ img.svg {
   justify-content: center;
 }
 
+.spaceCommunities {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.spaceCommunities .community {
+  background: #1a1a1b;
+  width: 50%;
+  min-width: 35ch;
+  word-break: break-word;
+  margin: 5vmin auto;
+  border-radius: 2rem;
+}
+.spaceCommunities .community .communityName {
+  margin: 2vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.spaceCommunities .community .communityDescription {
+  margin: 2vmin;
+}
+.spaceCommunities .community .communityMembers {
+  margin: 2vmin;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.spaceCommunities .community a {
+  color: white;
+}
+.spaceCommunities .community a:hover {
+  color: #FF5700;
+}
+
 nav {
   position: -webkit-sticky;
   position: sticky;

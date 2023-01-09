@@ -110,9 +110,35 @@ img
                 align-items: center
                 justify-content: center
 
-// .comment
-//     padding: 5vmin
-//     width: fit-content
+.spaceCommunities
+    display: flex
+    justify-content: center
+    flex-direction: column
+    .community
+        background: $post-background
+        width: 50%
+        min-width: 35ch
+        word-break: break-word
+        margin: 5vmin auto
+        border-radius: 2rem
+        .communityName
+            margin: 2vmin
+            display: flex
+            justify-content: center
+            align-items: center
+            font-size: 2rem
+            font-weight: bold
+        .communityDescription
+            margin: 2vmin
+        .communityMembers
+            margin: 2vmin
+            display: flex
+            justify-content: end
+            align-items: center
+        a
+            color: $font-color
+            &:hover
+                color: $hover-color
 
 nav
     position: sticky
