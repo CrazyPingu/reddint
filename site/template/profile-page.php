@@ -11,7 +11,6 @@
             <?php echo $templateParams['userCreationDate']; ?>
         </p>
     </div>
-
     <?php if ($isUserLogged && $templateParams['userUsername'] != $_SESSION['username']): ?>
         <div class='followButton'>
             <?php if ($templateParams['isFollowing']): ?>

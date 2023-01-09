@@ -1,5 +1,3 @@
-@use "sass:math"
-
 $main-color: #FF5700
 $single-border: 2px solid $main-color
 $half-single-border: 1px solid $main-color
@@ -34,13 +32,17 @@ img
         width: 3vmin
         margin: 0.5rem
 
-.optionButtons
+.optionButtons, .buttonPostComment
     display: flex
     width: 100%
     :nth-child(1)
         border-right: $half-single-border
     :nth-child(2)
         border-left: $half-single-border
+    :nth-child(3)
+        border-left: $single-border
+        > p
+            border-right: none
     > *
         width: 50%
         cursor: pointer
@@ -55,60 +57,81 @@ img
     display: flex
     justify-content: center
     flex-direction: column
-    .post
-        background: $post-background
-        width: 50%
-        min-width: 35ch
-        word-break: break-word
-        margin: 5vmin auto
-        border-radius: 2rem
+
+.post
+    background: $post-background
+    width: 50%
+    min-width: 35ch
+    word-break: break-word
+    margin: 5vmin auto
+    border-radius: 2rem
+    a
+        color: $font-color
+        &:hover
+            color: $hover-color
+    .topPartPost
+        margin: 2vmin
+        display: grid
+        .communityAndAuthor, .datePost
+            display: flex
+            align-items: center
+            justify-content: space-around
+            .authorPost, .communityPost
+                display: flex
+                align-items: center
+                justify-content: center
+        .datePost
+            margin-top: 1vmin
+            justify-content: center
+    .postTitle
+        margin: 0 2vmin
+        display: flex
+        justify-content: center
+        align-items: center
+        font-size: 2rem
+        font-weight: bold
+    .postContent
+        margin: 3vmin
+    .botPart
+        margin: 2vmin
+        display: flex
+        justify-content: space-between
+        align-items: center
+        .svg
+            width: 1.6rem
+        .vote
+            display: flex
+            align-items: center
+            justify-content: center
+        .comments
+            display: flex
+            align-items: center
+            justify-content: center
+
+.upperProfile
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    background: $navbar-background
+    > *
+        border-top: $single-border
+        display: flex
+        justify-content: center
+        align-items: center
+        padding: 1%
+        width: 98%
+    .rightProfile
+        > *
+            display: flex
+            flex-direction: column
+            align-items: center
+            justify-content: center
+            margin: 0 2%
         a
-            color: $font-color
+            color: $href-color
             &:hover
                 color: $hover-color
-        .topPartPost
-            margin: 2vmin
-            display: grid
-            .communityAndAuthor, .datePost
-                display: flex
-                align-items: center
-                justify-content: space-around
-                .authorPost, .communityPost
-                    display: flex
-                    align-items: center
-                    justify-content: center
-            .datePost
-                margin-top: 1vmin
-                justify-content: center
-        .postTitle
-            margin: 0 2vmin
-            display: flex
-            justify-content: center
-            align-items: center
-            font-size: 2rem
-            font-weight: bold
-        .postContent
-            margin: 3vmin
-        .botPart
-            margin: 2vmin
-            display: flex
-            justify-content: space-between
-            align-items: center
-            .svg
-                width: 1.6rem
-            .vote
-                display: flex
-                align-items: center
-                justify-content: center
-                button
-                    position: inherit
-                    background: transparent
-                    border: none
-                    cursor: pointer
-            .comments
-                display: flex
-                align-items: center
-                justify-content: center
 
 .spaceCommunities
     display: flex
@@ -184,13 +207,13 @@ nav
         align-items: center
         justify-content: center
     a,p
-        font-size: 1.6vmin
+        font-size: 1.1rem
     a
         color: inherit
         display: flex
         align-items: center
         &.logo
-            font-size: 6vmin
+            font-size: 2rem
             font-weight: bold
             color: $main-color
             margin: 0 2vmin
@@ -257,6 +280,12 @@ button
     padding: 1vmin
     cursor: pointer
 
+.downvote, .upvote
+    background: transparent
+    border: none
+    cursor: pointer
+    position: inherit
+
 .notificationContainer
     display: grid
     margin: 2vmin
@@ -283,8 +312,31 @@ button
             margin-right: 2vmin
             color: $font-color
 
+.listFollow
+    margin-top: 2vmin
+    display: flex
+    flex-direction: column
+    align-items: center
+    background: $background
+    .follow
+        display: flex
+        justify-content: space-between
+        align-items: center
+        background: $navbar-background
+        width: 30%
+        padding: 2vmin
+        border-bottom: $single-border
+    >:last-child
+        border-bottom: none
+    a
+        color: $href-color
+        &:hover
+            color: $hover-color
+
 @media screen and (width >= $media-query)
     nav
+        h1 > a.logo
+            font-size: 3rem
         .nav-list
             position: relative
             display: flex

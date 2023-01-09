@@ -16,17 +16,23 @@ img.svg {
   margin: 0.5rem;
 }
 
-.optionButtons {
+.optionButtons, .buttonPostComment {
   display: flex;
   width: 100%;
 }
-.optionButtons :nth-child(1) {
+.optionButtons :nth-child(1), .buttonPostComment :nth-child(1) {
   border-right: 1px solid #FF5700;
 }
-.optionButtons :nth-child(2) {
+.optionButtons :nth-child(2), .buttonPostComment :nth-child(2) {
   border-left: 1px solid #FF5700;
 }
-.optionButtons > * {
+.optionButtons :nth-child(3), .buttonPostComment :nth-child(3) {
+  border-left: 2px solid #FF5700;
+}
+.optionButtons :nth-child(3) > p, .buttonPostComment :nth-child(3) > p {
+  border-right: none;
+}
+.optionButtons > *, .buttonPostComment > * {
   width: 50%;
   cursor: pointer;
   text-align: center;
@@ -42,7 +48,8 @@ img.svg {
   justify-content: center;
   flex-direction: column;
 }
-.postContainer .post, .spacePostComment .post {
+
+.post {
   background: #1a1a1b;
   width: 50%;
   min-width: 35ch;
@@ -50,31 +57,31 @@ img.svg {
   margin: 5vmin auto;
   border-radius: 2rem;
 }
-.postContainer .post a, .spacePostComment .post a {
+.post a {
   color: white;
 }
-.postContainer .post a:hover, .spacePostComment .post a:hover {
+.post a:hover {
   color: #FF5700;
 }
-.postContainer .post .topPartPost, .spacePostComment .post .topPartPost {
+.post .topPartPost {
   margin: 2vmin;
   display: grid;
 }
-.postContainer .post .topPartPost .communityAndAuthor, .postContainer .post .topPartPost .datePost, .spacePostComment .post .topPartPost .communityAndAuthor, .spacePostComment .post .topPartPost .datePost {
+.post .topPartPost .communityAndAuthor, .post .topPartPost .datePost {
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
-.postContainer .post .topPartPost .communityAndAuthor .authorPost, .postContainer .post .topPartPost .communityAndAuthor .communityPost, .postContainer .post .topPartPost .datePost .authorPost, .postContainer .post .topPartPost .datePost .communityPost, .spacePostComment .post .topPartPost .communityAndAuthor .authorPost, .spacePostComment .post .topPartPost .communityAndAuthor .communityPost, .spacePostComment .post .topPartPost .datePost .authorPost, .spacePostComment .post .topPartPost .datePost .communityPost {
+.post .topPartPost .communityAndAuthor .authorPost, .post .topPartPost .communityAndAuthor .communityPost, .post .topPartPost .datePost .authorPost, .post .topPartPost .datePost .communityPost {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.postContainer .post .topPartPost .datePost, .spacePostComment .post .topPartPost .datePost {
+.post .topPartPost .datePost {
   margin-top: 1vmin;
   justify-content: center;
 }
-.postContainer .post .postTitle, .spacePostComment .post .postTitle {
+.post .postTitle {
   margin: 0 2vmin;
   display: flex;
   justify-content: center;
@@ -82,33 +89,56 @@ img.svg {
   font-size: 2rem;
   font-weight: bold;
 }
-.postContainer .post .postContent, .spacePostComment .post .postContent {
+.post .postContent {
   margin: 3vmin;
 }
-.postContainer .post .botPart, .spacePostComment .post .botPart {
+.post .botPart {
   margin: 2vmin;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.postContainer .post .botPart .svg, .spacePostComment .post .botPart .svg {
+.post .botPart .svg {
   width: 1.6rem;
 }
-.postContainer .post .botPart .vote, .spacePostComment .post .botPart .vote {
+.post .botPart .vote {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.postContainer .post .botPart .vote button, .spacePostComment .post .botPart .vote button {
-  position: inherit;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-.postContainer .post .botPart .comments, .spacePostComment .post .botPart .comments {
+.post .botPart .comments {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.upperProfile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #1a1a1b;
+}
+.upperProfile > * {
+  border-top: 2px solid #FF5700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1%;
+  width: 98%;
+}
+.upperProfile .rightProfile > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2%;
+}
+.upperProfile .rightProfile a {
+  color: purple;
+}
+.upperProfile .rightProfile a:hover {
+  color: #FF5700;
 }
 
 .spaceCommunities {
@@ -203,7 +233,7 @@ nav h1 {
   justify-content: center;
 }
 nav a, nav p {
-  font-size: 1.6vmin;
+  font-size: 1.1rem;
 }
 nav a {
   color: inherit;
@@ -211,7 +241,7 @@ nav a {
   align-items: center;
 }
 nav a.logo {
-  font-size: 6vmin;
+  font-size: 2rem;
   font-weight: bold;
   color: #FF5700;
   margin: 0 2vmin;
@@ -294,6 +324,13 @@ button {
   cursor: pointer;
 }
 
+.downvote, .upvote {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: inherit;
+}
+
 .notificationContainer {
   display: grid;
   margin: 2vmin;
@@ -328,7 +365,36 @@ button {
   color: white;
 }
 
+.listFollow {
+  margin-top: 2vmin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #333333;
+}
+.listFollow .follow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1a1b;
+  width: 30%;
+  padding: 2vmin;
+  border-bottom: 2px solid #FF5700;
+}
+.listFollow > :last-child {
+  border-bottom: none;
+}
+.listFollow a {
+  color: purple;
+}
+.listFollow a:hover {
+  color: #FF5700;
+}
+
 @media screen and (width >= 1200px) {
+  nav h1 > a.logo {
+    font-size: 3rem;
+  }
   nav .nav-list {
     position: relative;
     display: flex;
