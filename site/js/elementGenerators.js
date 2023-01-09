@@ -157,7 +157,7 @@ export function generateNotification(notificationData) {
     // notification content
     const notificationContent = Object.assign(document.createElement("div"), {className: 'notificationContent'});
     const senderLink = Object.assign(document.createElement("a"), {href: `./profile.php?username=${encodeURIComponent(notificationData.sender)}`,innerText: notificationData.sender + ' '});
-    const notificationText = Object.assign(document.createElement("p"), {innerText: notificationData.content + ' '});
+    const notificationText = Object.assign(document.createElement("span"), {innerText: notificationData.content + ' '});
     // date
     const date = Object.assign(document.createElement("p"), {className: 'notificationDate',innerText: dateDiffToNow(notificationData.date) + ' ago'});
 

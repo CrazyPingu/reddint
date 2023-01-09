@@ -353,7 +353,7 @@ class DatabaseHelper{
         $sql = 'SELECT notification.id,
                 (SELECT username FROM user WHERE id = notification.sender) AS sender,
                 (SELECT username FROM user WHERE id = notification.receiver) AS receiver,
-                notification.content, notification.date, notification.post, notification.comment
+                notification.content, notification.date, notification.post, notification.comment, notification.seen
                 FROM notification
                 WHERE receiver = ?
                 ORDER BY date DESC'

@@ -3,6 +3,7 @@
 $main-color: #FF5700
 $single-border: 2px solid $main-color
 $half-single-border: 1px solid $main-color
+$href-color: purple
 $hover-color: $main-color
 $background: #333333
 $font-color: white
@@ -27,12 +28,6 @@ $spacing-navbar: 2vmin
 body
     color: $font-color
     background: $background
-
-// p
-//     color: $font-color
-//     display: inline
-// a
-//     color: red
 
 img
     &.svg
@@ -203,6 +198,45 @@ nav
             margin: 0.5vmin
             background: $main-color
             transition: 0.5s
+
+// notification
+
+.readAllNotifications
+    display: grid
+    justify-content: end
+    align-items: center
+    margin: 2vmin 2vmin 0 0
+    button
+        color: $font-color
+        background: $navbar-background
+        border: $single-border
+        padding: 1vmin
+        cursor: pointer
+.notificationContainer
+    display: grid
+    margin: 2vmin
+    .notification
+        display: flex
+        justify-content: start
+        align-items: center
+        padding: 2vmin 0
+        border: $single-border
+        background: $navbar-background
+        &.seen, &.read
+            background: $background
+        .readAllNotificationButton
+            display: grid
+            justify-content: end
+        .notificationContent
+            margin-left: 2vmin
+            a
+                color: $href-color
+                &:hover
+                    color: $hover-color
+        .notificationDate
+            margin-left: auto
+            margin-right: 2vmin
+            color: $font-color
 
 @media screen and (width >= $media-query)
     nav

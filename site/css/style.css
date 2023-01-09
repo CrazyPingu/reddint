@@ -218,6 +218,54 @@ nav .navbar-toggler .bar {
   transition: 0.5s;
 }
 
+.readAllNotifications {
+  display: grid;
+  justify-content: end;
+  align-items: center;
+  margin: 2vmin 2vmin 0 0;
+}
+.readAllNotifications button {
+  color: white;
+  background: #1a1a1b;
+  border: 2px solid #FF5700;
+  padding: 1vmin;
+  cursor: pointer;
+}
+
+.notificationContainer {
+  display: grid;
+  margin: 2vmin;
+}
+.notificationContainer .notification {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 2vmin 0;
+  border: 2px solid #FF5700;
+  background: #1a1a1b;
+}
+.notificationContainer .notification.seen, .notificationContainer .notification.read {
+  background: #333333;
+}
+.notificationContainer .notification .readAllNotificationButton {
+  display: grid;
+  justify-content: end;
+}
+.notificationContainer .notification .notificationContent {
+  margin-left: 2vmin;
+}
+.notificationContainer .notification .notificationContent a {
+  color: purple;
+}
+.notificationContainer .notification .notificationContent a:hover {
+  color: #FF5700;
+}
+.notificationContainer .notification .notificationDate {
+  margin-left: auto;
+  margin-right: 2vmin;
+  color: white;
+}
+
 @media screen and (width >= 1200px) {
   nav .nav-list {
     position: relative;
