@@ -2,7 +2,7 @@ import asyncRequest from './default-ajax.js';
 
 function addConfirmButton(container, fileName, args) {
     if (!container.querySelector('#confirm')) {
-        let div = Object.assign(document.createElement('div'), { id: 'confirm' });
+        let div = Object.assign(document.createElement('div'), { className: 'confirmDiv', id: 'confirm' });
         let text = Object.assign(document.createElement('p'), { innerText: 'Are you sure?' });
         let buttonYes = Object.assign(document.createElement('button'), { type: 'button', innerText: 'Yes', id: 'buttonYes' });
         buttonYes.addEventListener('click', () => {
