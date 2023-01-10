@@ -48,7 +48,8 @@ class DatabaseHelper{
      * @return array array of users
      */
     public function getUsers(Array $users = null, int $limit = 0, int $offset = 0): array {
-        if (empty($users)) {
+        if (count($users) == 0) return [];
+        if ($users == null) {
             $array = [1];
             $is_int = true;
             $count = 1;
@@ -438,7 +439,8 @@ class DatabaseHelper{
      * @return array empty if there are no communities with the given ids or names
      */
     public function getCommunities(array $communities = null, $limit = 0, $offset = 0): array {
-        if (empty($communities)) {
+        if (count($communities) == 0) return [];
+        if ($communities == null) {
             $array = [1];
             $is_int = true;
             $count = 1;
@@ -633,7 +635,7 @@ class DatabaseHelper{
         $stmt->bind_param('i', $user['id']);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        return $this->getCommunities(array_column($result, 'community'), $limit, $offset);
+        return $this->getCommunities(array_column($result, 'community') ?? [], $limit, $offset);
     }
 
 
