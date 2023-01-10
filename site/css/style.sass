@@ -58,13 +58,29 @@ img
     justify-content: center
     flex-direction: column
 
-.post
+.post, section
     background: $post-background
     width: 50%
     min-width: 35ch
     word-break: break-word
     margin: 5vmin auto
     border-radius: 2rem
+    h2
+        padding-top: 2vmin
+        text-align: center
+    .settingsForm
+        display: grid
+        margin: 2vmin
+        input, textarea
+            padding: 2vmin
+            resize: none
+    .outputMessageSettings:not(:empty)
+        padding: 0 2vmin 2vmin 2vmin
+    .deleteButton
+        padding: 2vmin
+        text-align: center
+    .confirmDiv
+        margin: 2vmin
     a
         color: $font-color
         &:hover
@@ -378,6 +394,14 @@ button, input[type=submit]
     margin-top: 3vmin
     text-align: center
     font-size: 2rem
+
+p.editable
+    background: darken($background, 25%)
+    box-sizing: border-box
+    border: $single-border
+
+.participateButton, #saveButton
+    margin-top: 2vmin
 
 @media screen and (width >= $media-query)
     nav

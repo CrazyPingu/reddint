@@ -49,7 +49,7 @@ img.svg {
   flex-direction: column;
 }
 
-.post {
+.post, section {
   background: #1a1a1b;
   width: 50%;
   min-width: 35ch;
@@ -57,31 +57,53 @@ img.svg {
   margin: 5vmin auto;
   border-radius: 2rem;
 }
-.post a {
+.post h2, section h2 {
+  padding-top: 2vmin;
+  text-align: center;
+}
+.post .settingsForm, section .settingsForm {
+  display: grid;
+  margin: 2vmin;
+}
+.post .settingsForm input, .post .settingsForm textarea, section .settingsForm input, section .settingsForm textarea {
+  padding: 2vmin;
+  resize: none;
+}
+.post .outputMessageSettings:not(:empty), section .outputMessageSettings:not(:empty) {
+  padding: 0 2vmin 2vmin 2vmin;
+}
+.post .deleteButton, section .deleteButton {
+  padding: 2vmin;
+  text-align: center;
+}
+.post .confirmDiv, section .confirmDiv {
+  margin: 2vmin;
+}
+.post a, section a {
   color: white;
 }
-.post a:hover {
+.post a:hover, section a:hover {
   color: #FF5700;
 }
-.post .topPartPost {
+.post .topPartPost, section .topPartPost {
   margin: 2vmin;
   display: grid;
 }
-.post .topPartPost .communityAndAuthor, .post .topPartPost .datePost {
+.post .topPartPost .communityAndAuthor, .post .topPartPost .datePost, section .topPartPost .communityAndAuthor, section .topPartPost .datePost {
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
-.post .topPartPost .communityAndAuthor .authorPost, .post .topPartPost .communityAndAuthor .communityPost, .post .topPartPost .datePost .authorPost, .post .topPartPost .datePost .communityPost {
+.post .topPartPost .communityAndAuthor .authorPost, .post .topPartPost .communityAndAuthor .communityPost, .post .topPartPost .datePost .authorPost, .post .topPartPost .datePost .communityPost, section .topPartPost .communityAndAuthor .authorPost, section .topPartPost .communityAndAuthor .communityPost, section .topPartPost .datePost .authorPost, section .topPartPost .datePost .communityPost {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.post .topPartPost .datePost {
+.post .topPartPost .datePost, section .topPartPost .datePost {
   margin-top: 1vmin;
   justify-content: center;
 }
-.post .postTitle {
+.post .postTitle, section .postTitle {
   margin: 0 2vmin;
   display: flex;
   justify-content: center;
@@ -89,24 +111,24 @@ img.svg {
   font-size: 2rem;
   font-weight: bold;
 }
-.post .postContent {
+.post .postContent, section .postContent {
   margin: 3vmin;
 }
-.post .botPart {
+.post .botPart, section .botPart {
   margin: 2vmin;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.post .botPart .svg {
+.post .botPart .svg, section .botPart .svg {
   width: 1.6rem;
 }
-.post .botPart .vote {
+.post .botPart .vote, section .botPart .vote {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.post .botPart .comments {
+.post .botPart .comments, section .botPart .comments {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -446,6 +468,16 @@ button, input[type=submit] {
   margin-top: 3vmin;
   text-align: center;
   font-size: 2rem;
+}
+
+p.editable {
+  background: black;
+  box-sizing: border-box;
+  border: 2px solid #FF5700;
+}
+
+.participateButton, #saveButton {
+  margin-top: 2vmin;
 }
 
 @media screen and (width >= 1200px) {
