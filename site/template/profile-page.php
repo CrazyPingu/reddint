@@ -20,7 +20,7 @@
                 <?php endif; ?>
         </div>
         <?php endif; ?>
-    <p><?php echo $templateParams['userBio']; ?></p>
+    <p><?php echo $templateParams['userBio'] ?? '-- empty bio --';?></p>
 </div>
 <div class='buttonPostComment'>
     <button type='button' id='buttonPost'>Post</button>
