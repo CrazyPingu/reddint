@@ -283,7 +283,7 @@ nav .nav-list .nav-item #searchSpace .search-result a, nav .nav-list .nav-item #
   display: inline;
   width: 100%;
 }
-nav .nav-list .nav-item #searchSpace .search-result a:hover, nav .nav-list .nav-item #searchSpace .search-result p:hover {
+nav .nav-list .nav-item #searchSpace .search-result a:hover {
   color: #FF5700;
 }
 nav .nav-list .nav-item #searchSpace:has(*) {
@@ -316,7 +316,7 @@ nav .navbar-toggler .bar {
   margin: 2vmin 2vmin 0 0;
 }
 
-button {
+button, input[type=submit] {
   color: white;
   background: #1a1a1b;
   border: 2px solid #FF5700;
@@ -388,6 +388,57 @@ button {
   color: purple;
 }
 .listFollow a:hover {
+  color: #FF5700;
+}
+
+.loginForm {
+  margin-top: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.loginForm .loginContainer {
+  background: #1a1a1b;
+  border-radius: 2rem;
+  box-sizing: border-box;
+  padding-bottom: 4vmin;
+  width: 50%;
+  min-width: 35ch;
+}
+.loginForm .loginContainer h2 {
+  text-align: center;
+  margin-top: 2vmin;
+  font-size: 1.7rem;
+}
+.loginForm .loginContainer form {
+  padding: 3vmin;
+  word-break: break-word;
+}
+.loginForm .loginContainer form .txtField {
+  border-bottom: 2px solid #adadad;
+  margin: 2vmin 0;
+}
+.loginForm .loginContainer form .txtField input {
+  color: white;
+  width: 100%;
+  min-width: 10ch;
+  padding: 0.3vmin 0;
+  font-size: 1.1rem;
+  border: none;
+  background: none;
+}
+.loginForm .loginContainer form input[type=submit] {
+  margin-bottom: 2vmin;
+  width: 100%;
+}
+.loginForm .loginContainer form .outputLogin {
+  margin-bottom: 2vmin;
+}
+.loginForm .loginContainer form a {
+  color: purple;
+}
+.loginForm .loginContainer form a:hover {
   color: #FF5700;
 }
 

@@ -248,8 +248,8 @@ nav
                     a,p
                         display: inline
                         width: 100%
-                        &:hover
-                            color: $hover-color
+                    a:hover
+                        color: $hover-color
                 &:has(*)
                     border-bottom: $single-border
             &:hover:not(:has(> #searchSpace)), #searchSpace > a:hover
@@ -273,7 +273,7 @@ nav
     align-items: center
     margin: 2vmin 2vmin 0 0
 
-button
+button, input[type=submit]
     color: $font-color
     background: $navbar-background
     border: $single-border
@@ -333,6 +333,47 @@ button
         &:hover
             color: $hover-color
 
+.loginForm
+    margin-top: 20vh
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    .loginContainer
+        background: $post-background
+        border-radius: 2rem
+        box-sizing: border-box
+        padding-bottom: 4vmin
+        width: 50%
+        min-width: 35ch
+        h2
+            text-align: center
+            margin-top: 2vmin
+            font-size: 1.7rem
+        form
+            padding: 3vmin
+            word-break: break-word
+            .txtField
+                border-bottom: 2px solid #adadad
+                margin: 2vmin 0
+                input
+                    color: $font-color
+                    width: 100%
+                    min-width: 10ch
+                    padding: 0.3vmin 0
+                    font-size: 1.1rem
+                    border: none
+                    background: none
+            input[type=submit]
+                margin-bottom: 2vmin
+                width: 100%
+            .outputLogin
+                margin-bottom: 2vmin
+            a
+                color: $href-color
+                &:hover
+                    color: $hover-color
+
 @media screen and (width >= $media-query)
     nav
         h1 > a.logo
@@ -373,7 +414,7 @@ button
                         &:has(*)
                             border-bottom: none
             input[type=text]:has(~ #searchSpace:not(:empty))
-                border-bottom-left-radius: 0
+                            border-bottom-left-radius: 0
         .navbar-toggler
             display: none
     #searchSpace
