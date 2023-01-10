@@ -28,6 +28,9 @@ switch ($type) {
     case 'create':
         if ($isUserLogged) {
             $result = $dbh->addCommunity($_SESSION['userId'], $args->nameCommunity, $args->description);
+            if($result) {
+                $dbh->joinCommunity($_SESSION['userId'], $args->nameCommunity);
+            }
         }
         break;
     case 'edit':
