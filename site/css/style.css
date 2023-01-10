@@ -391,14 +391,14 @@ button, input[type=submit] {
   color: #FF5700;
 }
 
-.loginForm {
+.loginForm, .signupForm {
   margin-top: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-.loginForm .loginContainer {
+.loginForm .loginContainer, .loginForm .signupContainer, .signupForm .loginContainer, .signupForm .signupContainer {
   background: #1a1a1b;
   border-radius: 2rem;
   box-sizing: border-box;
@@ -406,20 +406,20 @@ button, input[type=submit] {
   width: 50%;
   min-width: 35ch;
 }
-.loginForm .loginContainer h2 {
+.loginForm .loginContainer h2, .loginForm .signupContainer h2, .signupForm .loginContainer h2, .signupForm .signupContainer h2 {
   text-align: center;
   margin-top: 2vmin;
   font-size: 1.7rem;
 }
-.loginForm .loginContainer form {
+.loginForm .loginContainer form, .loginForm .signupContainer form, .signupForm .loginContainer form, .signupForm .signupContainer form {
   padding: 3vmin;
   word-break: break-word;
 }
-.loginForm .loginContainer form .txtField {
+.loginForm .loginContainer form .txtField, .loginForm .signupContainer form .txtField, .signupForm .loginContainer form .txtField, .signupForm .signupContainer form .txtField {
   border-bottom: 2px solid #adadad;
   margin: 2vmin 0;
 }
-.loginForm .loginContainer form .txtField input {
+.loginForm .loginContainer form .txtField input, .loginForm .signupContainer form .txtField input, .signupForm .loginContainer form .txtField input, .signupForm .signupContainer form .txtField input {
   color: white;
   width: 100%;
   min-width: 10ch;
@@ -428,18 +428,24 @@ button, input[type=submit] {
   border: none;
   background: none;
 }
-.loginForm .loginContainer form input[type=submit] {
+.loginForm .loginContainer form input[type=submit], .loginForm .signupContainer form input[type=submit], .signupForm .loginContainer form input[type=submit], .signupForm .signupContainer form input[type=submit] {
   margin-bottom: 2vmin;
   width: 100%;
 }
-.loginForm .loginContainer form .outputLogin {
+.loginForm .loginContainer form .outputLogin, .loginForm .signupContainer form .outputLogin, .signupForm .loginContainer form .outputLogin, .signupForm .signupContainer form .outputLogin {
   margin-bottom: 2vmin;
 }
-.loginForm .loginContainer form a {
+.loginForm .loginContainer form a, .loginForm .signupContainer form a, .signupForm .loginContainer form a, .signupForm .signupContainer form a {
   color: purple;
 }
-.loginForm .loginContainer form a:hover {
+.loginForm .loginContainer form a:hover, .loginForm .signupContainer form a:hover, .signupForm .loginContainer form a:hover, .signupForm .signupContainer form a:hover {
   color: #FF5700;
+}
+
+.no-result {
+  margin-top: 3vmin;
+  text-align: center;
+  font-size: 2rem;
 }
 
 @media screen and (width >= 1200px) {
