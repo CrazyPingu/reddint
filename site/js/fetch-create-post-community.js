@@ -11,14 +11,17 @@ document.querySelectorAll('#createPost, #createCommunity').forEach((form) => {
         data.type = 'create';
         let fileName = form.id == 'createPost' ? 'request-posts.php' : 'request-community.php';
         asyncRequest(fileName, (response) => {
-            let responseTag = document.createElement('p');
+            if (form.querySelector('#response')) {
+                form.removeChild(form.querySelector('#response'));
+            }
+            let responseTag = Object.assign(document.createElement('p'), {id: 'response'});
             if(response) {
-                responseTag.append('Successfully created! ');
+                responseTag.innerText = 'Successfully created! ';
                 if (form.id == 'createCommunity') {
                     responseTag.appendChild(Object.assign(document.createElement('a'), {href: 'community.php?community='+data.nameCommunity, innerText: 'Go to the community'}));
                 }
             } else {
-                responseTag.append('Error, not created!');
+                responseTag.innerText = 'Error, not created!';
             }
             form.appendChild(responseTag);
         }, data);

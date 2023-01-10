@@ -41,23 +41,28 @@ window.onload = function () {
             content.contentEditable = true;
             content.classList.add('editable');
 
-            let saveButton = Object.assign(document.createElement('button'), {id: 'saveButton', innerText: 'Save'});
-            document.querySelector('article.post').appendChild(saveButton);
-            saveButton.addEventListener('click', () => {
-                asyncRequest('request-posts.php', (response) => {
-                    if(response) {
-                        title.contentEditable = false;
-                        title.classList.remove('editable');
-                        content.contentEditable = false;
-                        content.classList.remove('editable');
-                        document.querySelector('article.post').removeChild(saveButton);
-                    } else {
-                        let errorTag = document.createElement('p');
-                        errorTag.append('Error during the post editing');
-                        space.appendChild(errorTag);
-                    }
-                }, { type: 'edit', postId, titlePost: title.innerText, contentPost: content.innerText });
-            });
+            if (!document.getElementById('saveButton')) {
+                let saveButton = Object.assign(document.createElement('button'), {id: 'saveButton', innerText: 'Save'});
+                document.querySelector('article.post').appendChild(saveButton);
+                saveButton.addEventListener('click', () => {
+                    asyncRequest('request-posts.php', (response) => {
+                        if(response) {
+                            title.contentEditable = false;
+                            title.classList.remove('editable');
+                            content.contentEditable = false;
+                            content.classList.remove('editable');
+                            document.querySelector('article.post').removeChild(saveButton);
+                            if (space.contains(document.getElementById('error'))) {
+                                space.removeChild(document.getElementById('error'));
+                            }
+                        } else {
+                            let errorTag = Object.assign(document.createElement('p'), {id: 'error'});
+                            errorTag.append('Error during the post editing');
+                            space.appendChild(errorTag);
+                        }
+                    }, { type: 'edit', postId, titlePost: title.innerText, contentPost: content.innerText });
+                });
+            }
         });
     }
 

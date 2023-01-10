@@ -50,22 +50,27 @@ window.onload = function () {
             description.contentEditable = true;
             description.classList.add('editable');
 
-            let saveButton = Object.assign(document.createElement('button'), { id: 'saveButton', innerText: 'Save' });
-            communityInformations[0].appendChild(saveButton);
-            saveButton.addEventListener('click', () => {
-                asyncRequest('request-community.php', (response) => {
-                    if (response) {
-                        description.contentEditable = false;
-                        description.classList.remove('editable');
-                        communityInformations[0].removeChild(saveButton);
-                    } else {
-                        let errorTag = document.createElement('p');
-                        errorTag.append('Error, description not changed');
-                        document.getElementById('editSpace').appendChild(errorTag);
-                        communityInformations[0].appendChild(errorTag);
-                    }
-                }, { type: 'edit', nameCommunity: communityInformations[0].id, description: description.innerText });
-            });
+            if (!document.getElementById('saveButton')) {
+                let saveButton = Object.assign(document.createElement('button'), { id: 'saveButton', innerText: 'Save' });
+                communityInformations[0].appendChild(saveButton);
+                saveButton.addEventListener('click', () => {
+                    asyncRequest('request-community.php', (response) => {
+                        if (response) {
+                            description.contentEditable = false;
+                            description.classList.remove('editable');
+                            communityInformations[0].removeChild(saveButton);
+                            if (communityInformations[0].contains(document.getElementById('error'))) {
+                                communityInformations[0].removeChild(document.getElementById('error'));
+                            }
+                        } else {
+                            let errorTag = Object.assign(document.createElement('p'), {id: 'error'});
+                            errorTag.append('Error, description not changed');
+                            document.getElementById('editSpace').appendChild(errorTag);
+                            communityInformations[0].appendChild(errorTag);
+                        }
+                    }, { type: 'edit', nameCommunity: communityInformations[0].id, description: description.innerText });
+                });
+            }
         });
     }
     const deleteButton = document.getElementById('deleteButton');
