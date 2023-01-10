@@ -16,6 +16,10 @@ switch ($type) {
         $result = $dbh->readAllNotifications($_SESSION['userId']);
         break;
     case 'add':
+        if ($args->receiver == $_SESSION['username']) {
+            echo json_encode(false);
+            exit();
+        }
         $result = $dbh->addNotification($args->receiver, $_SESSION['userId'], $args->content, $args->postId ?? null, $args->commentId ?? null);
         break;
 }
