@@ -19,6 +19,9 @@ changeUsernameForm.addEventListener('submit', (e) => {
     args.type = 'changeUsername';
     asyncRequest('request-settings.php', (response) => {
         messageUsername.innerHTML = response ? 'Username changed successfully!' : 'Username change failed!';
+        if (response) {
+            window.location.href = 'profile.php?username=' + args.newUsername;
+        }
     }, args);
 });
 
