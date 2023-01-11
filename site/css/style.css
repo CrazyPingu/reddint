@@ -43,18 +43,12 @@ img.svg {
   border-top: 2px solid #FF5700;
 }
 
-.postContainer, .spacePostComment {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
 .post, section, .comment {
   background: #1a1a1b;
   width: 50%;
   min-width: 35ch;
   word-break: break-word;
-  margin: 5vmin auto;
+  margin: 0 auto 5vmin auto;
   border-radius: 2rem;
 }
 .post h2, section h2, .comment h2 {
@@ -456,6 +450,15 @@ button, input[type=submit] {
   margin-left: auto;
   margin-right: 2vmin;
   color: white;
+}
+
+.post-container {
+  position: relative;
+  top: 5vmin;
+}
+
+.postContainer {
+  margin-top: 5vmin;
 }
 
 .listFollow {

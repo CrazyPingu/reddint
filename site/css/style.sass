@@ -53,17 +53,12 @@ img
         border: none
         border-top: $single-border
 
-.postContainer, .spacePostComment
-    display: flex
-    justify-content: center
-    flex-direction: column
-
 .post, section, .comment
     background: $post-background
     width: 50%
     min-width: 35ch
     word-break: break-word
-    margin: 5vmin auto
+    margin:  0  auto 5vmin auto
     border-radius: 2rem
     h2
         padding-top: 2vmin
@@ -388,6 +383,13 @@ button, input[type=submit]
             margin-left: auto
             margin-right: 2vmin
             color: $font-color
+
+.post-container
+    position: relative
+    top: 5vmin
+
+.postContainer
+    margin-top: 5vmin
 
 .listFollow
     margin-top: 2vmin
