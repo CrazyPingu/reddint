@@ -207,7 +207,8 @@ img
         margin-right: 2vmin
 
 nav
-    position: sticky
+    top: 0
+    position: fixed
     display: flex
     justify-content: space-between
     width: 100%
@@ -290,6 +291,10 @@ nav
             margin: 0.5vmin
             background: $main-color
             transition: 0.5s
+
+// every item not in nav
+main
+    margin-top: $navbar-dimension
 
 .readAllNotifications
     display: grid
