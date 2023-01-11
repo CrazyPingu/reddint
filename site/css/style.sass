@@ -29,7 +29,7 @@ body
 
 img
     &.svg
-        width: 3vmin
+        width: 1.3rem
         margin: 0.5rem
 
 .optionButtons, .buttonPostComment
@@ -68,12 +68,20 @@ img
     h2
         padding-top: 2vmin
         text-align: center
-    .settingsForm
+    .settingsForm, .createForm
         display: grid
         margin: 2vmin
         input, textarea
             padding: 2vmin
             resize: none
+            border-radius: 2rem
+        select
+            padding: 2vmin
+            background: $navbar-background
+            color: $font-color
+            border: $single-border
+            border-radius: 2rem
+            cursor: pointer
     .outputMessageSettings:not(:empty)
         padding: 0 2vmin 2vmin 2vmin
     .deleteButton
@@ -242,7 +250,7 @@ nav
         display: grid
         input[type=text]
             background: $navbar-search-bar-background
-            border-radius: 10rem
+            border-radius: 2rem
             border: none
             padding: 1vmin 2vmin
             color: $font-color
@@ -449,4 +457,4 @@ p.editable
     #searchSpace
         background: $navbar-background
         &:nth-last-child(1)
-            border-radius: 0 0 25px 25px
+            border-radius: 0 0 2rem 2rem
