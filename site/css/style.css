@@ -68,14 +68,14 @@ img.svg {
 .post .settingsForm input, .post .settingsForm textarea, .post .createForm input, .post .createForm textarea, section .settingsForm input, section .settingsForm textarea, section .createForm input, section .createForm textarea {
   padding: 2vmin;
   resize: none;
-  border-radius: 2rem;
+  border-radius: 1rem;
 }
 .post .settingsForm select, .post .createForm select, section .settingsForm select, section .createForm select {
   padding: 2vmin;
   background: #1a1a1b;
   color: white;
   border: 2px solid #FF5700;
-  border-radius: 2rem;
+  border-radius: 1rem;
   cursor: pointer;
 }
 .post .outputMessageSettings:not(:empty), section .outputMessageSettings:not(:empty) {
