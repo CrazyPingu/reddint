@@ -347,11 +347,18 @@ button, input[type=submit]
         justify-content: space-between
         align-items: center
         background: $navbar-background
-        width: 30%
+        width: 60%
         padding: 2vmin
         border-bottom: $single-border
+        button
+            width: 20vmin
+    >:first-child
+        border-top-right-radius: 1rem
+        border-top-left-radius: 1rem
     >:last-child
         border-bottom: none
+        border-bottom-right-radius: 1rem
+        border-bottom-left-radius: 1rem
     a
         color: $href-color
         &:hover

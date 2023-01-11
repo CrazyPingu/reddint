@@ -144,7 +144,7 @@ export function generateFollow(followData) {
 
     // follow button
     const isFollowing = followData.following;
-    const followButton = Object.assign(document.createElement("button"), {className: isFollowing ? 'unfollow':'follow', innerText: isFollowing ? 'Unfollow':'Follow'});
+    const followButton = Object.assign(document.createElement("button"), {innerText: isFollowing ? 'Unfollow':'Follow'});
     toggleFollow(followButton, followData.username);
     follow.appendChild(followButton);
 

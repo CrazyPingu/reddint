@@ -408,12 +408,21 @@ button, input[type=submit] {
   justify-content: space-between;
   align-items: center;
   background: #1a1a1b;
-  width: 30%;
+  width: 60%;
   padding: 2vmin;
   border-bottom: 2px solid #FF5700;
 }
+.listFollow .follow button {
+  width: 20vmin;
+}
+.listFollow > :first-child {
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+}
 .listFollow > :last-child {
   border-bottom: none;
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
 }
 .listFollow a {
   color: purple;
