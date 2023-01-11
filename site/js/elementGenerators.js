@@ -86,9 +86,10 @@ export function generateComment(commentData) {
 
     // div containing author and date
     const authorDate = Object.assign(document.createElement("div"), {className: 'commentAuthorDate'});
+    const authorDiv = Object.assign(document.createElement("div"), {className: 'authorComment'});
     const authorImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/profile.svg', alt: 'user'});
     const authorLink = Object.assign(document.createElement("a"), {href: `./profile.php?username=${encodeURIComponent(commentData.author)}`,innerText: commentData.author});
-    const dateDiv = Object.assign(document.createElement("div"), {className: 'date'});
+    const dateDiv = Object.assign(document.createElement("div"), {className: 'dateComment'});
     const dateImg = Object.assign(document.createElement("img"), {className: 'svg', src: './res/svg/time.svg', alt: 'date'});
     const date = Object.assign(document.createElement("p"), {innerText: 'created '+dateDiffToNow(commentData.creation_date)+' ago'});
 
@@ -117,10 +118,11 @@ export function generateComment(commentData) {
     getVote(commentData.id, 'comment', upvoteImg, downvoteImg);
 
     // Append elements to comment div
-    authorDate.appendChild(authorImg);
-    authorDate.appendChild(authorLink);
+    authorDiv.appendChild(authorImg);
+    authorDiv.appendChild(authorLink);
     dateDiv.appendChild(dateImg);
     dateDiv.appendChild(date);
+    authorDate.appendChild(authorDiv);
     authorDate.appendChild(dateDiv);
     comment.appendChild(authorDate);
     comment.appendChild(commentContent);

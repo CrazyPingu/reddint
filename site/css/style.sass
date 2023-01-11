@@ -58,7 +58,7 @@ img
     justify-content: center
     flex-direction: column
 
-.post, section
+.post, section, .comment
     background: $post-background
     width: 50%
     min-width: 35ch
@@ -87,15 +87,22 @@ img
     .deleteButton
         padding: 2vmin
         text-align: center
-    .confirmDiv
-        margin: 2vmin
+        button
+            width: 100%
+            border-radius: 1rem
+        .confirmDiv
+            p
+                margin: 2vmin
+            button
+                width: 50%
+                border-radius: 1rem
     a
         color: $font-color
         &:hover
             color: $hover-color
     .topPartPost
-        margin: 2vmin
         display: grid
+        padding: 2vmin
         .communityAndAuthor, .datePost
             display: flex
             align-items: center
@@ -107,6 +114,17 @@ img
         .datePost
             margin-top: 1vmin
             justify-content: center
+    .commentAuthorDate //!todo: change name
+        padding: 2vmin
+        display: flex
+        align-items: center
+        justify-content: space-around
+        .authorComment, .dateComment
+            display: flex
+            align-items: center
+            justify-content: center
+    .commentContent
+        padding: 2vmin
     .postTitle
         margin: 0 2vmin
         display: flex
@@ -121,16 +139,19 @@ img
         display: flex
         justify-content: space-between
         align-items: center
-        .svg
-            width: 1.6rem
-        .vote
-            display: flex
-            align-items: center
-            justify-content: center
         .comments
             display: flex
             align-items: center
             justify-content: center
+    .svg
+        width: 1.6rem
+    .vote
+        display: flex
+        align-items: center
+        justify-content: center
+    &>.vote
+        margin: 2vmin
+        justify-content: flex-start
 
 .upperProfile
     display: flex
@@ -292,7 +313,6 @@ nav
             background: $main-color
             transition: 0.5s
 
-// every item not in nav
 main
     margin-top: $navbar-dimension
 
@@ -411,7 +431,7 @@ button, input[type=submit]
                     color: $hover-color
 
 .no-result
-    margin-top: 3vmin
+    margin: 3vmin 0
     text-align: center
     font-size: 2rem
 

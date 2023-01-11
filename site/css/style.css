@@ -49,7 +49,7 @@ img.svg {
   flex-direction: column;
 }
 
-.post, section {
+.post, section, .comment {
   background: #1a1a1b;
   width: 50%;
   min-width: 35ch;
@@ -57,20 +57,20 @@ img.svg {
   margin: 5vmin auto;
   border-radius: 2rem;
 }
-.post h2, section h2 {
+.post h2, section h2, .comment h2 {
   padding-top: 2vmin;
   text-align: center;
 }
-.post .settingsForm, .post .createForm, section .settingsForm, section .createForm {
+.post .settingsForm, .post .createForm, section .settingsForm, section .createForm, .comment .settingsForm, .comment .createForm {
   display: grid;
   margin: 2vmin;
 }
-.post .settingsForm input, .post .settingsForm textarea, .post .createForm input, .post .createForm textarea, section .settingsForm input, section .settingsForm textarea, section .createForm input, section .createForm textarea {
+.post .settingsForm input, .post .settingsForm textarea, .post .createForm input, .post .createForm textarea, section .settingsForm input, section .settingsForm textarea, section .createForm input, section .createForm textarea, .comment .settingsForm input, .comment .settingsForm textarea, .comment .createForm input, .comment .createForm textarea {
   padding: 2vmin;
   resize: none;
   border-radius: 1rem;
 }
-.post .settingsForm select, .post .createForm select, section .settingsForm select, section .createForm select {
+.post .settingsForm select, .post .createForm select, section .settingsForm select, section .createForm select, .comment .settingsForm select, .comment .createForm select {
   padding: 2vmin;
   background: #1a1a1b;
   color: white;
@@ -78,41 +78,63 @@ img.svg {
   border-radius: 1rem;
   cursor: pointer;
 }
-.post .outputMessageSettings:not(:empty), section .outputMessageSettings:not(:empty) {
+.post .outputMessageSettings:not(:empty), section .outputMessageSettings:not(:empty), .comment .outputMessageSettings:not(:empty) {
   padding: 0 2vmin 2vmin 2vmin;
 }
-.post .deleteButton, section .deleteButton {
+.post .deleteButton, section .deleteButton, .comment .deleteButton {
   padding: 2vmin;
   text-align: center;
 }
-.post .confirmDiv, section .confirmDiv {
+.post .deleteButton button, section .deleteButton button, .comment .deleteButton button {
+  width: 100%;
+  border-radius: 1rem;
+}
+.post .deleteButton .confirmDiv p, section .deleteButton .confirmDiv p, .comment .deleteButton .confirmDiv p {
   margin: 2vmin;
 }
-.post a, section a {
+.post .deleteButton .confirmDiv button, section .deleteButton .confirmDiv button, .comment .deleteButton .confirmDiv button {
+  width: 50%;
+  border-radius: 1rem;
+}
+.post a, section a, .comment a {
   color: white;
 }
-.post a:hover, section a:hover {
+.post a:hover, section a:hover, .comment a:hover {
   color: #FF5700;
 }
-.post .topPartPost, section .topPartPost {
-  margin: 2vmin;
+.post .topPartPost, section .topPartPost, .comment .topPartPost {
   display: grid;
+  padding: 2vmin;
 }
-.post .topPartPost .communityAndAuthor, .post .topPartPost .datePost, section .topPartPost .communityAndAuthor, section .topPartPost .datePost {
+.post .topPartPost .communityAndAuthor, .post .topPartPost .datePost, section .topPartPost .communityAndAuthor, section .topPartPost .datePost, .comment .topPartPost .communityAndAuthor, .comment .topPartPost .datePost {
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
-.post .topPartPost .communityAndAuthor .authorPost, .post .topPartPost .communityAndAuthor .communityPost, .post .topPartPost .datePost .authorPost, .post .topPartPost .datePost .communityPost, section .topPartPost .communityAndAuthor .authorPost, section .topPartPost .communityAndAuthor .communityPost, section .topPartPost .datePost .authorPost, section .topPartPost .datePost .communityPost {
+.post .topPartPost .communityAndAuthor .authorPost, .post .topPartPost .communityAndAuthor .communityPost, .post .topPartPost .datePost .authorPost, .post .topPartPost .datePost .communityPost, section .topPartPost .communityAndAuthor .authorPost, section .topPartPost .communityAndAuthor .communityPost, section .topPartPost .datePost .authorPost, section .topPartPost .datePost .communityPost, .comment .topPartPost .communityAndAuthor .authorPost, .comment .topPartPost .communityAndAuthor .communityPost, .comment .topPartPost .datePost .authorPost, .comment .topPartPost .datePost .communityPost {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.post .topPartPost .datePost, section .topPartPost .datePost {
+.post .topPartPost .datePost, section .topPartPost .datePost, .comment .topPartPost .datePost {
   margin-top: 1vmin;
   justify-content: center;
 }
-.post .postTitle, section .postTitle {
+.post .commentAuthorDate, section .commentAuthorDate, .comment .commentAuthorDate {
+  padding: 2vmin;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.post .commentAuthorDate .authorComment, .post .commentAuthorDate .dateComment, section .commentAuthorDate .authorComment, section .commentAuthorDate .dateComment, .comment .commentAuthorDate .authorComment, .comment .commentAuthorDate .dateComment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.post .commentContent, section .commentContent, .comment .commentContent {
+  padding: 2vmin;
+}
+.post .postTitle, section .postTitle, .comment .postTitle {
   margin: 0 2vmin;
   display: flex;
   justify-content: center;
@@ -120,27 +142,31 @@ img.svg {
   font-size: 2rem;
   font-weight: bold;
 }
-.post .postContent, section .postContent {
+.post .postContent, section .postContent, .comment .postContent {
   margin: 3vmin;
 }
-.post .botPart, section .botPart {
+.post .botPart, section .botPart, .comment .botPart {
   margin: 2vmin;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.post .botPart .svg, section .botPart .svg {
+.post .botPart .comments, section .botPart .comments, .comment .botPart .comments {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.post .svg, section .svg, .comment .svg {
   width: 1.6rem;
 }
-.post .botPart .vote, section .botPart .vote {
+.post .vote, section .vote, .comment .vote {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.post .botPart .comments, section .botPart .comments {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.post > .vote, section > .vote, .comment > .vote {
+  margin: 2vmin;
+  justify-content: flex-start;
 }
 
 .upperProfile {
@@ -487,7 +513,7 @@ button, input[type=submit] {
 }
 
 .no-result {
-  margin-top: 3vmin;
+  margin: 3vmin 0;
   text-align: center;
   font-size: 2rem;
 }
