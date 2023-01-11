@@ -457,7 +457,7 @@ button, input[type=submit] {
   top: 5vmin;
 }
 
-.postContainer {
+.postContainer, .spacePostComment {
   margin-top: 5vmin;
 }
 
