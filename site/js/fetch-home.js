@@ -1,5 +1,6 @@
 import asyncRequest from "./default-ajax.js";
 import {generateElements} from "./elementGenerators.js";
+import { throttle } from "./throttle.js";
 
 const postsDiv = document.getElementById('postsSpace');
 let selectedButton = null;
@@ -7,9 +8,10 @@ let offset = 0;
 
 function renderPosts() {
     asyncRequest(`request-posts.php`, (response) => {
-            postsDiv.innerHTML = '';
             if (response.length == 0) {
-                const noPosts = Object.assign(document.createElement('p'), {className: 'no-result', innerText: 'No posts to show'});
+                let noPosts = document.getElementById('no-more-posts');
+                if (noPosts) return;
+                noPosts = Object.assign(document.createElement('p'), {id: 'no-more-posts', className: 'no-result', innerText: 'No more posts to show'});
                 postsDiv.appendChild(noPosts);
                 return;
             }
@@ -21,21 +23,22 @@ function renderPosts() {
 
 document.querySelectorAll('#communitiesPosts, #usersPosts').forEach(button => {
     button.addEventListener('click', () => {
+        postsDiv.innerHTML = '';
         offset = 0;
         selectedButton = button;
         renderPosts();
     });
 });
 
-postsDiv.addEventListener('scroll', () => {
-    // TODO: verify this actually works, find a better way to do this
-    const endOfPage = postsDiv.scrollTop + postsDiv.clientHeight >= postsDiv.scrollHeight;
-    if (endOfPage) {
-        offset += 10;
-        renderPosts();
-    }
-});
-
 window.onload = function () {
     document.getElementById('communitiesPosts').click();
+};
+
+window.onscroll = function () {
+    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
+        throttle(() => {
+            offset += 10;
+            renderPosts();
+        }, 1000);
+    }
 };

@@ -1,6 +1,7 @@
 import asyncRequest from './default-ajax.js';
 import { generateElements } from './elementGenerators.js';
 import pushNotification from './fetch-notifications.js';
+import { throttle } from './throttle.js';
 
 function toggleFollow(button, usernameProfile) {
     button.addEventListener('click', function () {
@@ -20,7 +21,9 @@ function toggleFollow(button, usernameProfile) {
 function renderFollowers(listFollowTag, args) {
     asyncRequest('request-follow.php', (response) => {
         if (response.length == 0) {
-            const noFollowers = Object.assign(document.createElement('p'), {className: 'no-result', innerText: 'No users to show' });
+            const noFollowers = document.getElementsById('no-more-followers');
+            if (noFollowers) return;
+            noFollowers = Object.assign(document.createElement('p'), {id:'no-more-followers', className: 'no-result', innerText: 'No users to show' });
             listFollowTag.appendChild(noFollowers);
             return;
         }
@@ -45,13 +48,15 @@ window.onload = function () {
         });
     });
 
-    listFollowTag.addEventListener('scroll', function () {
-        if (listFollowTag.scrollTop + listFollowTag.clientHeight >= listFollowTag.scrollHeight) {
-            offset += baseOffset;
-            args.offset = offset;
-            renderFollowers(listFollowTag, args);
+    window.onscroll = function () {
+        if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
+            throttle(() => {
+                offset += baseOffset;
+                args.offset = offset;
+                renderFollowers(listFollowTag, args);
+            }, 1000);
         }
-    });
+    };
 }
 
 

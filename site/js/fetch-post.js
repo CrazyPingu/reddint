@@ -2,6 +2,7 @@ import asyncRequest from "./default-ajax.js";
 import { generatePost, generateElements } from './elementGenerators.js';
 import addConfirmButton from './add-buttons.js';
 import pushNotification from './fetch-notifications.js';
+import { throttle } from "./throttle.js";
 
 const spacePost = document.querySelector('.post-container');
 const spaceComments = document.querySelector('.comments-container');
@@ -20,7 +21,7 @@ function loadComments() {
     spaceComments.innerHTML = '';
     asyncRequest('request-comments.php', (response) => {
         generateElements(response, spaceComments, 'comment');
-    }, { type: 'post', postId, limit: baseOffset });
+    }, { type: 'post', postId, limit: baseOffset, offset });
 }
 
 window.onload = function () {
@@ -88,11 +89,11 @@ formTag.addEventListener('submit', (e) => {
     }, { type: 'addComment', postId, commentContent: textTag.value });
 });
 
-spaceComments.addEventListener('scroll', () => {
-    if (spaceComments.scrollTop >= (spaceComments.scrollHeight - spaceComments.offsetHeight)) {
-        asyncCall('request-comments.php', (response) => {
-            generateElements(response, spaceComments, 'comment');
-        }, { type: 'post', offset, limit: baseOffset, postId });
+window.onscroll = function () {
+    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
+        throttle(() => {
+            offset += baseOffset;
+            loadComments();
+        }, 1000);
     }
-    offset += baseOffset;
-});
+}

@@ -1,6 +1,7 @@
 import asyncRequest from './default-ajax.js';
 import { generateElements } from './elementGenerators.js';
 import addConfirmButton from './add-buttons.js';
+import { throttle } from './throttle.js';
 
 function toggleParticipation(button, communityName) {
     button.addEventListener('click', function () {
@@ -80,13 +81,14 @@ window.onload = function () {
             addConfirmButton(document.getElementById('editSpace'), 'request-community.php', args);
         });
     }
+}
 
-    space.addEventListener('scroll', () => {
-        if (space.scrollTop + space.clientHeight >= space.scrollHeight) {
+window.onscroll = function () {
+    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
+        throttle(() => {
             offset += baseOffset;
             args.offset = offset;
             render(space, args);
-        }
-    });
+        }, 1000);
+    }
 }
-

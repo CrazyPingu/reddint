@@ -1,6 +1,7 @@
 import asyncRequest from './default-ajax.js';
 import { generateElements } from './elementGenerators.js';
 import toggleFollow from './fetch-follow.js';
+import { throttle } from './throttle.js';
 
 const buttonPost = document.getElementById('buttonPost');
 const buttonComment = document.getElementById('buttonComment');
@@ -10,10 +11,6 @@ const buttonFollow = document.getElementById('followButton');
 const baseOffset = 10;
 const defaultData = { type: 'user', offset: 0, username, limit: baseOffset };
 let selected = '';
-
-function incrementOffset() {
-    defaultData.offset += baseOffset;
-}
 
 function render(container, args, fileName, type) {
     asyncRequest(fileName, (response) => {
@@ -37,18 +34,20 @@ buttonComment.addEventListener('click', () => {
     selected = 'comment';
 });
 
-space.addEventListener('scroll', () => {
-    if (space.scrollTop === (space.scrollHeight - space.offsetHeight)) {
-        selected === 'post' ? page = 'request-posts.php' : page = 'request-comments.php';
-        render(space, defaultData, page, selected);
-    }
-    incrementOffset();
-});
-
 if (buttonFollow) {
     toggleFollow(buttonFollow, username);
 }
 
 window.onload = () => {
     buttonPost.click();
+}
+
+window.onscroll = function () {
+    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
+        throttle(() => {
+            const page = selected == 'post' ? 'request-posts.php' : 'request-comments.php';
+            render(space, defaultData, page, selected);
+            defaultData.offset += baseOffset;
+        }, 1000);
+    }
 }
