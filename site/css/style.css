@@ -1,0 +1,635 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+  text-decoration: none;
+}
+
+body {
+  color: white;
+  background: #333333;
+}
+
+img.svg {
+  width: 1.3rem;
+  margin: 0.5rem;
+}
+
+.optionButtons, .buttonPostComment {
+  display: flex;
+  width: 100%;
+}
+.optionButtons :nth-child(1), .buttonPostComment :nth-child(1) {
+  border-right: 1px solid #ff9a03;
+}
+.optionButtons :nth-child(2), .buttonPostComment :nth-child(2) {
+  border-left: 1px solid #ff9a03;
+}
+.optionButtons :nth-child(3), .buttonPostComment :nth-child(3) {
+  border-left: 2px solid #ff9a03;
+}
+.optionButtons :nth-child(3) > p, .buttonPostComment :nth-child(3) > p {
+  border-right: none;
+}
+.optionButtons > *, .buttonPostComment > * {
+  width: 50%;
+  cursor: pointer;
+  text-align: center;
+  padding: 1vmin;
+  background: #191919;
+  color: white;
+  border: none;
+  border-top: 2px solid #ff9a03;
+}
+
+.post, section, .comment {
+  background: #191919;
+  width: 50%;
+  min-width: 35ch;
+  word-break: break-word;
+  margin: 0 auto 5vmin auto;
+  border-radius: 2rem;
+}
+.post h2, section h2, .comment h2 {
+  padding-top: 2vmin;
+  text-align: center;
+}
+.post .settingsForm, .post .createForm, section .settingsForm, section .createForm, .comment .settingsForm, .comment .createForm {
+  display: grid;
+  margin: 2vmin;
+}
+.post .settingsForm input, .post .settingsForm textarea, .post .createForm input, .post .createForm textarea, section .settingsForm input, section .settingsForm textarea, section .createForm input, section .createForm textarea, .comment .settingsForm input, .comment .settingsForm textarea, .comment .createForm input, .comment .createForm textarea {
+  padding: 2vmin;
+  resize: none;
+  border-radius: 1rem;
+}
+.post .settingsForm select, .post .createForm select, section .settingsForm select, section .createForm select, .comment .settingsForm select, .comment .createForm select {
+  padding: 2vmin;
+  background: #191919;
+  color: white;
+  border: 2px solid #ff9a03;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+.post .outputMessageSettings:not(:empty), section .outputMessageSettings:not(:empty), .comment .outputMessageSettings:not(:empty) {
+  padding: 0 2vmin 2vmin 2vmin;
+}
+.post .deleteButton, section .deleteButton, .comment .deleteButton {
+  padding: 2vmin;
+  text-align: center;
+}
+.post .deleteButton button, section .deleteButton button, .comment .deleteButton button {
+  width: 100%;
+  border-radius: 1rem;
+}
+.post .deleteButton .confirmDiv p, section .deleteButton .confirmDiv p, .comment .deleteButton .confirmDiv p {
+  margin: 2vmin;
+}
+.post .deleteButton .confirmDiv button, section .deleteButton .confirmDiv button, .comment .deleteButton .confirmDiv button {
+  width: 50%;
+  border-radius: 1rem;
+}
+.post a, section a, .comment a {
+  color: #ff9a03;
+}
+.post a:hover, section a:hover, .comment a:hover {
+  color: #FE4E00;
+}
+.post .topPartPost, section .topPartPost, .comment .topPartPost {
+  display: grid;
+  padding: 2vmin;
+}
+.post .topPartPost .communityAndAuthor, .post .topPartPost .datePost, section .topPartPost .communityAndAuthor, section .topPartPost .datePost, .comment .topPartPost .communityAndAuthor, .comment .topPartPost .datePost {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.post .topPartPost .communityAndAuthor .authorPost, .post .topPartPost .communityAndAuthor .communityPost, .post .topPartPost .datePost .authorPost, .post .topPartPost .datePost .communityPost, section .topPartPost .communityAndAuthor .authorPost, section .topPartPost .communityAndAuthor .communityPost, section .topPartPost .datePost .authorPost, section .topPartPost .datePost .communityPost, .comment .topPartPost .communityAndAuthor .authorPost, .comment .topPartPost .communityAndAuthor .communityPost, .comment .topPartPost .datePost .authorPost, .comment .topPartPost .datePost .communityPost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.post .topPartPost .datePost, section .topPartPost .datePost, .comment .topPartPost .datePost {
+  margin-top: 1vmin;
+  justify-content: center;
+}
+.post .commentAuthorDate, section .commentAuthorDate, .comment .commentAuthorDate {
+  padding: 2vmin;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.post .commentAuthorDate .authorComment, .post .commentAuthorDate .dateComment, section .commentAuthorDate .authorComment, section .commentAuthorDate .dateComment, .comment .commentAuthorDate .authorComment, .comment .commentAuthorDate .dateComment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.post .commentContent, section .commentContent, .comment .commentContent {
+  padding: 2vmin;
+}
+.post .postTitle, section .postTitle, .comment .postTitle {
+  margin: 0 2vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.post .postContent, section .postContent, .comment .postContent {
+  margin: 3vmin;
+}
+.post .botPart, section .botPart, .comment .botPart {
+  margin: 2vmin;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.post .botPart .comments, section .botPart .comments, .comment .botPart .comments {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.post .svg, section .svg, .comment .svg {
+  width: 1.6rem;
+}
+.post .vote, section .vote, .comment .vote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.post > .vote, section > .vote, .comment > .vote {
+  margin: 2vmin;
+  justify-content: flex-start;
+}
+
+.upperProfile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #191919;
+}
+.upperProfile > * {
+  border-top: 2px solid #ff9a03;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1%;
+  width: 98%;
+}
+.upperProfile .rightProfile > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2%;
+}
+.upperProfile .rightProfile a {
+  color: #ff9a03;
+}
+.upperProfile .rightProfile a:hover {
+  color: #FE4E00;
+}
+
+.spaceCommunities {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.spaceCommunities .community {
+  background: #191919;
+  width: 50%;
+  min-width: 35ch;
+  word-break: break-word;
+  margin: 5vmin auto;
+  border-radius: 2rem;
+}
+.spaceCommunities .community .communityName {
+  margin: 2vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.spaceCommunities .community .communityDescription {
+  margin: 3vmin;
+}
+.spaceCommunities .community .communityMembers {
+  margin: 2vmin;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.spaceCommunities .community a {
+  color: white;
+}
+.spaceCommunities .community a:hover {
+  color: #FE4E00;
+}
+
+.communityInformations {
+  background: #191919;
+}
+.communityInformations .generalInformationCommunity {
+  display: flex;
+  justify-content: space-around;
+  padding: 2vmin;
+  border-top: 2px solid #ff9a03;
+}
+.communityInformations .generalInformationCommunity p {
+  margin: 0 2vmin;
+  font-weight: bold;
+  display: inline;
+}
+.communityInformations .communityDescription {
+  border-top: 2px solid #ff9a03;
+  word-break: break-word;
+  padding: 2vmin;
+}
+.communityInformations button {
+  float: right;
+  margin-right: 2vmin;
+}
+
+.create-comment {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2vmin;
+}
+.create-comment form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5vmin auto;
+  width: 50%;
+  min-width: 35ch;
+  word-break: break-word;
+  background: #191919;
+  border-radius: 2rem;
+  padding: 0 2vmin;
+}
+.create-comment form textarea {
+  width: 100%;
+  margin: 2vmin;
+  resize: none;
+  border-radius: 1rem;
+  padding: 3vmin 0;
+}
+.create-comment form input {
+  margin: 2vmin;
+  width: 100%;
+  border-radius: 1rem;
+}
+
+nav {
+  top: 0;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 11vmin;
+  background: #191919;
+  z-index: 1;
+}
+nav #toggle {
+  display: none;
+}
+nav #toggle:checked ~ .nav-list .nav-item {
+  display: grid;
+}
+nav #toggle:checked ~ .navbar-toggler .bar:nth-child(1) {
+  position: absolute;
+  transform: rotate(45deg);
+}
+nav #toggle:checked ~ .navbar-toggler .bar:nth-child(2) {
+  display: none;
+}
+nav #toggle:checked ~ .navbar-toggler .bar:nth-child(3) {
+  transform: rotate(-45deg);
+}
+nav h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+nav a, nav p {
+  font-size: 1.1rem;
+}
+nav a {
+  color: #ff9a03;
+  display: flex;
+  align-items: center;
+}
+nav a.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 2vmin;
+}
+nav .nav-list {
+  position: absolute;
+  background: #191919;
+  width: 100%;
+  top: calc(11vmin - 1px);
+  left: 0;
+  display: grid;
+}
+nav .nav-list input[type=text] {
+  background: #272729;
+  border-radius: 2rem;
+  border: none;
+  padding: 1vmin 2vmin;
+  color: white;
+  box-sizing: border-box;
+  width: 100%;
+}
+nav .nav-list .nav-item {
+  display: none;
+  padding: 2vmin;
+}
+nav .nav-list .nav-item #searchSpace {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+nav .nav-list .nav-item #searchSpace .search-result {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 2vmin 0;
+}
+nav .nav-list .nav-item #searchSpace .search-result a, nav .nav-list .nav-item #searchSpace .search-result p {
+  display: inline;
+  width: 100%;
+}
+nav .nav-list .nav-item #searchSpace:has(*) {
+  border-bottom: 2px solid #ff9a03;
+}
+nav .nav-list .nav-item:hover:not(:has(> #searchSpace)), nav .nav-list .nav-item #searchSpace > a:hover {
+  color: #FE4E00;
+}
+nav .navbar-toggler {
+  display: grid;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+  margin: auto 0;
+  margin-right: 2vmin;
+  cursor: pointer;
+}
+nav .navbar-toggler .bar {
+  width: 6vmin;
+  height: 1vmin;
+  margin: 0.5vmin;
+  background: #ff9a03;
+  transition: 0.5s;
+}
+nav a:hover {
+  color: #FE4E00;
+}
+
+main {
+  margin-top: 11vmin;
+}
+
+.readAllNotifications {
+  display: grid;
+  justify-content: end;
+  align-items: center;
+  margin: 2vmin 2vmin 0 0;
+}
+
+button, input[type=submit] {
+  color: white;
+  background: #191919;
+  border: 2px solid #ff9a03;
+  padding: 1vmin;
+  cursor: pointer;
+}
+
+.downvote, .upvote {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: inherit;
+}
+
+.notificationContainer {
+  display: grid;
+  margin: 2vmin;
+}
+.notificationContainer .notification {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 2vmin 0;
+  border: 2px solid #ff9a03;
+  background: #191919;
+}
+.notificationContainer .notification.seen {
+  background: #333333;
+}
+.notificationContainer .notification .readAllNotificationButton {
+  display: grid;
+  justify-content: end;
+}
+.notificationContainer .notification .notificationContent {
+  margin-left: 2vmin;
+}
+.notificationContainer .notification .notificationContent a {
+  color: #ff9a03;
+}
+.notificationContainer .notification .notificationContent a:hover {
+  color: #FE4E00;
+}
+.notificationContainer .notification .notificationDate {
+  margin-left: auto;
+  margin-right: 2vmin;
+  color: white;
+}
+
+.post-container {
+  position: relative;
+  top: 5vmin;
+}
+
+.postContainer, .spacePostComment {
+  margin-top: 5vmin;
+}
+
+.listFollow {
+  margin-top: 2vmin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #333333;
+}
+.listFollow .follow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #191919;
+  width: 60%;
+  padding: 2vmin;
+  border-bottom: 2px solid #ff9a03;
+}
+.listFollow .follow button {
+  width: 20vmin;
+}
+.listFollow > :first-child {
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+}
+.listFollow > :last-child {
+  border-bottom: none;
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+.listFollow a {
+  color: #ff9a03;
+}
+.listFollow a:hover {
+  color: #FE4E00;
+}
+
+.loginForm, .signupForm {
+  margin-top: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.loginForm .loginContainer, .loginForm .signupContainer, .signupForm .loginContainer, .signupForm .signupContainer {
+  background: #191919;
+  border-radius: 2rem;
+  box-sizing: border-box;
+  padding-bottom: 4vmin;
+  width: 50%;
+  min-width: 35ch;
+}
+.loginForm .loginContainer h2, .loginForm .signupContainer h2, .signupForm .loginContainer h2, .signupForm .signupContainer h2 {
+  text-align: center;
+  margin-top: 2vmin;
+  font-size: 1.7rem;
+}
+.loginForm .loginContainer form, .loginForm .signupContainer form, .signupForm .loginContainer form, .signupForm .signupContainer form {
+  padding: 3vmin;
+  word-break: break-word;
+}
+.loginForm .loginContainer form .txtField, .loginForm .signupContainer form .txtField, .signupForm .loginContainer form .txtField, .signupForm .signupContainer form .txtField {
+  border-bottom: 2px solid #adadad;
+  margin: 2vmin 0;
+}
+.loginForm .loginContainer form .txtField input, .loginForm .signupContainer form .txtField input, .signupForm .loginContainer form .txtField input, .signupForm .signupContainer form .txtField input {
+  color: white;
+  width: 100%;
+  min-width: 10ch;
+  padding: 0.3vmin 0;
+  font-size: 1.1rem;
+  border: none;
+  background: none;
+}
+.loginForm .loginContainer form input[type=submit], .loginForm .signupContainer form input[type=submit], .signupForm .loginContainer form input[type=submit], .signupForm .signupContainer form input[type=submit] {
+  margin-bottom: 2vmin;
+  width: 100%;
+}
+.loginForm .loginContainer form a, .loginForm .signupContainer form a, .signupForm .loginContainer form a, .signupForm .signupContainer form a {
+  color: #ff9a03;
+}
+.loginForm .loginContainer form a:hover, .loginForm .signupContainer form a:hover, .signupForm .loginContainer form a:hover, .signupForm .signupContainer form a:hover {
+  color: #FE4E00;
+}
+
+.no-result {
+  margin: 3vmin 0;
+  text-align: center;
+  font-size: 2rem;
+}
+
+p.editable {
+  background: black;
+  box-sizing: border-box;
+  border: 2px solid #ff9a03;
+}
+
+.participateButton, #saveButton {
+  margin-top: 2vmin;
+}
+
+section:first-of-type {
+  margin-top: 16vmin;
+}
+
+@media screen and (width >= 1200px) {
+  nav h1 > a.logo {
+    font-size: 3rem;
+  }
+  nav .nav-list {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    top: 0;
+  }
+  nav .nav-list .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  nav .nav-list .nav-item:has(> input[type=text]) {
+    width: 100%;
+    min-width: 0;
+  }
+  nav .nav-list .nav-item a, nav .nav-list .nav-item p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) {
+    display: inline;
+    margin: auto 0;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace {
+    position: absolute;
+    display: flex;
+    justify-content: start;
+    background: #272729;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace .search-result :not(p) {
+    margin: 0 1rem;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace .search-result > a, nav .nav-list .nav-item:has(> #searchSpace) #searchSpace .search-result > p {
+    display: inline;
+    margin: 0 1rem 0 1vmin;
+    max-width: 100%;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace .search-result > p {
+    margin: 0 2vmin;
+  }
+  nav .nav-list .nav-item:has(> #searchSpace) #searchSpace:has(*) {
+    border-bottom: none;
+  }
+  nav .nav-list input[type=text]:has(~ #searchSpace:not(:empty)) {
+    border-bottom-left-radius: 0;
+  }
+  nav .navbar-toggler {
+    display: none;
+  }
+  #searchSpace {
+    background: #191919;
+  }
+  #searchSpace:nth-last-child(1) {
+    border-radius: 0 0 2rem 2rem;
+  }
+}
+button[disabled=disabled], button:disabled {
+  background: #4d4d4d;
+  pointer-events: none;
+}
+
+.response {
+  padding: 2vmin;
+}/*# sourceMappingURL=style.css.map */

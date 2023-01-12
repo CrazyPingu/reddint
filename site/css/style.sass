@@ -1,0 +1,531 @@
+$main-color: #ff9a03
+$single-border: 2px solid $main-color
+$half-single-border: 1px solid $main-color
+$href-color: $main-color
+$hover-color: #FE4E00
+$background: #333333
+$font-color: white
+$selected-font-color: $background
+$navbar-background: #191919
+$post-background: $navbar-background
+$navbar-search-bar-background: #272729
+$navbar-highlight-color: $main-color
+$result-search: $navbar-search-bar-background
+$background-hamburger: #ffffff
+$navbar-dimension: 11vmin
+$media-query: 1200px
+$spacing-navbar: 2vmin
+$disabled-color: darken(#808080, 20%)
+
+*
+    margin: 0
+    padding: 0
+    list-style: none
+    outline: none
+    text-decoration: none
+
+body
+    color: $font-color
+    background: $background
+
+img
+    &.svg
+        width: 1.3rem
+        margin: 0.5rem
+
+.optionButtons, .buttonPostComment
+    display: flex
+    width: 100%
+    :nth-child(1)
+        border-right: $half-single-border
+    :nth-child(2)
+        border-left: $half-single-border
+    :nth-child(3)
+        border-left: $single-border
+        > p
+            border-right: none
+    > *
+        width: 50%
+        cursor: pointer
+        text-align: center
+        padding: 1vmin
+        background: $navbar-background
+        color: $font-color
+        border: none
+        border-top: $single-border
+
+.post, section, .comment
+    background: $post-background
+    width: 50%
+    min-width: 35ch
+    word-break: break-word
+    margin:  0  auto 5vmin auto
+    border-radius: 2rem
+    h2
+        padding-top: 2vmin
+        text-align: center
+    .settingsForm, .createForm
+        display: grid
+        margin: 2vmin
+        input, textarea
+            padding: 2vmin
+            resize: none
+            border-radius: 1rem
+        select
+            padding: 2vmin
+            background: $navbar-background
+            color: $font-color
+            border: $single-border
+            border-radius: 1rem
+            cursor: pointer
+    .outputMessageSettings:not(:empty)
+        padding: 0 2vmin 2vmin 2vmin
+    .deleteButton
+        padding: 2vmin
+        text-align: center
+        button
+            width: 100%
+            border-radius: 1rem
+        .confirmDiv
+            p
+                margin: 2vmin
+            button
+                width: 50%
+                border-radius: 1rem
+    a
+        color: $href-color
+        &:hover
+            color: $hover-color
+    .topPartPost
+        display: grid
+        padding: 2vmin
+        .communityAndAuthor, .datePost
+            display: flex
+            align-items: center
+            justify-content: space-around
+            .authorPost, .communityPost
+                display: flex
+                align-items: center
+                justify-content: center
+        .datePost
+            margin-top: 1vmin
+            justify-content: center
+    .commentAuthorDate
+        padding: 2vmin
+        display: flex
+        align-items: center
+        justify-content: space-around
+        .authorComment, .dateComment
+            display: flex
+            align-items: center
+            justify-content: center
+    .commentContent
+        padding: 2vmin
+    .postTitle
+        margin: 0 2vmin
+        display: flex
+        justify-content: center
+        align-items: center
+        font-size: 2rem
+        font-weight: bold
+    .postContent
+        margin: 3vmin
+    .botPart
+        margin: 2vmin
+        display: flex
+        justify-content: space-between
+        align-items: center
+        .comments
+            display: flex
+            align-items: center
+            justify-content: center
+    .svg
+        width: 1.6rem
+    .vote
+        display: flex
+        align-items: center
+        justify-content: center
+    &>.vote
+        margin: 2vmin
+        justify-content: flex-start
+
+.upperProfile
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    background: $navbar-background
+    > *
+        border-top: $single-border
+        display: flex
+        justify-content: center
+        align-items: center
+        padding: 1%
+        width: 98%
+    .rightProfile
+        > *
+            display: flex
+            flex-direction: column
+            align-items: center
+            justify-content: center
+            margin: 0 2%
+        a
+            color: $href-color
+            &:hover
+                color: $hover-color
+
+.spaceCommunities
+    display: flex
+    justify-content: center
+    flex-direction: column
+    .community
+        background: $post-background
+        width: 50%
+        min-width: 35ch
+        word-break: break-word
+        margin: 5vmin auto
+        border-radius: 2rem
+        .communityName
+            margin: 2vmin
+            display: flex
+            justify-content: center
+            align-items: center
+            font-size: 2rem
+            font-weight: bold
+        .communityDescription
+            margin: 3vmin
+        .communityMembers
+            margin: 2vmin
+            display: flex
+            justify-content: end
+            align-items: center
+        a
+            color: $font-color
+            &:hover
+                color: $hover-color
+
+.communityInformations
+    background: $navbar-background
+    .generalInformationCommunity
+        display: flex
+        justify-content: space-around
+        padding: 2vmin
+        border-top: $single-border
+        p
+            margin: 0 2vmin
+            font-weight: bold
+            display: inline
+    .communityDescription
+        border-top: $single-border
+        word-break: break-word
+        padding: 2vmin
+    button
+        float: right
+        margin-right: 2vmin
+
+.create-comment
+    display: flex
+    justify-content: center
+    flex-direction: column
+    padding: 2vmin
+    form
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        margin: 5vmin auto
+        width: 50%
+        min-width: 35ch
+        word-break: break-word
+        background: $post-background
+        border-radius: 2rem
+        padding: 0 2vmin
+        textarea
+            width: 100%
+            margin: 2vmin
+            resize: none
+            border-radius: 1rem
+            padding: 3vmin 0
+        input
+            margin: 2vmin
+            width: 100%
+            border-radius: 1rem
+
+nav
+    top: 0
+    position: fixed
+    display: flex
+    justify-content: space-between
+    width: 100%
+    height: $navbar-dimension
+    background: $navbar-background
+    z-index: 1
+    #toggle
+        display: none
+        &:checked
+            & ~ .nav-list .nav-item
+                display: grid
+            & ~ .navbar-toggler .bar
+                &:nth-child(1)
+                    position: absolute
+                    transform: rotate(45deg)
+                &:nth-child(2)
+                    display: none
+                &:nth-child(3)
+                    transform: rotate(-45deg)
+    h1
+        display: flex
+        align-items: center
+        justify-content: center
+    a,p
+        font-size: 1.1rem
+    a
+        color: $href-color
+        display: flex
+        align-items: center
+        &.logo
+            font-size: 2rem
+            font-weight: bold
+            margin: 0 2vmin
+    .nav-list
+        position: absolute
+        background: $navbar-background
+        width: 100%
+        top: calc($navbar-dimension - 1px)
+        left: 0
+        display: grid
+        input[type=text]
+            background: $navbar-search-bar-background
+            border-radius: 2rem
+            border: none
+            padding: 1vmin 2vmin
+            color: $font-color
+            box-sizing: border-box
+            width: 100%
+        .nav-item
+            display: none
+            padding: $spacing-navbar
+            #searchSpace
+                display: flex
+                justify-content: center
+                flex-wrap: nowrap
+                flex-direction: column
+                .search-result
+                    display: flex
+                    justify-content: start
+                    align-items: center
+                    padding: $spacing-navbar 0
+                    a,p
+                        display: inline
+                        width: 100%
+                &:has(*)
+                    border-bottom: $single-border
+            &:hover:not(:has(> #searchSpace)), #searchSpace > a:hover
+                color: $hover-color
+    .navbar-toggler
+        display: grid
+        height: min-content
+        margin: auto 0
+        margin-right: 2vmin
+        cursor: pointer
+        .bar
+            width: 6vmin
+            height: 1vmin
+            margin: 0.5vmin
+            background: $main-color
+            transition: 0.5s
+    a:hover
+        color: $hover-color
+
+main
+    margin-top: $navbar-dimension
+
+.readAllNotifications
+    display: grid
+    justify-content: end
+    align-items: center
+    margin: 2vmin 2vmin 0 0
+
+button, input[type=submit]
+    color: $font-color
+    background: $navbar-background
+    border: $single-border
+    padding: 1vmin
+    cursor: pointer
+
+.downvote, .upvote
+    background: transparent
+    border: none
+    cursor: pointer
+    position: inherit
+
+.notificationContainer
+    display: grid
+    margin: 2vmin
+    .notification
+        display: flex
+        justify-content: start
+        align-items: center
+        padding: 2vmin 0
+        border: $single-border
+        background: $navbar-background
+        &.seen
+            background: $background
+        .readAllNotificationButton
+            display: grid
+            justify-content: end
+        .notificationContent
+            margin-left: 2vmin
+            a
+                color: $href-color
+                &:hover
+                    color: $hover-color
+        .notificationDate
+            margin-left: auto
+            margin-right: 2vmin
+            color: $font-color
+
+.post-container
+    position: relative
+    top: 5vmin
+
+.postContainer, .spacePostComment
+    margin-top: 5vmin
+
+.listFollow
+    margin-top: 2vmin
+    display: flex
+    flex-direction: column
+    align-items: center
+    background: $background
+    .follow
+        display: flex
+        justify-content: space-between
+        align-items: center
+        background: $navbar-background
+        width: 60%
+        padding: 2vmin
+        border-bottom: $single-border
+        button
+            width: 20vmin
+    >:first-child
+        border-top-right-radius: 1rem
+        border-top-left-radius: 1rem
+    >:last-child
+        border-bottom: none
+        border-bottom-right-radius: 1rem
+        border-bottom-left-radius: 1rem
+    a
+        color: $href-color
+        &:hover
+            color: $hover-color
+
+.loginForm, .signupForm
+    margin-top: 20vh
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    .loginContainer, .signupContainer
+        background: $post-background
+        border-radius: 2rem
+        box-sizing: border-box
+        padding-bottom: 4vmin
+        width: 50%
+        min-width: 35ch
+        h2
+            text-align: center
+            margin-top: 2vmin
+            font-size: 1.7rem
+        form
+            padding: 3vmin
+            word-break: break-word
+            .txtField
+                border-bottom: 2px solid #adadad
+                margin: 2vmin 0
+                input
+                    color: $font-color
+                    width: 100%
+                    min-width: 10ch
+                    padding: 0.3vmin 0
+                    font-size: 1.1rem
+                    border: none
+                    background: none
+            input[type=submit]
+                margin-bottom: 2vmin
+                width: 100%
+            a
+                color: $href-color
+                &:hover
+                    color: $hover-color
+
+.no-result
+    margin: 3vmin 0
+    text-align: center
+    font-size: 2rem
+
+p.editable
+    background: darken($background, 25%)
+    box-sizing: border-box
+    border: $single-border
+
+.participateButton, #saveButton
+    margin-top: 2vmin
+
+section:first-of-type
+    margin-top: calc(5vmin + $navbar-dimension)
+
+@media screen and (width >= $media-query)
+    nav
+        h1 > a.logo
+            font-size: 3rem
+        .nav-list
+            position: relative
+            display: flex
+            flex-wrap: nowrap
+            top: 0
+            .nav-item
+                display: flex
+                align-items: center
+                justify-content: center
+                &:has(> input[type=text])
+                    width: 100%
+                    min-width: 0
+                a,p
+                    display: flex
+                    align-items: center
+                    justify-content: center
+                &:has(> #searchSpace)
+                    display: inline
+                    margin: auto 0
+                    #searchSpace
+                        position: absolute
+                        display: flex
+                        justify-content: start
+                        background: $result-search
+                        .search-result
+                            :not(p)
+                                margin: 0 1rem
+                            > a , > p
+                                display: inline
+                                margin: 0 1rem 0 1vmin
+                                max-width: 100%
+                            > p
+                                margin: 0 2vmin
+                        &:has(*)
+                            border-bottom: none
+            input[type=text]:has(~ #searchSpace:not(:empty))
+                            border-bottom-left-radius: 0
+        .navbar-toggler
+            display: none
+    #searchSpace
+        background: $navbar-background
+        &:nth-last-child(1)
+            border-radius: 0 0 2rem 2rem
+
+button[disabled=disabled], button:disabled
+    background: $disabled-color
+    pointer-events: none
+
+.response
+    padding: 2vmin
