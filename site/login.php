@@ -7,7 +7,7 @@ if ($isUserLogged) {
     exit();
 }
 
-// base params
+// Base params
 $templateParams['title'] = 'Reddint - Login';
 $templateParams['fileName'] = 'login-form.php';
 $templateParams['scriptFileName'] = 'fetch-login.js';

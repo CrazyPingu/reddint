@@ -12,6 +12,7 @@ const baseOffset = 10;
 const defaultData = { type: 'user', offset: 0, username, limit: baseOffset };
 let selected = '';
 
+// Render the elements in the page
 function render(container, args, fileName, type) {
     asyncRequest(fileName, (response) => {
         generateElements(response, container, type);

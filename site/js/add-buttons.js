@@ -1,6 +1,6 @@
 import asyncRequest from './default-ajax.js';
 
-// Adds a confirm button to the container
+// Add a confirm button to the container
 function addConfirmButton(container, fileName, args) {
     if (!container.querySelector('#confirm')) {
         let div = Object.assign(document.createElement('div'), { className: 'confirmDiv', id: 'confirm' });

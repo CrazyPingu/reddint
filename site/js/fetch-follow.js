@@ -3,6 +3,7 @@ import { generateElements } from './elementGenerators.js';
 import pushNotification from './fetch-notifications.js';
 import { throttle } from './throttle.js';
 
+// Toggle the follow of a user
 function toggleFollow(button, usernameProfile) {
     button.addEventListener('click', function () {
         asyncRequest('request-follow.php', (response) => {
@@ -18,6 +19,7 @@ function toggleFollow(button, usernameProfile) {
     });
 }
 
+// Render the followers or followed in the page
 function renderFollowers(listFollowTag, args) {
     asyncRequest('request-follow.php', (response) => {
         if (response.length == 0) {
@@ -58,7 +60,5 @@ window.onload = function () {
         }
     };
 }
-
-
 
 export default toggleFollow;

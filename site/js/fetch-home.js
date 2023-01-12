@@ -6,6 +6,7 @@ const postsDiv = document.getElementById('postsSpace');
 let selectedButton = null;
 let offset = 0;
 
+// Render the posts in the page
 function renderPosts() {
     asyncRequest(`request-posts.php`, (response) => {
             if (response.length == 0) {

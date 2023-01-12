@@ -8,6 +8,7 @@ $type = $args->type;
 $result = false;
 
 switch($type) {
+    // Toggle the following of a user
     case 'follow':
         if ($isUserLogged) {
                 $result = $dbh->followUser($_SESSION['userId'], $args->usernameProfile);
@@ -16,9 +17,11 @@ switch($type) {
             }
         }
         break;
+    // Return the followers of a user
     case 'followersList':
         $result = $dbh->getFollowers($args->usernameProfile, $args->limit, $args->offset);
         break;
+    // Return the users followed by a user
     case 'followingList':
         $result = $dbh->getFollowed($args->usernameProfile, $args->limit, $args->offset);
         break;

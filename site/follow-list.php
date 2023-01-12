@@ -1,12 +1,12 @@
 <?php
 require_once 'bootstrap.php';
 
-//base params
+// Base params
 $templateParams['title'] = 'Reddint - Follow List';
 $templateParams['fileName'] = 'follow-list-page.php';
 $templateParams['scriptFileName'] = 'fetch-follow.js';
 
-//follow-list-page params
+// Follow-list-page params
 $templateParams['userUsername'] = $_GET['username'];
 $templateParams['type'] = $_GET['type'];
 

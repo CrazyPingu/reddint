@@ -3,6 +3,7 @@ import { generateElements } from './elementGenerators.js';
 import addConfirmButton from './add-buttons.js';
 import { throttle } from './throttle.js';
 
+// Toggle the participation of a user in a community
 function toggleParticipation(button, communityName) {
     button.addEventListener('click', function () {
         asyncRequest('request-community.php', (response) => {
@@ -21,16 +22,17 @@ let offset = 0;
 let baseOffset = 10;
 const args = { type, offset, limit: baseOffset };
 
+// Render the elements in the page
 function render(container, args) {
     asyncRequest('request-community.php', (response) => {
         generateElements(response, container, args.type);
     }, args);
 }
 
-
 window.onload = function () {
     const communityInformations = document.getElementsByClassName('communityInformations');
 
+    // Assign the space where the elements will be rendered
     if (document.getElementsByClassName('postContainer')[0]) {
         space = document.getElementsByClassName('postContainer')[0];
         args.communityName = communityInformations[0].id;

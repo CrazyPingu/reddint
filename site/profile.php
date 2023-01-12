@@ -6,12 +6,12 @@ if(!(isset($_SESSION['username']) && $_SESSION['username'] == $_GET['username'] 
     exit();
 }
 
-// base params
+// Base params
 $templateParams['title'] = 'Reddint - Profile';
 $templateParams['fileName'] = 'profile-page.php';
 $templateParams['scriptFileName'] = 'fetch-profile.js';
 
-// profile-page params
+// Profile-page params
 $user = $dbh->getUser($_GET['username']);
 
 $templateParams['userUsername'] = $user['username'];

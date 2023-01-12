@@ -46,14 +46,17 @@ switch ($type) {
             $posts = $dbh->getPost($postId);
         }
         break;
+    // Create a post
     case 'create':
         if ($isUserLogged) {
             $posts = $dbh->addPost($_SESSION['userId'], $args->community, $args->title, $args->content);
         }
         break;
+    // Edit a post
     case 'edit':
         $posts = $dbh->updatePost($args->postId, $args->titlePost, $args->contentPost);
         break;
+    // Delete a post
     case 'delete':
         $posts = $dbh->deletePost($args->postId);
         break;

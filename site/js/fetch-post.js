@@ -6,7 +6,6 @@ import { throttle } from "./throttle.js";
 
 const spacePost = document.querySelector('.post-container');
 const spaceComments = document.querySelector('.comments-container');
-const formTag = document.getElementById('form-comment');
 const textTag = document.getElementById('content');
 const postId = spacePost.getAttribute('data-id');
 const editButton = document.getElementById('editButton');
@@ -25,13 +24,14 @@ function loadComments() {
 }
 
 window.onload = function () {
+    // Load the post and the comments
     asyncRequest('request-posts.php', (response) => {
         spacePost.appendChild(generatePost(response));
     }, { type: 'single', postId });
     loadComments();
 
-
     if(editButton) {
+        // Add the event listeners to the edit button
         editButton.addEventListener('click', (e) => {
             e.preventDefault();
             const title = document.querySelector('h2.postTitle a');
@@ -43,6 +43,7 @@ window.onload = function () {
             content.classList.add('editable');
 
             if (!document.getElementById('saveButton')) {
+                // Create a save button and add a listener to it
                 let saveButton = Object.assign(document.createElement('button'), {id: 'saveButton', innerText: 'Save'});
                 document.querySelector('article.post').appendChild(saveButton);
                 saveButton.addEventListener('click', () => {
@@ -68,13 +69,14 @@ window.onload = function () {
     }
 
     if (deleteButton) {
+        // Add the event listeners to the delete button
         deleteButton.addEventListener('click', (e) => {
             addConfirmButton(space, 'request-posts.php', {type: 'delete', postId});
         });
     }
 }
 
-formTag.addEventListener('submit', (e) => {
+document.getElementById('form-comment').addEventListener('submit', (e) => {
     e.preventDefault(); // Prevent the form from submitting
     asyncRequest('request-comments.php', (response) => {
         if (response) {

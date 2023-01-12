@@ -11,6 +11,7 @@ if(!$isUserLogged) {
 }
 
 switch ($args->type) {
+    // Vote a post
     case 'post':
         if ($mode == 'get') {
             $result = $dbh->getUserPostVote($_SESSION['userId'], $args->id);
@@ -21,6 +22,7 @@ switch ($args->type) {
                 $result = $dbh->getPostVote($args->id);
         }
         break;
+    // Vote a comment
     case 'comment':
         if ($mode == 'get') {
             $result = $dbh->getUserCommentVote($_SESSION['userId'], $args->id);
