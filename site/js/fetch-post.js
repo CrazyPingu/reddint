@@ -17,7 +17,6 @@ let baseOffset = 10;
 
 
 function loadComments() {
-    spaceComments.innerHTML = '';
     asyncRequest('request-comments.php', (response) => {
         generateElements(response, spaceComments, 'comment');
     }, { type: 'post', postId, limit: baseOffset, offset });
