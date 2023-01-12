@@ -15,7 +15,7 @@
                 <input type='password' id='password' name='password' required />
             </div>
             <input type='submit' name='submit' value='Sign up' />
-            <p class='outputSignup' id='response'></p>
+            <p class='response' id='response'></p>
             <p>Do you already have an account? <a href='./login.php'>Login now!</a></p>
         </form>
     </div>

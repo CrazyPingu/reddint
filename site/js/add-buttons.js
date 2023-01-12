@@ -11,7 +11,7 @@ function addConfirmButton(container, fileName, args) {
                 if (container.querySelector('#response')) {
                     container.removeChild(container.querySelector('#response'));
                 }
-                let responseTag = Object.assign(document.createElement('p'), { id: 'response' });
+                let responseTag = Object.assign(document.createElement('p'), { className: 'response', id: 'response' });
                 if (response) {
                     container.removeChild(div);
                     responseTag.innerText = 'Deleted successfully ';

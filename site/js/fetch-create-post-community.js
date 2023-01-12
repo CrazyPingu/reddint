@@ -15,7 +15,7 @@ document.querySelectorAll('#createPost, #createCommunity').forEach((form) => {
             }
 
             // Create and append a p tag to write the response
-            let responseTag = Object.assign(document.createElement('p'), {id: 'response'});
+            let responseTag = Object.assign(document.createElement('p'), { className: 'response', id: 'response'});
             if(response) {
                 responseTag.innerText = 'Successfully created! ';
                 if (form.id == 'createCommunity') {

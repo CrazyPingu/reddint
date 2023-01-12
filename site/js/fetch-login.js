@@ -13,7 +13,7 @@ formTag.addEventListener('submit', (e) => {
     // Send the request to the server, redirect to index.php if successful
     asyncRequest('request-login.php', (response) => {
         if(response) {
-            responseTag.innerHTML = "Login successful, redirecting to home page ";
+            responseTag.innerHTML = "Login successful, redirecting to home page";
 
             // Create a link to redirect to index.php
             let redirect = document.createElement('a');

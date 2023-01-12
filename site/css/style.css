@@ -91,7 +91,7 @@ img.svg {
   border-radius: 1rem;
 }
 .post a, section a, .comment a {
-  color: white;
+  color: #ff9a03;
 }
 .post a:hover, section a:hover, .comment a:hover {
   color: #FE4E00;
@@ -537,9 +537,6 @@ button, input[type=submit] {
   margin-bottom: 2vmin;
   width: 100%;
 }
-.loginForm .loginContainer form .outputLogin, .loginForm .signupContainer form .outputLogin, .signupForm .loginContainer form .outputLogin, .signupForm .signupContainer form .outputLogin {
-  margin-bottom: 2vmin;
-}
 .loginForm .loginContainer form a, .loginForm .signupContainer form a, .signupForm .loginContainer form a, .signupForm .signupContainer form a {
   color: #ff9a03;
 }
@@ -631,4 +628,8 @@ section:first-of-type {
 button[disabled=disabled], button:disabled {
   background: #4d4d4d;
   pointer-events: none;
+}
+
+.response {
+  padding: 2vmin;
 }/*# sourceMappingURL=style.css.map */
