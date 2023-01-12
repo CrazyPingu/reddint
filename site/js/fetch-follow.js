@@ -23,7 +23,7 @@ function toggleFollow(button, usernameProfile) {
 function renderFollowers(listFollowTag, args) {
     asyncRequest('request-follow.php', (response) => {
         if (response.length == 0) {
-            const noFollowers = document.getElementsById('no-more-followers');
+            let noFollowers = document.getElementById('no-more-followers');
             if (noFollowers) return;
             noFollowers = Object.assign(document.createElement('p'), {id:'no-more-followers', className: 'no-result', innerText: 'No users to show' });
             listFollowTag.appendChild(noFollowers);

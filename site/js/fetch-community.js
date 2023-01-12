@@ -25,6 +25,14 @@ const args = { type, offset, limit: baseOffset };
 // Render the elements in the page
 function render(container, args) {
     asyncRequest('request-community.php', (response) => {
+        if (response.length == 0) {
+            let noPostsCommunities = document.getElementById('no-more-posts-communities');
+            if (noPostsCommunities) return;
+            const message = `No more ${args.type == 'post' ? 'posts' : 'communities'} to show`
+            noPostsCommunities = Object.assign(document.createElement('p'), {id: 'no-more-posts-communities', className: 'no-result', innerText: message});
+            container.appendChild(noPostsCommunities);
+            return;
+        }
         generateElements(response, container, args.type);
     }, args);
 }

@@ -15,6 +15,13 @@ let selected = '';
 // Render the elements in the page
 function render(container, args, fileName, type) {
     asyncRequest(fileName, (response) => {
+        if (response.length == 0) {
+            let noPostsComments = document.getElementById('no-more-posts-comments');
+            if (noPostsComments) return;
+            noPostsComments = Object.assign(document.createElement('p'), {id: 'no-more-posts-comments', className: 'no-result', innerText: `No more ${type}s to show`});
+            container.appendChild(noPostsComments);
+            return;
+        }
         generateElements(response, container, type);
     }, args);
 }

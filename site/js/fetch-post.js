@@ -79,9 +79,7 @@ document.getElementById('form-comment').addEventListener('submit', (e) => {
     e.preventDefault(); // Prevent the form from submitting
     asyncRequest('request-comments.php', (response) => {
         if (response) {
-            loadComments();
-            pushNotification(document.querySelector('div.authorPost a').innerText, 'added a comment to your', postId);
-            textTag.value = '';
+            window.location.reload();
         }else{
             let errorTag = document.createElement('p');
             errorTag.append('Error during the comment creation');
