@@ -627,4 +627,8 @@ section:first-of-type {
   #searchSpace:nth-last-child(1) {
     border-radius: 0 0 2rem 2rem;
   }
+}
+button[disabled=disabled], button:disabled {
+  background: #808080;
+  pointer-events: none;
 }/*# sourceMappingURL=style.css.map */
