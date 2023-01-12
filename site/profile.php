@@ -1,5 +1,4 @@
 <?php
-
 require_once 'bootstrap.php';
 
 if(!(isset($_SESSION['username']) && $_SESSION['username'] == $_GET['username'] || isset($_GET['username']))) {
@@ -7,9 +6,12 @@ if(!(isset($_SESSION['username']) && $_SESSION['username'] == $_GET['username'] 
     exit();
 }
 
+// base params
 $templateParams['title'] = 'Reddint - Profile';
 $templateParams['fileName'] = 'profile-page.php';
+$templateParams['scriptFileName'] = 'fetch-profile.js';
 
+// profile-page params
 $user = $dbh->getUser($_GET['username']);
 
 $templateParams['userUsername'] = $user['username'];
@@ -23,9 +25,6 @@ if ($isUserLogged) {
     $templateParams['isFollowing'] = $dbh->isFollowing($_SESSION['userId'], $user['id']);
 }
 
-$templateParams['scriptFileName'] = 'fetch-profile.js';
 
 require_once 'template/base.php';
-
 ?>
-

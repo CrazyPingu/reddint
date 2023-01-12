@@ -1,5 +1,5 @@
 // This function is used to throttle server requests
-var throttleTimer;
+let throttleTimer;
 export const throttle = (callback, time) => {
     if (throttleTimer) return;
     throttleTimer = true;
