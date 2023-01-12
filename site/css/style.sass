@@ -1,12 +1,12 @@
-$main-color: #FF5700
+$main-color: #ff9a03
 $single-border: 2px solid $main-color
 $half-single-border: 1px solid $main-color
-$href-color: CornflowerBlue
-$hover-color: $main-color
+$href-color: $main-color
+$hover-color: #FE4E00
 $background: #333333
 $font-color: white
 $selected-font-color: $background
-$navbar-background: #1a1a1b
+$navbar-background: #191919
 $post-background: $navbar-background
 $navbar-search-bar-background: #272729
 $navbar-highlight-color: $main-color
@@ -15,7 +15,7 @@ $background-hamburger: #ffffff
 $navbar-dimension: 11vmin
 $media-query: 1200px
 $spacing-navbar: 2vmin
-$disabled-color: #808080
+$disabled-color: darken(#808080, 20%)
 
 *
     margin: 0
@@ -110,7 +110,7 @@ img
         .datePost
             margin-top: 1vmin
             justify-content: center
-    .commentAuthorDate //!todo: change name
+    .commentAuthorDate
         padding: 2vmin
         display: flex
         align-items: center
@@ -280,13 +280,12 @@ nav
     a,p
         font-size: 1.1rem
     a
-        color: inherit
+        color: $href-color
         display: flex
         align-items: center
         &.logo
             font-size: 2rem
             font-weight: bold
-            color: $main-color
             margin: 0 2vmin
     .nav-list
         position: absolute
@@ -319,8 +318,6 @@ nav
                     a,p
                         display: inline
                         width: 100%
-                    a:hover
-                        color: $hover-color
                 &:has(*)
                     border-bottom: $single-border
             &:hover:not(:has(> #searchSpace)), #searchSpace > a:hover
@@ -337,6 +334,8 @@ nav
             margin: 0.5vmin
             background: $main-color
             transition: 0.5s
+    a:hover
+        color: $hover-color
 
 main
     margin-top: $navbar-dimension
@@ -491,7 +490,6 @@ section:first-of-type
                 display: flex
                 align-items: center
                 justify-content: center
-                color: $font-color
                 &:has(> input[type=text])
                     width: 100%
                     min-width: 0
@@ -499,7 +497,6 @@ section:first-of-type
                     display: flex
                     align-items: center
                     justify-content: center
-                    color: inherit
                 &:has(> #searchSpace)
                     display: inline
                     margin: auto 0
@@ -513,8 +510,10 @@ section:first-of-type
                                 margin: 0 1rem
                             > a , > p
                                 display: inline
-                                margin: 0 1vmin
+                                margin: 0 1rem 0 1vmin
                                 max-width: 100%
+                            > p
+                                margin: 0 2vmin
                         &:has(*)
                             border-bottom: none
             input[type=text]:has(~ #searchSpace:not(:empty))
