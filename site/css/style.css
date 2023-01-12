@@ -186,7 +186,7 @@ img.svg {
   margin: 0 2%;
 }
 .upperProfile .rightProfile a {
-  color: purple;
+  color: CornflowerBlue;
 }
 .upperProfile .rightProfile a:hover {
   color: #FF5700;
@@ -442,7 +442,7 @@ button, input[type=submit] {
   margin-left: 2vmin;
 }
 .notificationContainer .notification .notificationContent a {
-  color: purple;
+  color: CornflowerBlue;
 }
 .notificationContainer .notification .notificationContent a:hover {
   color: #FF5700;
@@ -491,7 +491,7 @@ button, input[type=submit] {
   border-bottom-left-radius: 1rem;
 }
 .listFollow a {
-  color: purple;
+  color: CornflowerBlue;
 }
 .listFollow a:hover {
   color: #FF5700;
@@ -542,7 +542,7 @@ button, input[type=submit] {
   margin-bottom: 2vmin;
 }
 .loginForm .loginContainer form a, .loginForm .signupContainer form a, .signupForm .loginContainer form a, .signupForm .signupContainer form a {
-  color: purple;
+  color: CornflowerBlue;
 }
 .loginForm .loginContainer form a:hover, .loginForm .signupContainer form a:hover, .signupForm .loginContainer form a:hover, .signupForm .signupContainer form a:hover {
   color: #FF5700;
