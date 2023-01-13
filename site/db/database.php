@@ -2,8 +2,16 @@
 class DatabaseHelper{
     private $db;
 
-    public function __construct($servername, $username, $password, $dbname, $port) {
-        $this->db = new mysqli($servername, $username, $password, $dbname, $port);
+    /**
+     * Constructor of the DatabaseHelper class
+     * @param string $hostname hostname of the database
+     * @param string $username username of the database
+     * @param string $password password of the database
+     * @param string $database name of the database
+     * @param int $port port of the database
+     */
+    public function __construct(string $hostname,string $username,string $password,string $database,int $port = 3306) {
+        $this->db = new mysqli($hostname, $username, $password, $database, $port);
         if ($this->db->connect_error) {
             die('Connection failed: ' . $this->db->connect_error);
         }
