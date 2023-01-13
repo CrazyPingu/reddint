@@ -20,10 +20,16 @@ switch($type) {
     // Return the followers of a user
     case 'followersList':
         $result = $dbh->getFollowers($args->usernameProfile, $args->limit, $args->offset);
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['following'] = $dbh->isFollowing($_SESSION['userId'] ?? -1, $result[$i]['id']);
+        }
         break;
     // Return the users followed by a user
     case 'followingList':
         $result = $dbh->getFollowed($args->usernameProfile, $args->limit, $args->offset);
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['following'] = $dbh->isFollowing($_SESSION['userId'] ?? -1, $result[$i]['id']);
+        }
         break;
 }
 
