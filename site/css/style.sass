@@ -21,8 +21,9 @@ $disabled-color: darken(#808080, 20%)
     margin: 0
     padding: 0
     list-style: none
-    outline: none
     text-decoration: none
+    &:focus
+        outline: solid 0.5vmin white
 
 body
     color: $font-color
@@ -45,6 +46,7 @@ img
         > p
             border-right: none
     > *
+        box-sizing: border-box
         width: 50%
         cursor: pointer
         text-align: center
@@ -354,6 +356,8 @@ button, input[type=submit]
     cursor: pointer
 
 .downvote, .upvote
+    margin: 1vmin
+    padding: 0
     background: transparent
     border: none
     cursor: pointer
