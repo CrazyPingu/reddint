@@ -8,7 +8,7 @@
             </div>
             <div class="txtField">
                 <label for='username'>Username:</label>
-                <input type='text' id='username' name='username' required />
+                <input type='text' id='username' name='username' pattern="^\S+$" required />
             </div>
             <div class="txtField">
                 <label for='password'>Password:</label>
@@ -16,6 +16,7 @@
             </div>
             <input type='submit' name='submit' value='Sign up' />
             <p class='response' id='response'></p>
+            <p class='warningPattern'>The username mustn't contain whitespaces</p>
             <p>Do you already have an account? <a href='./login.php'>Login now!</a></p>
         </form>
     </div>

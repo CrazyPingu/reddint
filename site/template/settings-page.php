@@ -2,8 +2,9 @@
     <h2>Change Username</h2>
     <form method='POST' class='settingsForm' id='changeUsername'>
         <input type='text' name='newUsername' placeholder='New Username' value="<?php echo $_SESSION['username']; ?>"
-            required /><br />
+            pattern="^\S+$" required /><br />
         <input type='submit' name='submitUsername' value='Change username' /><br />
+        <p class='warningPattern'>The username mustn't contain whitespaces</p>
     </form>
     <div class='outputMessageSettings' id='messageUsername'></div>
 </section>
