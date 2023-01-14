@@ -144,6 +144,8 @@ export function generateFollow(followData) {
     const username = Object.assign(document.createElement("a"), {href: `./profile.php?username=${encodeURIComponent(followData.username)}`,innerText: followData.username});
     follow.appendChild(username);
 
+    // if user is logged in and is on his own profile, don't show follow button
+    if(followData.usernameLogged == followData.username) return follow;
     // follow button
     const isFollowing = followData.following;
     const followButton = Object.assign(document.createElement("button"), {innerText: isFollowing ? 'Unfollow':'Follow'});

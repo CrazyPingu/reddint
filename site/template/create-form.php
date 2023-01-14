@@ -23,6 +23,6 @@
         <textarea name='description' id='descriptionCommunity' placeholder='Description' maxlength='2048'
             required></textarea><br />
         <input type='submit' value='Create' /><br />
-        <p class='warningPattern'>The username mustn't contain whitespaces</p>
+        <p class='warningPattern'>The community name mustn't contain whitespaces</p>
     </form>
 </section>

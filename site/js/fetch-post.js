@@ -29,6 +29,7 @@ window.onload = function () {
     }, { type: 'single', postId });
     loadComments();
 
+
     if(editButton) {
         // Add the event listeners to the edit button
         editButton.addEventListener('click', (e) => {
@@ -73,20 +74,23 @@ window.onload = function () {
             addConfirmButton(space, 'request-posts.php', {type: 'delete', postId});
         });
     }
+
+    document.getElementById('form-comment').addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent the form from submitting
+        asyncRequest('request-comments.php', (response) => {
+            if (response) {
+                pushNotification(document.querySelector('.authorPost a').innerText, 'commented your', postId);
+                console.log(response);
+                window.location.reload();
+            }else{
+                let errorTag = document.createElement('p');
+                errorTag.append('Error during the comment creation');
+                spaceComments.insertAdjacentHTML('afterbegin', errorTag.innerHTML);
+            }
+        }, { type: 'addComment', postId, commentContent: textTag.value });
+    });
 }
 
-document.getElementById('form-comment').addEventListener('submit', (e) => {
-    e.preventDefault(); // Prevent the form from submitting
-    asyncRequest('request-comments.php', (response) => {
-        if (response) {
-            window.location.reload();
-        }else{
-            let errorTag = document.createElement('p');
-            errorTag.append('Error during the comment creation');
-            spaceComments.insertAdjacentHTML('afterbegin', errorTag.innerHTML);
-        }
-    }, { type: 'addComment', postId, commentContent: textTag.value });
-});
 
 window.onscroll = function () {
     if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
